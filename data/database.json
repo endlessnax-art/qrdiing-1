@@ -1,0 +1,1418 @@
+{
+  "restaurants": [
+    {
+      "id": "rest-arabian-delight",
+      "slug": "arabian-delight",
+      "name": "Arabian Delight",
+      "tagline": "Authentic Charcoal Shawarma, Mandi & Kebabs",
+      "ownerName": "Tariq Mansoor",
+      "phone": "+91 98765 43210",
+      "email": "tariq@arabiandelight.in",
+      "address": "Plot 42, Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Biryani & Arabic",
+      "logo": "https://images.unsplash.com/photo-1544025162-d76694265947?w=160&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "12:00",
+      "closingTime": "23:30",
+      "isVerified": true,
+      "isActive": true,
+      "subscription": {
+        "planId": "growth",
+        "planName": "Growth Plan",
+        "status": "active",
+        "startDate": "2026-10-01T00:00:00Z",
+        "endDate": "2026-12-01T00:00:00Z",
+        "monthlyPrice": 1999,
+        "menuItemLimit": 80,
+        "purchasedAddonItems": 10,
+        "totalAllowedItems": 90,
+        "staffLimit": 15,
+        "tableLimit": 35,
+        "features": [
+          "All Growth features",
+          "Loyalty Program",
+          "Inventory Tracker"
+        ]
+      },
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "taxGstin": "36AABCA1234F1Z8",
+        "serviceChargePercent": 0,
+        "upiVpa": "arabiandelight@icici",
+        "upiName": "Arabian Delight Restaurant",
+        "razorpayKeyId": "rzp_live_demo_arabian",
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": true,
+        "primaryColor": "#059669",
+        "secondaryColor": "#d97706"
+      },
+      "createdAt": "2026-09-15T10:00:00Z"
+    },
+    {
+      "id": "rest-royal-biryani",
+      "slug": "royal-biryani",
+      "name": "Royal Biryani House",
+      "tagline": "Heritage Dum Biryani & Nizami Delicacies",
+      "ownerName": "Rajeshwar Rao",
+      "phone": "+91 91234 56789",
+      "email": "contact@royalbiryani.in",
+      "address": "100 Feet Road, HAL 2nd Stage, Indiranagar",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560038",
+      "category": "Fine Dining",
+      "logo": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=160&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "11:30",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "subscription": {
+        "planId": "starter",
+        "planName": "Starter Plan",
+        "status": "active",
+        "startDate": "2026-10-15T00:00:00Z",
+        "endDate": "2026-11-30T00:00:00Z",
+        "monthlyPrice": 999,
+        "menuItemLimit": 35,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 35,
+        "staffLimit": 6,
+        "tableLimit": 15,
+        "features": [
+          "Starter features"
+        ]
+      },
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "taxGstin": "29AABCU9876R1Z4",
+        "serviceChargePercent": 2.5,
+        "upiVpa": "royalbiryani@hdfcbank",
+        "upiName": "Royal Biryani House",
+        "autoAcceptOrders": true,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#b45309",
+        "secondaryColor": "#1e3a8a"
+      },
+      "createdAt": "2026-10-15T11:00:00Z"
+    },
+    {
+      "id": "rest-food-corner",
+      "slug": "food-corner",
+      "name": "Food Corner & Café",
+      "tagline": "Woodfired Sourdough Pizzas, Smashed Burgers & Specialty Brews",
+      "ownerName": "Ayesha Fernandes",
+      "phone": "+91 99887 76655",
+      "email": "hello@foodcorner.co",
+      "address": "Pali Hill, Near Carter Road, Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400050",
+      "category": "Café & Bakery",
+      "logo": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=160&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "00:00",
+      "isVerified": true,
+      "isActive": true,
+      "subscription": {
+        "planId": "enterprise",
+        "planName": "Enterprise Pro",
+        "status": "active",
+        "startDate": "2026-08-01T00:00:00Z",
+        "endDate": "2027-08-01T00:00:00Z",
+        "monthlyPrice": 3999,
+        "menuItemLimit": 250,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 250,
+        "staffLimit": 50,
+        "tableLimit": 100,
+        "features": [
+          "All Enterprise features"
+        ]
+      },
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "taxGstin": "27AABCF5544E1Z3",
+        "serviceChargePercent": 0,
+        "upiVpa": "foodcorner@kotak",
+        "upiName": "Food Corner Cafe",
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": true,
+        "primaryColor": "#0284c7",
+        "secondaryColor": "#f59e0b"
+      },
+      "createdAt": "2026-08-01T09:00:00Z"
+    },
+    {
+      "slug": "ry-restatroij",
+      "name": "ry restatroij",
+      "tagline": "Delicious Food, Fast QR Ordering",
+      "ownerName": "rayyan ",
+      "phone": "9059760743",
+      "email": "imad7860@gmail.com",
+      "address": "Main Street",
+      "city": "Hyderabad",
+      "state": "Maharashtra",
+      "pincode": "400001",
+      "category": "Biryani & Arabic",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=160&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "11:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "taxGstin": "",
+        "serviceChargePercent": 0,
+        "upiVpa": "ry-restatroij@okaxis",
+        "upiName": "ry restatroij",
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": true,
+        "primaryColor": "#059669",
+        "secondaryColor": "#d97706"
+      },
+      "planId": "free_trial",
+      "id": "rest-ry-restatroij-4432",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-15T08:02:44.432Z",
+        "endDate": "2026-11-29T08:02:44.432Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-15T08:02:44.432Z"
+    },
+    {
+      "slug": "mahii",
+      "name": "mahii",
+      "tagline": "Delicious Food, Fast QR Ordering",
+      "ownerName": "meri begam",
+      "phone": "7207452991",
+      "email": "imadhero82@gmail.com",
+      "address": "Main Street",
+      "city": "mahboobnagar",
+      "state": "Maharashtra",
+      "pincode": "400001",
+      "category": "Cloud Kitchen",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=160&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "11:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "taxGstin": "",
+        "serviceChargePercent": 0,
+        "upiVpa": "mahii@okaxis",
+        "upiName": "mahii",
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": true,
+        "primaryColor": "#059669",
+        "secondaryColor": "#d97706"
+      },
+      "planId": "free_trial",
+      "id": "rest-mahii-4285",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-15T10:57:14.285Z",
+        "endDate": "2026-11-29T10:57:14.285Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-15T10:57:14.285Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "user-super-admin",
+      "email": "admin@qrdening.com",
+      "name": "QRDening Platform Owner",
+      "role": "super_admin",
+      "phone": "+91 90000 00001",
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "user-arabian-admin",
+      "email": "owner@arabiandelight.in",
+      "name": "Tariq Mansoor",
+      "role": "restaurant_admin",
+      "restaurantId": "rest-arabian-delight",
+      "phone": "+91 98765 43210",
+      "createdAt": "2026-09-15T10:00:00Z"
+    },
+    {
+      "id": "user-arabian-kitchen",
+      "email": "kitchen@arabiandelight.in",
+      "name": "Chef Zaheer",
+      "role": "kitchen_staff",
+      "restaurantId": "rest-arabian-delight",
+      "pin": "1234",
+      "phone": "+91 98765 43211",
+      "createdAt": "2026-09-16T10:00:00Z"
+    },
+    {
+      "id": "user-arabian-waiter",
+      "email": "waiter@arabiandelight.in",
+      "name": "Sunil Kumar",
+      "role": "waiter_staff",
+      "restaurantId": "rest-arabian-delight",
+      "pin": "4321",
+      "phone": "+91 98765 43212",
+      "createdAt": "2026-09-16T10:00:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-ad-1",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Shawarma & Rolls",
+      "nameHi": "शवार्मा और रोल्स",
+      "nameTe": "షవర్మా & రోల్స్",
+      "nameUr": "شوارما اور رولز",
+      "icon": "Wrap",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-ad-2",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Mandi & Biryani",
+      "nameHi": "मंदी और बिरयानी",
+      "nameTe": "మండి & బిర్యానీ",
+      "nameUr": "مندی اور بریانی",
+      "icon": "UtensilsCrossed",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-ad-3",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Charcoal Grills & Kebabs",
+      "nameHi": "कबाब और ग्रिल्स",
+      "nameTe": "కబాబ్స్ & గ్రిల్స్",
+      "nameUr": "کباب اور گرلز",
+      "icon": "Flame",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-ad-4",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Starters & Mezze",
+      "nameHi": "स्टार्टर्स और मेज़े",
+      "nameTe": "స్టార్టర్స్ & మెజ్జే",
+      "nameUr": "اسٹارٹرز اور میزے",
+      "icon": "Salad",
+      "sortOrder": 4,
+      "isActive": true
+    },
+    {
+      "id": "cat-ad-5",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Beverages & Mocktails",
+      "nameHi": "पेय और मॉकटेल",
+      "nameTe": "పానీయాలు & మాక్ టెయిల్స్",
+      "nameUr": "مشروبات اور موکٹیلز",
+      "icon": "GlassWater",
+      "sortOrder": 5,
+      "isActive": true
+    },
+    {
+      "id": "cat-ad-6",
+      "restaurantId": "rest-arabian-delight",
+      "name": "Arabic Desserts",
+      "nameHi": "अरबी मिठाइयाँ",
+      "nameTe": "అరబిక్ స్వీట్స్",
+      "nameUr": "عربی میٹھے",
+      "icon": "CakeSlice",
+      "sortOrder": 6,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-ry-restatroij-4432-1",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "name": "Main Specials",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-ry-restatroij-4432-2",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "name": "Beverages",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-mahii-4285-1",
+      "restaurantId": "rest-mahii-4285",
+      "name": "Main Specials",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-mahii-4285-2",
+      "restaurantId": "rest-mahii-4285",
+      "name": "Beverages",
+      "sortOrder": 2,
+      "isActive": true
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "item-ad-2",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-1",
+      "name": "Crispy Falafel Roll (Veg)",
+      "nameHi": "क्रिस्पी फलाफेल रोल",
+      "nameTe": "క్రిస్పీ ఫలాఫెల్ రోల్",
+      "nameUr": "کرسپی فلافل رول",
+      "description": "Golden spiced chickpea patties, Mediterranean tahini sauce, pickled cucumbers and shredded lettuce in warm pita bread.",
+      "descriptionHi": "कुरकुरी छोले की पैटीज़, ताहिनी सॉस और ताज़ी सब्ज़ियों के साथ।",
+      "descriptionTe": "మసాలా శనగ ప్యాటీస్, తాహిని సాస్ తో వెజ్ రోల్.",
+      "descriptionUr": "کرسپی چنا پیٹیز، طحینہ سوس اور تازہ سبزیوں کے ساتھ۔",
+      "basePrice": 120,
+      "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=600&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "addons": [
+        {
+          "id": "add-hummus",
+          "name": "Creamy Hummus Dip",
+          "price": 45
+        },
+        {
+          "id": "add-pickles",
+          "name": "Extra Pickled Turnips",
+          "price": 20
+        }
+      ],
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-ad-3",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-2",
+      "name": "Yemeni Chicken Mandi",
+      "nameHi": "यमनी चिकन मंदी",
+      "nameTe": "యెమెని చికెన్ మండి",
+      "nameUr": "یمنی چکن مندی",
+      "description": "Slow-roasted whole chicken quarter resting on aromatic smoked long-grain basmati rice, garnished with golden fried raisins, almonds and dakous tomato salsa.",
+      "descriptionHi": "धीमी आंच पर भुना चिकन और सुगंधित बासमती चावल का खास यमनी स्वाद।",
+      "descriptionTe": "సువాసనగల బాస్మతి బియ్యం మరియు బొగ్గుపై కాల్చిన చికెన్ తో రుచికరమైన మండి.",
+      "descriptionUr": "دھیمی آنچ پر بھنا ہوا چکن اور خوشبودار باسمتی چاول کا شاہی ذائقہ۔",
+      "basePrice": 420,
+      "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "var-single",
+          "name": "Single (1 Piece)",
+          "price": 420
+        },
+        {
+          "id": "var-double",
+          "name": "Double (2 Pieces)",
+          "price": 790
+        },
+        {
+          "id": "var-family",
+          "name": "Family Mandi (4 Pieces)",
+          "price": 1450
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-soup",
+          "name": "Hot Mandi Soup Bowl",
+          "price": 40
+        },
+        {
+          "id": "add-nuts",
+          "name": "Extra Roasted Cashews & Almonds",
+          "price": 70
+        }
+      ],
+      "preparationTimeMinutes": 15,
+      "sortOrder": 1
+    },
+    {
+      "id": "item-ad-4",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-2",
+      "name": "Mutton Juicy Ribs Mandi",
+      "nameHi": "मटन जूसी मंदी",
+      "nameTe": "మటన్ జ్యూసీ మండి",
+      "nameUr": "مٹن جوسی پسلی مندی",
+      "description": "Succulent tenderized lamb shanks steam-cooked for 4 hours with Yemeni Hawayij spices, served over smoked saffron rice.",
+      "descriptionHi": "4 घंटे पकी रसीली मटन पसलियां और जाफरानी चावल।",
+      "descriptionTe": "మసాలాలతో 4 గంటలు ఉడికించిన నాణ్యమైన మటన్ మరియు కేసరి అన్నం.",
+      "descriptionUr": "زعفرانی چاول پر 4 گھنٹے پکی ہوئی نرم و ملائم مٹن پسلیاں۔",
+      "basePrice": 580,
+      "image": "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=600&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "variants": [
+        {
+          "id": "var-m-single",
+          "name": "Single Portion",
+          "price": 580
+        },
+        {
+          "id": "var-m-double",
+          "name": "Double Portion",
+          "price": 1090
+        }
+      ],
+      "preparationTimeMinutes": 18,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-ad-5",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-3",
+      "name": "Shish Tawook Charcoal Platter",
+      "nameHi": "शीश तावूक चारकोल थाल",
+      "nameTe": "శిష్ తావూక్ బొగ్గు ప్లాటర్",
+      "nameUr": "شیش طاؤوق چارکول پلیٹر",
+      "description": "Skewered chicken cubes marinated in Greek yogurt, smoked paprika, sumac and lemon juice, flame grilled to perfection. Served with grilled peppers.",
+      "descriptionHi": "सुमैक और नींबू में मैरीनेट किया हुआ कोयले पर भुना रसीला चिकन।",
+      "descriptionTe": "పెరుగు మరియు సుమాక్ మసాలాతో బొగ్గుపై కాల్చిన చికెన్ ముక్కలు.",
+      "descriptionUr": "دہی، لیموں اور سماق مصالحے میں بنے ہوئے گرل چکن کباب۔",
+      "basePrice": 340,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 14,
+      "sortOrder": 1
+    },
+    {
+      "id": "item-ad-6",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-4",
+      "name": "Classic Creamy Hummus with Warm Pita",
+      "nameHi": "क्लासिक क्रीमी हुमुस और पीता",
+      "nameTe": "క్రీమీ హుమ్ముస్ & వేడి పీటా",
+      "nameUr": "کلاسک کریمی حمص اور گرم پیتا",
+      "description": "Velvety puréed chickpeas with tahini, extra virgin Spanish olive oil, crushed cumin, topped with whole chickpeas and warm stone-baked pita.",
+      "descriptionHi": "ताहिनी और जैतून के तेल के साथ मखमली हुमुस और गरम पीता ब्रेड।",
+      "descriptionTe": "ఆలివ్ ఆయిల్ మరియు తాహినితో చేసిన క్రీమీ హుమ్ముస్ మరియు పీటా.",
+      "descriptionUr": "زیتون کے تیل اور طحینہ کے ساتھ مخملی حمص اور تازہ پیتا روٹی۔",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=600&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 6,
+      "sortOrder": 1
+    },
+    {
+      "id": "item-ad-7",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-5",
+      "name": "Saudi Mint Lemonade (Limonana)",
+      "nameHi": "सऊदी मिंट लेमोनेड",
+      "nameTe": "సౌదీ పుదీనా లెమనేడ్",
+      "nameUr": "سعودی پودینہ لیمونیڈ (لیمونانا)",
+      "description": "Crushed ice frappe made with freshly squeezed Nagpur lemons, organic spearmint leaves, brown sugar and rock salt.",
+      "descriptionHi": "ताज़ा नीबू और पुदीने की ठंडक भरा स्वादिष्ट शरबत।",
+      "descriptionTe": "తాజా నిమ్మ మరియు పుదీనా తో చల్లని రిఫ్రెషింగ్ డ్రింక్.",
+      "descriptionUr": "تازہ لیموں، پودینہ اور برف سے تیار کردہ انتہائی تازگی بخش شربت۔",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 4,
+      "sortOrder": 1
+    },
+    {
+      "id": "item-ad-8",
+      "restaurantId": "rest-arabian-delight",
+      "categoryId": "cat-ad-6",
+      "name": "Crispy Cheese Kunafa with Pistachios",
+      "nameHi": "कुरकुरी चीज़ कुनाफा",
+      "nameTe": "చీజ్ కునాఫా పిస్తాతో",
+      "nameUr": "کرسپی پنیر کنافہ پستہ کے ساتھ",
+      "description": "Golden spun kataifi pastry layers stuffed with melted Akkawi cheese, baked crisp and drizzled with fragrant orange blossom sugar syrup & Iranian pistachios.",
+      "descriptionHi": "पिघली हुई चीज़ और पिस्ते के साथ गरमा-गरम मीठी कुनाफा।",
+      "descriptionTe": "పిస్తా మరియు చీజ్ తో కూడిన ప్రసిద్ధ అరబిక్ స్వీట్ కునాఫా.",
+      "descriptionUr": "پستہ اور خوشبودار شیرہ سے سجی ہوئی گرم خستہ عربی پنیر کنافہ۔",
+      "basePrice": 280,
+      "image": "https://images.unsplash.com/photo-1579888944880-d98341245702?w=600&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 12,
+      "sortOrder": 1
+    },
+    {
+      "categoryId": "cat-rest-ry-restatroij-4432-1",
+      "name": "shawarma",
+      "nameHi": "",
+      "nameTe": "",
+      "nameUr": "",
+      "description": "",
+      "basePrice": 60,
+      "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "variants": [],
+      "addons": [],
+      "preparationTimeMinutes": 15,
+      "id": "item-rest-ry-restatroij-4432-5273",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "sortOrder": 1
+    }
+  ],
+  "tables": [
+    {
+      "id": "tbl-ad-1",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "01",
+      "tableName": "Window Booth 1",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "arabian-delight-tok-01-5mbsj6",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=01&token=arabian-delight-tok-01-5mbsj6",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-2",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "02",
+      "tableName": "Window Booth 2",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-02",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=02&token=ad-tok-tbl-02",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-3",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "03",
+      "tableName": "Central Majlis 3",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-03",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=03&token=ad-tok-tbl-03",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-4",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "04",
+      "tableName": "Central Majlis 4",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-04",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=04&token=ad-tok-tbl-04",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-5",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "05",
+      "tableName": "Family Cabin A",
+      "capacity": 8,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-05",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=05&token=ad-tok-tbl-05",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-6",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "06",
+      "tableName": "Family Cabin B",
+      "capacity": 8,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-06",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=06&token=ad-tok-tbl-06",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-7",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "07",
+      "tableName": "Patio Terrace 7",
+      "capacity": 2,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-07",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=07&token=ad-tok-tbl-07",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-ad-8",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "08",
+      "tableName": "Patio Terrace 8",
+      "capacity": 2,
+      "status": "available",
+      "qrToken": "ad-tok-tbl-08",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=08&token=ad-tok-tbl-08",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-rest-ry-restatroij-4432-01",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ry-restatroij-tok-01-vxjvp8",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/ry-restatroij?table=01&token=ry-restatroij-tok-01-vxjvp8",
+      "createdAt": "2026-11-15T09:16:27.297Z"
+    },
+    {
+      "id": "tbl-rest-ry-restatroij-4432-02",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ry-restatroij-tok-02-xbjx3b",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/ry-restatroij?table=02&token=ry-restatroij-tok-02-xbjx3b",
+      "createdAt": "2026-11-15T09:16:27.298Z"
+    },
+    {
+      "id": "tbl-rest-ry-restatroij-4432-03",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ry-restatroij-tok-03-96hg9i",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/ry-restatroij?table=03&token=ry-restatroij-tok-03-96hg9i",
+      "createdAt": "2026-11-15T09:16:27.298Z"
+    },
+    {
+      "id": "tbl-rest-ry-restatroij-4432-04",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ry-restatroij-tok-04-kyjn6n",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/ry-restatroij?table=04&token=ry-restatroij-tok-04-kyjn6n",
+      "createdAt": "2026-11-15T09:16:27.298Z"
+    },
+    {
+      "id": "tbl-rest-ry-restatroij-4432-05",
+      "restaurantId": "rest-ry-restatroij-4432",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "ry-restatroij-tok-05-rfo1x5",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "http://localhost:3000/restaurant/ry-restatroij?table=05&token=ry-restatroij-tok-05-rfo1x5",
+      "createdAt": "2026-11-15T09:16:27.298Z"
+    },
+    {
+      "id": "tbl-rest-arabian-delight-09",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "09",
+      "tableName": "Rooftop Garden 09",
+      "location": "Rooftop Terrace",
+      "capacity": 6,
+      "status": "order_pending",
+      "qrToken": "arabian-delight-tbl09-20571458a0d6081b",
+      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=09&token=arabian-delight-tbl09-20571458a0d6081b",
+      "isActive": true,
+      "createdAt": "2026-11-15T10:26:55.134Z",
+      "updatedAt": "2026-11-15T10:32:22.501Z",
+      "activeOrderId": "ord-rest-arabian-delight-595710"
+    },
+    {
+      "id": "tbl-rest-royal-biryani-05",
+      "restaurantId": "rest-royal-biryani",
+      "tableNumber": "05",
+      "tableName": "Courtyard 5",
+      "location": "Outdoor Courtyard",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "royal-biryani-tbl05-0d75cdeb9a88479e",
+      "destinationUrl": "http://localhost:3000/restaurant/royal-biryani?table=05&token=royal-biryani-tbl05-0d75cdeb9a88479e",
+      "isActive": true,
+      "createdAt": "2026-11-15T10:29:26.416Z",
+      "updatedAt": "2026-11-15T10:29:26.416Z"
+    },
+    {
+      "id": "tbl-rest-mahii-4285-01",
+      "restaurantId": "rest-mahii-4285",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "mahii-tok-01-9tomvn"
+    },
+    {
+      "id": "tbl-rest-mahii-4285-02",
+      "restaurantId": "rest-mahii-4285",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "mahii-tok-02-r70if0"
+    },
+    {
+      "id": "tbl-rest-mahii-4285-03",
+      "restaurantId": "rest-mahii-4285",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "mahii-tok-03-u1whid"
+    },
+    {
+      "id": "tbl-rest-mahii-4285-04",
+      "restaurantId": "rest-mahii-4285",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "mahii-tok-04-qhehqw"
+    },
+    {
+      "id": "tbl-rest-mahii-4285-05",
+      "restaurantId": "rest-mahii-4285",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "mahii-tok-05-sdjfje"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-ad-101",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1041",
+      "orderType": "dine_in",
+      "tableNumber": "04",
+      "tableName": "Central Majlis 4",
+      "customerName": "Mohd Rizwan",
+      "customerPhone": "+91 98490 11223",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 1,
+          "unitPrice": 420,
+          "selectedVariant": {
+            "id": "var-single",
+            "name": "Single (1 Piece)",
+            "price": 420
+          },
+          "specialInstructions": "Make it extra fragrant with fried onions",
+          "totalPrice": 420
+        },
+        {
+          "menuItemId": "item-ad-1",
+          "name": "Jumbo Special Chicken Shawarma",
+          "quantity": 2,
+          "unitPrice": 160,
+          "totalPrice": 320
+        },
+        {
+          "menuItemId": "item-ad-7",
+          "name": "Saudi Mint Lemonade (Limonana)",
+          "quantity": 2,
+          "unitPrice": 110,
+          "totalPrice": 220
+        }
+      ],
+      "subtotal": 960,
+      "taxAmount": 48,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 1008,
+      "orderStatus": "completed",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "UPI-ICICI-994821",
+      "createdAt": "2026-11-15T07:34:37.458Z",
+      "updatedAt": "2026-11-15T08:40:38.673Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-ad-102",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1042",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Central Majlis 3",
+      "customerName": "Kavita Rao",
+      "customerPhone": "+91 97000 88990",
+      "items": [
+        {
+          "menuItemId": "item-ad-2",
+          "name": "Crispy Falafel Roll (Veg)",
+          "quantity": 2,
+          "unitPrice": 120,
+          "totalPrice": 240
+        },
+        {
+          "menuItemId": "item-ad-6",
+          "name": "Classic Creamy Hummus with Warm Pita",
+          "quantity": 1,
+          "unitPrice": 190,
+          "totalPrice": 190
+        }
+      ],
+      "subtotal": 430,
+      "taxAmount": 21.5,
+      "serviceCharge": 0,
+      "discountAmount": 43,
+      "couponCode": "WELCOME50",
+      "totalAmount": 408.5,
+      "orderStatus": "cancelled",
+      "paymentMethod": "cash",
+      "paymentStatus": "pending",
+      "createdAt": "2026-11-15T07:49:37.460Z",
+      "updatedAt": "2026-11-15T08:10:28.418Z",
+      "estimatedDeliveryMinutes": 12,
+      "cancellationReason": "Out of required ingredients"
+    },
+    {
+      "id": "ord-ad-103",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1040",
+      "orderType": "dine_in",
+      "tableNumber": "05",
+      "tableName": "Family Cabin A",
+      "customerName": "Ibrahim Qureshi",
+      "customerPhone": "+91 99881 22334",
+      "items": [
+        {
+          "menuItemId": "item-ad-4",
+          "name": "Mutton Juicy Ribs Mandi",
+          "quantity": 1,
+          "unitPrice": 580,
+          "totalPrice": 580
+        },
+        {
+          "menuItemId": "item-ad-8",
+          "name": "Crispy Cheese Kunafa with Pistachios",
+          "quantity": 1,
+          "unitPrice": 280,
+          "totalPrice": 280
+        }
+      ],
+      "subtotal": 860,
+      "taxAmount": 43,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 903,
+      "orderStatus": "completed",
+      "paymentMethod": "cash",
+      "paymentStatus": "pending",
+      "createdAt": "2026-11-15T07:24:37.460Z",
+      "updatedAt": "2026-11-15T08:40:40.068Z"
+    },
+    {
+      "id": "ord-ad-100",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1039",
+      "orderType": "takeaway",
+      "customerName": "Sneha Sharma",
+      "customerPhone": "+91 98480 33445",
+      "items": [
+        {
+          "menuItemId": "item-ad-1",
+          "name": "Jumbo Special Chicken Shawarma",
+          "quantity": 3,
+          "unitPrice": 160,
+          "totalPrice": 480
+        }
+      ],
+      "subtotal": 480,
+      "taxAmount": 24,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 504,
+      "orderStatus": "completed",
+      "paymentMethod": "razorpay_online",
+      "paymentStatus": "paid",
+      "paymentReference": "pay_Rzp9481859",
+      "createdAt": "2026-11-15T06:37:37.460Z",
+      "updatedAt": "2026-11-15T07:12:37.460Z"
+    },
+    {
+      "id": "ord-rest-arabian-delight-368359",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1045",
+      "orderType": "dine_in",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "customerName": "Rahul Verma",
+      "items": [
+        {
+          "unitPrice": 420,
+          "totalPrice": 420,
+          "quantity": 1,
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi"
+        }
+      ],
+      "subtotal": 420,
+      "taxAmount": 21,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 441,
+      "orderStatus": "completed",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-YLZU8AP",
+      "createdAt": "2026-11-15T07:56:08.359Z",
+      "updatedAt": "2026-11-15T08:40:38.624Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-595710",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1046",
+      "orderType": "dine_in",
+      "tableNumber": "09",
+      "tableName": "Table 09",
+      "customerName": "Rooftop Guest",
+      "customerPhone": "+91 9988776655",
+      "items": [
+        {
+          "unitPrice": 420,
+          "totalPrice": 420,
+          "quantity": 1,
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi"
+        }
+      ],
+      "subtotal": 420,
+      "taxAmount": 21,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 441,
+      "orderStatus": "new",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-DUJ8OSO",
+      "createdAt": "2026-11-15T10:29:55.710Z",
+      "updatedAt": "2026-11-15T10:29:55.710Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-732994",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1047",
+      "orderType": "dine_in",
+      "tableNumber": "09",
+      "tableName": "Table 09",
+      "customerName": "Test",
+      "items": [
+        {
+          "unitPrice": 420,
+          "totalPrice": 420,
+          "quantity": 1,
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi"
+        }
+      ],
+      "subtotal": 420,
+      "taxAmount": 21,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 441,
+      "orderStatus": "new",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-C785UWS",
+      "createdAt": "2026-11-15T10:32:12.994Z",
+      "updatedAt": "2026-11-15T10:32:12.994Z",
+      "estimatedDeliveryMinutes": 15
+    }
+  ],
+  "coupons": [
+    {
+      "id": "cp-1",
+      "restaurantId": "rest-arabian-delight",
+      "code": "WELCOME50",
+      "description": "Get 50% discount up to ₹100 on first QR order",
+      "discountType": "percentage",
+      "discountValue": 50,
+      "minOrderValue": 200,
+      "maxDiscount": 100,
+      "startDate": "2026-01-01",
+      "endDate": "2026-12-31",
+      "usageCount": 142,
+      "maxUsage": 500,
+      "isActive": true
+    },
+    {
+      "id": "cp-2",
+      "restaurantId": "rest-arabian-delight",
+      "code": "MANDI20",
+      "description": "20% off on all Mandi and Platters",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "minOrderValue": 500,
+      "maxDiscount": 150,
+      "startDate": "2026-10-01",
+      "endDate": "2026-11-30",
+      "usageCount": 88,
+      "isActive": true
+    },
+    {
+      "id": "cp-3",
+      "restaurantId": "rest-arabian-delight",
+      "code": "FLAT100",
+      "description": "Flat ₹100 off on bills above ₹800",
+      "discountType": "fixed",
+      "discountValue": 100,
+      "minOrderValue": 800,
+      "startDate": "2026-10-15",
+      "endDate": "2026-12-15",
+      "usageCount": 31,
+      "isActive": true
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv-1",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Basmati Rice (Aged)",
+      "unit": "kg",
+      "currentStock": 46.5,
+      "minThreshold": 15,
+      "costPerUnit": 120,
+      "lastRestocked": "2026-11-12"
+    },
+    {
+      "id": "inv-2",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Fresh Chicken (Boneless)",
+      "unit": "kg",
+      "currentStock": 22,
+      "minThreshold": 10,
+      "costPerUnit": 240,
+      "lastRestocked": "2026-11-14"
+    },
+    {
+      "id": "inv-3",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Mutton Shanks",
+      "unit": "kg",
+      "currentStock": 4.2,
+      "minThreshold": 6,
+      "costPerUnit": 820,
+      "lastRestocked": "2026-11-13"
+    },
+    {
+      "id": "inv-4",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Khubz / Pita Breads",
+      "unit": "pieces",
+      "currentStock": 85,
+      "minThreshold": 30,
+      "costPerUnit": 12,
+      "lastRestocked": "2026-11-15"
+    },
+    {
+      "id": "inv-5",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Toum Garlic Paste",
+      "unit": "kg",
+      "currentStock": 8,
+      "minThreshold": 3,
+      "costPerUnit": 180,
+      "lastRestocked": "2026-11-14"
+    },
+    {
+      "id": "inv-6",
+      "restaurantId": "rest-arabian-delight",
+      "ingredientName": "Mozzarella Cheese Block",
+      "unit": "kg",
+      "currentStock": 2.1,
+      "minThreshold": 3,
+      "costPerUnit": 480,
+      "lastRestocked": "2026-11-10"
+    }
+  ],
+  "subscriptionPlans": [
+    {
+      "id": "free_trial",
+      "name": "14-Day Free Trial",
+      "monthlyPrice": 0,
+      "yearlyPrice": 0,
+      "menuItemLimit": 20,
+      "tableLimit": 8,
+      "staffLimit": 3,
+      "features": [
+        "Digital QR Menu",
+        "Table-wise QR Generator",
+        "Live Kitchen Display (KDS)",
+        "Waiter Dashboard",
+        "Basic Sales Reports",
+        "UPI & Cash Payments"
+      ]
+    },
+    {
+      "id": "starter",
+      "name": "Starter Plan",
+      "monthlyPrice": 999,
+      "yearlyPrice": 9990,
+      "menuItemLimit": 35,
+      "tableLimit": 15,
+      "staffLimit": 6,
+      "features": [
+        "Everything in Free Trial",
+        "Custom Restaurant Branding",
+        "Customer Order Tracking",
+        "Daily & Monthly Sales Excel Export",
+        "Digital Stamp Card Loyalty",
+        "Coupon Code Engine",
+        "Multi-Language Menu Support"
+      ]
+    },
+    {
+      "id": "growth",
+      "name": "Growth Plan",
+      "monthlyPrice": 1999,
+      "yearlyPrice": 19990,
+      "menuItemLimit": 80,
+      "tableLimit": 35,
+      "staffLimit": 15,
+      "isPopular": true,
+      "features": [
+        "Everything in Starter",
+        "Spin & Win Loyalty Gamification",
+        "Inventory & Ingredient Auto-Deduction",
+        "Table Reservation Status & Call Waiter",
+        "PDF Sales & Tax Reconciliation Reports",
+        "Takeaway Ordering with Customer SMS/WhatsApp",
+        "Razorpay Gateway Integration"
+      ]
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise Pro",
+      "monthlyPrice": 3999,
+      "yearlyPrice": 39990,
+      "menuItemLimit": 250,
+      "tableLimit": 100,
+      "staffLimit": 50,
+      "features": [
+        "Unlimited Menu Items with Addon Packs",
+        "Multi-outlet Central Control",
+        "Dedicated Account Manager",
+        "24/7 Priority Support",
+        "Custom Domain & White-labeling",
+        "Full API & POS Integration",
+        "Advanced Hourly Heatmap Analytics"
+      ]
+    }
+  ],
+  "menuItemPackages": [
+    {
+      "id": "pack-10",
+      "itemCount": 10,
+      "price": 299,
+      "description": "+10 Extra Menu Items"
+    },
+    {
+      "id": "pack-20",
+      "itemCount": 20,
+      "price": 499,
+      "description": "+20 Extra Menu Items"
+    },
+    {
+      "id": "pack-50",
+      "itemCount": 50,
+      "price": 999,
+      "description": "+50 Extra Menu Items"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-1",
+      "restaurantId": "rest-arabian-delight",
+      "userName": "Tariq Mansoor",
+      "userRole": "restaurant_admin",
+      "action": "UPDATE_MENU_PRICE",
+      "details": "Changed Yemeni Chicken Mandi base price from ₹399 to ₹420",
+      "timestamp": "2026-11-14T16:30:00Z"
+    },
+    {
+      "id": "log-2",
+      "restaurantId": "rest-arabian-delight",
+      "userName": "Chef Zaheer",
+      "userRole": "kitchen_staff",
+      "action": "STATUS_UPDATE",
+      "details": "Order #AD-1041 marked PREPARING",
+      "timestamp": "2026-11-15T06:50:00Z"
+    },
+    {
+      "id": "log-3",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "VERIFY_RESTAURANT",
+      "details": "Verified and activated Arabian Delight restaurant account",
+      "timestamp": "2026-09-15T12:00:00Z"
+    }
+  ],
+  "waiterCalls": [
+    {
+      "id": "call-1",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "06",
+      "type": "bill_request",
+      "status": "pending",
+      "createdAt": "2026-11-15T07:47:37.486Z"
+    },
+    {
+      "id": "call-555028",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "03",
+      "type": "call_waiter",
+      "status": "pending",
+      "createdAt": "2026-11-15T07:59:15.028Z"
+    },
+    {
+      "id": "call-556172",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "03",
+      "type": "bill_request",
+      "status": "pending",
+      "createdAt": "2026-11-15T07:59:16.172Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-1",
+      "restaurantId": "rest-arabian-delight",
+      "phone": "+91 98490 11223",
+      "name": "Mohd Rizwan",
+      "totalOrders": 4,
+      "totalSpent": 3840,
+      "lastOrderDate": "2026-11-15T07:52:37.486Z",
+      "stampsCount": 4,
+      "availableRewards": [
+        "Free Dessert or Mocktail"
+      ]
+    },
+    {
+      "id": "cust-2",
+      "restaurantId": "rest-arabian-delight",
+      "phone": "+91 97000 88990",
+      "name": "Kavita Rao",
+      "totalOrders": 1,
+      "totalSpent": 408.5,
+      "lastOrderDate": "2026-11-15T07:52:37.486Z",
+      "stampsCount": 1,
+      "availableRewards": []
+    },
+    {
+      "id": "cust-95711",
+      "restaurantId": "rest-arabian-delight",
+      "phone": "+91 9988776655",
+      "name": "Rooftop Guest",
+      "totalOrders": 1,
+      "totalSpent": 441,
+      "lastOrderDate": "2026-11-15T10:29:55.711Z",
+      "stampsCount": 1,
+      "availableRewards": []
+    }
+  ]
+}
