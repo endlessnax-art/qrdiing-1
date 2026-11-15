@@ -3,6 +3,7 @@ import {
   getOrders,
   createOrder,
   updateOrderStatus,
+  cancelOrder,
   getRestaurantBySlug,
 } from "@/lib/db/storage";
 
@@ -65,10 +66,26 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { restaurantId, orderId, newStatus, reason } = body;
+    const { restaurantId, orderId, newStatus, action, reason } = body;
 
-    if (!restaurantId || !orderId || !newStatus) {
-      return NextResponse.json({ success: false, error: "Missing required status update fields" }, { status: 400 });
+    if (!restaurantId || !orderId) {
+      return NextResponse.json({ success: false, error: "Missing required order identification fields" }, { status: 400 });
+    }
+
+    if (action === "cancel" || newStatus === "cancelled") {
+      try {
+        const cancelled = cancelOrder(restaurantId, orderId, reason);
+        if (!cancelled) {
+          return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
+        }
+        return NextResponse.json({ success: true, data: cancelled, message: "Order cancelled successfully" });
+      } catch (err: any) {
+        return NextResponse.json({ success: false, error: err.message || "Failed to cancel order" }, { status: 400 });
+      }
+    }
+
+    if (!newStatus) {
+      return NextResponse.json({ success: false, error: "Missing newStatus parameter" }, { status: 400 });
     }
 
     const updated = updateOrderStatus(restaurantId, orderId, newStatus, { reason });

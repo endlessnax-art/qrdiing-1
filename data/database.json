@@ -676,7 +676,8 @@
       "isActive": true,
       "location": "Main Dining Area",
       "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=04&token=ad-tok-tbl-04",
-      "createdAt": "2026-11-15T09:16:27.297Z"
+      "createdAt": "2026-11-15T09:16:27.297Z",
+      "updatedAt": "2026-11-15T14:25:21.136Z"
     },
     {
       "id": "tbl-ad-5",
@@ -831,7 +832,11 @@
       "tableName": "Table 01",
       "capacity": 4,
       "status": "available",
-      "qrToken": "mahii-tok-01-9tomvn"
+      "qrToken": "mahii-tok-01-9tomvn",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/mahii?table=01&token=mahii-tok-01-9tomvn",
+      "createdAt": "2026-11-15T14:21:58.878Z"
     },
     {
       "id": "tbl-rest-mahii-4285-02",
@@ -840,7 +845,11 @@
       "tableName": "Table 02",
       "capacity": 4,
       "status": "available",
-      "qrToken": "mahii-tok-02-r70if0"
+      "qrToken": "mahii-tok-02-r70if0",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/mahii?table=02&token=mahii-tok-02-r70if0",
+      "createdAt": "2026-11-15T14:21:58.879Z"
     },
     {
       "id": "tbl-rest-mahii-4285-03",
@@ -849,7 +858,11 @@
       "tableName": "Table 03",
       "capacity": 4,
       "status": "available",
-      "qrToken": "mahii-tok-03-u1whid"
+      "qrToken": "mahii-tok-03-u1whid",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/mahii?table=03&token=mahii-tok-03-u1whid",
+      "createdAt": "2026-11-15T14:21:58.879Z"
     },
     {
       "id": "tbl-rest-mahii-4285-04",
@@ -858,7 +871,11 @@
       "tableName": "Table 04",
       "capacity": 4,
       "status": "available",
-      "qrToken": "mahii-tok-04-qhehqw"
+      "qrToken": "mahii-tok-04-qhehqw",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/mahii?table=04&token=mahii-tok-04-qhehqw",
+      "createdAt": "2026-11-15T14:21:58.879Z"
     },
     {
       "id": "tbl-rest-mahii-4285-05",
@@ -867,7 +884,11 @@
       "tableName": "Table 05",
       "capacity": 4,
       "status": "available",
-      "qrToken": "mahii-tok-05-sdjfje"
+      "qrToken": "mahii-tok-05-sdjfje",
+      "isActive": true,
+      "location": "Main Dining Area",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/mahii?table=05&token=mahii-tok-05-sdjfje",
+      "createdAt": "2026-11-15T14:21:58.879Z"
     }
   ],
   "orders": [
@@ -1122,6 +1143,37 @@
       "createdAt": "2026-11-15T10:32:12.994Z",
       "updatedAt": "2026-11-15T10:32:12.994Z",
       "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-721049",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "#AD-1048",
+      "orderType": "dine_in",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "customerName": "Test Guest",
+      "items": [
+        {
+          "unitPrice": 380,
+          "totalPrice": 380,
+          "quantity": 1,
+          "menuItemId": "item-ad-1",
+          "name": "Special Chicken Mandi"
+        }
+      ],
+      "subtotal": 380,
+      "taxAmount": 19,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 399,
+      "orderStatus": "cancelled",
+      "paymentMethod": "cash",
+      "paymentStatus": "pending",
+      "createdAt": "2026-11-15T14:25:21.049Z",
+      "updatedAt": "2026-11-15T14:25:21.136Z",
+      "estimatedDeliveryMinutes": 15,
+      "cancellationReason": "Customer changed mind before preparation"
     }
   ],
   "coupons": [
@@ -1413,6 +1465,50 @@
       "lastOrderDate": "2026-11-15T10:29:55.711Z",
       "stampsCount": 1,
       "availableRewards": []
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "fb-rest-arabian-delight-659070",
+      "restaurantId": "rest-arabian-delight",
+      "tableNumber": "04",
+      "customerName": "Rohit Sharma",
+      "rating": 5,
+      "comment": "Mutton Mandi was phenomenal! Seamless QR ordering.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-15T14:24:19.070Z"
+    },
+    {
+      "id": "fb-1",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-ad-101",
+      "tableNumber": "03",
+      "customerName": "Mohd Rizwan",
+      "rating": 5,
+      "comment": "Outstanding Mandi! The chicken was super tender and authentic flavours. QR ordering was instantaneous.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service",
+        "Authentic Flavor"
+      ],
+      "createdAt": "2026-11-15T11:21:58.879Z"
+    },
+    {
+      "id": "fb-2",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-ad-102",
+      "tableNumber": "05",
+      "customerName": "Ayesha Fatima",
+      "rating": 5,
+      "comment": "Kunafa dessert is heavenly! Very smooth UPI payment on table.",
+      "tags": [
+        "Delicious Food",
+        "Great Ambience"
+      ],
+      "createdAt": "2026-11-14T14:21:58.879Z"
     }
   ]
 }

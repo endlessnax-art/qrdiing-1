@@ -41,12 +41,16 @@ import {
   FileDown,
   Power,
   ShieldCheck,
+  Menu,
+  Star,
 } from "lucide-react";
 import {
   generateQRCodeDataURL,
   generateQRCodeSVG,
   downloadTableQRPNG,
   downloadTableQRSVG,
+  downloadTableQRPDF,
+  printStickerSheet,
 } from "@/lib/qr";
 import {
   Restaurant,
@@ -56,6 +60,7 @@ import {
   Order,
   Coupon,
   InventoryItem,
+  CustomerFeedback,
 } from "@/lib/db/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -77,6 +82,8 @@ function AdminDashboardContent() {
   const [monthlySales, setMonthlySales] = useState<any>(null);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [feedbacks, setFeedbacks] = useState<CustomerFeedback[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Modals
@@ -126,22 +133,24 @@ function AdminDashboardContent() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [restRes, ordersRes, dailyRes, monthlyRes, couponsRes, invRes] = await Promise.all([
+      const [restRes, ordersRes, dailyRes, monthlyRes, couponsRes, invRes, feedbackRes] = await Promise.all([
         fetch(`/api/restaurants/${slug}`),
         fetch(`/api/orders?slug=${slug}`),
         fetch(`/api/analytics/daily?slug=${slug}`),
         fetch(`/api/analytics/monthly?slug=${slug}`),
         fetch(`/api/coupons?slug=${slug}`),
         fetch(`/api/inventory?slug=${slug}`),
+        fetch(`/api/feedback?slug=${slug}`),
       ]);
 
-      const [restJson, ordersJson, dailyJson, monthlyJson, couponsJson, invJson] = await Promise.all([
+      const [restJson, ordersJson, dailyJson, monthlyJson, couponsJson, invJson, feedbackJson] = await Promise.all([
         restRes.json(),
         ordersRes.json(),
         dailyRes.json(),
         monthlyRes.json(),
         couponsRes.json(),
         invRes.json(),
+        feedbackRes.json(),
       ]);
 
       if (restJson.success) setRestaurantData(restJson.data);
@@ -150,6 +159,7 @@ function AdminDashboardContent() {
       if (monthlyJson.success) setMonthlySales(monthlyJson.data);
       if (couponsJson.success) setCoupons(couponsJson.data);
       if (invJson.success) setInventory(invJson.data);
+      if (feedbackJson.success) setFeedbacks(feedbackJson.data);
     } catch (err) {
       console.error("Failed to load restaurant admin data", err);
     } finally {
@@ -449,6 +459,129 @@ function AdminDashboardContent() {
     a.click();
   };
 
+  const printOrderKOT = (ord: Order) => {
+    if (typeof window === "undefined") return;
+    const win = window.open("", "_blank");
+    if (!win) {
+      alert("Please allow popups to print KOT ticket.");
+      return;
+    }
+    const itemsHtml = ord.items
+      .map(
+        (it) => `
+      <div style="display:flex; margin-bottom:4px;">
+        <span style="width:30px; font-weight:bold;">${it.quantity}x</span>
+        <div style="flex:1;">
+          <div style="font-weight:bold;">${it.name}</div>
+          ${it.selectedVariant ? `<div style="font-size:9pt; color:#444;">Portion: ${it.selectedVariant.name}</div>` : ""}
+          ${it.specialInstructions ? `<div style="font-size:9pt; background:#eee; padding:2px; font-weight:bold;">NOTE: ${it.specialInstructions}</div>` : ""}
+        </div>
+      </div>
+    `
+      )
+      .join("");
+
+    win.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KOT - ${ord.orderNumber}</title>
+  <style>
+    @page { size: 80mm auto; margin: 4mm; }
+    body { font-family: 'Courier New', monospace; font-size: 11pt; color: #000; margin: 0; padding: 4px; }
+  </style>
+</head>
+<body>
+  <div style="text-align:center; border-bottom:2px dashed #000; padding-bottom:6px;">
+    <h2 style="margin:0; font-size:14pt;">*** K.O.T ***</h2>
+    <div style="font-weight:bold; font-size:10pt;">${ord.restaurantName}</div>
+    <div style="font-size:9pt;">${ord.orderNumber} • ${new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+  </div>
+  <div style="background:#000; color:#fff; text-align:center; font-size:16pt; font-weight:900; padding:4px; margin:6px 0;">
+    ${ord.orderType === "dine_in" ? `TABLE ${ord.tableNumber}` : "TAKEAWAY"}
+  </div>
+  <div style="margin:8px 0; border-bottom:2px dashed #000; padding-bottom:8px;">
+    ${itemsHtml}
+  </div>
+  <div style="text-align:center; font-size:8pt;">Chef Copy • QRDening KDS</div>
+  <script>window.onload = function() { setTimeout(function(){ window.print(); }, 250); };</script>
+</body>
+</html>
+    `);
+    win.document.close();
+  };
+
+  const printOrderBill = (ord: Order) => {
+    if (typeof window === "undefined") return;
+    const win = window.open("", "_blank");
+    if (!win) {
+      alert("Please allow popups to print Tax Receipt.");
+      return;
+    }
+    const itemsHtml = ord.items
+      .map(
+        (it) => `
+      <tr>
+        <td style="padding:3px 0;">${it.name} ${it.selectedVariant ? `(${it.selectedVariant.name})` : ""}</td>
+        <td style="text-align:center; padding:3px 0;">${it.quantity}</td>
+        <td style="text-align:right; padding:3px 0;">₹${it.unitPrice}</td>
+        <td style="text-align:right; padding:3px 0; font-weight:bold;">₹${it.totalPrice}</td>
+      </tr>
+    `
+      )
+      .join("");
+
+    win.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Receipt - ${ord.orderNumber}</title>
+  <style>
+    @page { size: 80mm auto; margin: 4mm; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 10pt; color: #000; margin: 0; padding: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+    th { border-bottom: 1px solid #000; text-align: left; padding: 2px 0; font-size: 8.5pt; }
+  </style>
+</head>
+<body>
+  <div style="text-align:center; border-bottom:1px dashed #000; padding-bottom:6px; margin-bottom:6px;">
+    <div style="font-weight:900; font-size:13pt; text-transform:uppercase;">${ord.restaurantName}</div>
+    <div style="font-size:8pt; color:#444;">GSTIN: 36AAECR9988D1Z2 • TAX INVOICE</div>
+    <div style="font-size:8pt; margin-top:2px;">Bill: ${ord.orderNumber} • ${new Date(ord.createdAt).toLocaleString()}</div>
+    <div style="font-weight:bold; font-size:10pt; margin-top:2px;">${ord.orderType === "dine_in" ? `TABLE ${ord.tableNumber}` : "TAKEAWAY"}</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th style="text-align:center;">Qty</th>
+        <th style="text-align:right;">Rate</th>
+        <th style="text-align:right;">Amt</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${itemsHtml}
+    </tbody>
+  </table>
+  <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px; font-size:9pt;">
+    <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span>₹${ord.subtotal}</span></div>
+    ${ord.discountAmount > 0 ? `<div style="display:flex; justify-content:space-between; color:green;"><span>Discount</span><span>-₹${ord.discountAmount}</span></div>` : ""}
+    <div style="display:flex; justify-content:space-between;"><span>GST (5%)</span><span>₹${ord.taxAmount}</span></div>
+    <div style="display:flex; justify-content:space-between; font-weight:900; font-size:11pt; border-top:1px solid #000; padding-top:2px; margin-top:2px;">
+      <span>Total Paid</span><span>₹${ord.totalAmount}</span>
+    </div>
+  </div>
+  <div style="text-align:center; font-size:8pt; margin-top:10px; color:#555;">
+    Payment: ${ord.paymentMethod.toUpperCase()} (${ord.paymentStatus.toUpperCase()})<br/>
+    Thank you for visiting!
+  </div>
+  <script>window.onload = function() { setTimeout(function(){ window.print(); }, 250); };</script>
+</body>
+</html>
+    `);
+    win.document.close();
+  };
+
   if (loading || !restaurantData) {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-white">
@@ -465,55 +598,101 @@ function AdminDashboardContent() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* 1. TOP NAVBAR */}
-      <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 px-6 py-3.5 shadow-xl">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-3.5 shadow-xl">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700"
+              title="Toggle Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
             <img
               src={restaurant.logo}
               alt={restaurant.name}
-              className="w-10 h-10 rounded-xl object-cover border border-emerald-500/30"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border border-emerald-500/30"
             />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg font-black text-white">{restaurant.name}</h1>
-                <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-0.5 rounded uppercase">
+                <h1 className="text-base sm:text-lg font-black text-white truncate max-w-[140px] sm:max-w-none">{restaurant.name}</h1>
+                <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-0.5 rounded uppercase hidden sm:inline">
                   {restaurant.subscription?.planName}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[10px] sm:text-[11px] text-slate-400">
                 {restaurant.city} • Owner: {restaurant.ownerName}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Switch Demo Restaurant */}
             <select
               value={slug}
               onChange={(e) => (window.location.href = `/admin/dashboard?slug=${e.target.value}`)}
-              className="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-3 py-2"
+              className="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-2 sm:px-3 py-2 max-w-[130px] sm:max-w-none"
             >
-              <option value="arabian-delight">Arabian Delight (Hyderabad)</option>
-              <option value="royal-biryani">Royal Biryani House (Bengaluru)</option>
-              <option value="food-corner">Food Corner & Café (Mumbai)</option>
+              <option value="arabian-delight">Arabian Delight</option>
+              <option value="royal-biryani">Royal Biryani House</option>
+              <option value="food-corner">Food Corner & Café</option>
             </select>
 
             <Link
               href={`/restaurant/${slug}?table=03`}
               target="_blank"
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1 shadow"
+              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1 shadow whitespace-nowrap"
             >
-              Customer Menu <ExternalLink className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Customer Menu</span>
+              <span className="sm:hidden">Menu</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </Link>
 
             <Link
               href="/super-admin"
-              className="bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition"
+              className="bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-semibold px-2.5 sm:px-3 py-2 rounded-lg border border-slate-700 transition hidden sm:inline"
             >
               Super Admin →
             </Link>
           </div>
         </div>
+
+        {/* MOBILE NAVIGATION DRAWER */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-3 pt-3 border-t border-slate-800 space-y-1">
+            {[
+              { id: "overview", label: "Overview", icon: LayoutDashboard },
+              { id: "orders", label: `Live Orders (${orders.filter((o) => o.orderStatus !== "completed").length})`, icon: ShoppingBag },
+              { id: "menu", label: `Menu Items (${usedItemsCount}/${allowedItemsCount})`, icon: UtensilsCrossed },
+              { id: "tables", label: "Tables & QR Generator", icon: QrCode },
+              { id: "reviews", label: `Customer Reviews (${feedbacks.length})`, icon: Star },
+              { id: "daily_sales", label: "Daily Sales", icon: Calendar },
+              { id: "monthly_sales", label: "Monthly Reports", icon: BarChart3 },
+              { id: "coupons", label: "Coupons & Promos", icon: Tag },
+              { id: "inventory", label: "Inventory Tracker", icon: Boxes },
+              { id: "subscription", label: "Plan & Addons", icon: CreditCard },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold transition text-left ${
+                    activeTab === tab.id
+                      ? "bg-emerald-500 text-slate-950 font-black"
+                      : "text-slate-300 hover:bg-slate-800"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" /> {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </header>
 
       {/* 2. MAIN DASHBOARD LAYOUT (SIDEBAR + CONTENT) */}
@@ -560,6 +739,16 @@ function AdminDashboardContent() {
               }`}
             >
               <QrCode className="w-4 h-4" /> Tables & QR Generator
+            </button>
+            <button
+              onClick={() => setActiveTab("reviews")}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
+                activeTab === "reviews"
+                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+              }`}
+            >
+              <Star className="w-4 h-4 text-amber-400" /> Customer Reviews ({feedbacks.length})
             </button>
             <button
               onClick={() => setActiveTab("daily_sales")}
@@ -820,6 +1009,7 @@ function AdminDashboardContent() {
                       <th className="p-3.5">Total Amount</th>
                       <th className="p-3.5">Status</th>
                       <th className="p-3.5">Payment</th>
+                      <th className="p-3.5 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/80">
@@ -867,6 +1057,26 @@ function AdminDashboardContent() {
                           >
                             {ord.paymentStatus} ({ord.paymentMethod})
                           </span>
+                        </td>
+                        <td className="p-3.5 text-right">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => printOrderKOT(ord)}
+                              className="bg-amber-500/10 hover:bg-amber-500 text-amber-400 hover:text-slate-950 border border-amber-500/30 px-2 py-1 rounded text-[10px] font-bold transition flex items-center gap-1"
+                              title="Print Kitchen Order Ticket"
+                            >
+                              <Printer className="w-3 h-3" /> KOT
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => printOrderBill(ord)}
+                              className="bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 border border-emerald-500/30 px-2 py-1 rounded text-[10px] font-bold transition flex items-center gap-1"
+                              title="Print Customer Bill Receipt"
+                            >
+                              <Printer className="w-3 h-3" /> Bill
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -1184,6 +1394,138 @@ function AdminDashboardContent() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: CUSTOMER REVIEWS & RATINGS */}
+          {activeTab === "reviews" && (
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-2xl font-black text-white">Customer Reviews & Ratings</h2>
+                  <p className="text-xs text-slate-400">
+                    Real-time guest feedback submitted directly from digital table QR menus
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={fetchData}
+                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" /> Refresh Reviews
+                </button>
+              </div>
+
+              {/* Review KPI Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Average Rating</span>
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="text-3xl font-black text-amber-400">
+                      {feedbacks.length > 0
+                        ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(1)
+                        : "5.0"}
+                    </span>
+                    <div className="flex text-amber-400">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-2">Based on {feedbacks.length} guest reviews</p>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Customer Satisfaction</span>
+                  <div className="text-3xl font-black text-emerald-400 mt-1">98.4%</div>
+                  <p className="text-[11px] text-slate-400 mt-2">Guests loved the taste and fast service</p>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Top Complimented Tags</span>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {["Delicious Food", "Fast Service", "Authentic Flavor", "Great Ambience"].map((tag) => (
+                      <span key={tag} className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Reviews List */}
+              <div className="space-y-4">
+                {feedbacks.length === 0 ? (
+                  <div className="text-center py-16 bg-slate-900 border border-slate-800 rounded-2xl">
+                    <Star className="w-10 h-10 text-slate-700 mx-auto mb-2" />
+                    <h3 className="font-bold text-white text-sm">No reviews submitted yet</h3>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Customer ratings submitted on the order tracking page will show up here.
+                    </p>
+                  </div>
+                ) : (
+                  feedbacks.map((fb) => (
+                    <div
+                      key={fb.id}
+                      className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3 hover:border-slate-700 transition"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 font-black text-xs flex items-center justify-center border border-emerald-500/40">
+                            {fb.customerName.slice(0, 2).toUpperCase()}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-white text-sm">{fb.customerName}</span>
+                              <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/20">
+                                Verified Dine-In
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-400">
+                              {fb.tableNumber ? `Table ${fb.tableNumber}` : "Dine-In"} • {formatDate(fb.createdAt)}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Stars */}
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`w-4 h-4 ${
+                                star <= fb.rating
+                                  ? "text-amber-400 fill-amber-400"
+                                  : "text-slate-700"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Review Comment */}
+                      {fb.comment && (
+                        <p className="text-xs text-slate-200 leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                          "{fb.comment}"
+                        </p>
+                      )}
+
+                      {/* Tags */}
+                      {fb.tags && fb.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {fb.tags.map((t, idx) => (
+                            <span
+                              key={idx}
+                              className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-medium"
+                            >
+                              ✓ {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           )}

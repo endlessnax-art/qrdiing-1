@@ -19,6 +19,7 @@ import {
   OrderStatus,
   PaymentStatus,
   PaymentMethod,
+  CustomerFeedback,
 } from "./types";
 import {
   initialRestaurants,
@@ -48,6 +49,7 @@ interface DatabaseSchema {
   auditLogs: AuditLog[];
   waiterCalls: WaiterCall[];
   customers: Customer[];
+  feedbacks: CustomerFeedback[];
 }
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -100,6 +102,30 @@ function getInitialDatabase(): DatabaseSchema {
         availableRewards: [],
       },
     ],
+    feedbacks: [
+      {
+        id: "fb-1",
+        restaurantId: "rest-arabian-delight",
+        orderId: "ord-ad-101",
+        tableNumber: "03",
+        customerName: "Mohd Rizwan",
+        rating: 5,
+        comment: "Outstanding Mandi! The chicken was super tender and authentic flavours. QR ordering was instantaneous.",
+        tags: ["Delicious Food", "Fast Service", "Authentic Flavor"],
+        createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+      },
+      {
+        id: "fb-2",
+        restaurantId: "rest-arabian-delight",
+        orderId: "ord-ad-102",
+        tableNumber: "05",
+        customerName: "Ayesha Fatima",
+        rating: 5,
+        comment: "Kunafa dessert is heavenly! Very smooth UPI payment on table.",
+        tags: ["Delicious Food", "Great Ambience"],
+        createdAt: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
+      },
+    ],
   };
 }
 
@@ -130,7 +156,8 @@ function loadDatabase(): DatabaseSchema {
         if (!t.destinationUrl) {
           const rest = inMemoryDb?.restaurants.find((r) => r.id === t.restaurantId);
           const slug = rest?.slug || "restaurant";
-          t.destinationUrl = `http://localhost:3000/restaurant/${slug}?table=${t.tableNumber}&token=${t.qrToken}`;
+          const base = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://qrdineing.vercel.app");
+          t.destinationUrl = `${base}/restaurant/${slug}?table=${t.tableNumber}&token=${t.qrToken}`;
           updated = true;
         }
         if (!t.createdAt) {
@@ -138,6 +165,33 @@ function loadDatabase(): DatabaseSchema {
           updated = true;
         }
       });
+      if (!inMemoryDb.feedbacks || inMemoryDb.feedbacks.length === 0) {
+        inMemoryDb.feedbacks = [
+          {
+            id: "fb-1",
+            restaurantId: "rest-arabian-delight",
+            orderId: "ord-ad-101",
+            tableNumber: "03",
+            customerName: "Mohd Rizwan",
+            rating: 5,
+            comment: "Outstanding Mandi! The chicken was super tender and authentic flavours. QR ordering was instantaneous.",
+            tags: ["Delicious Food", "Fast Service", "Authentic Flavor"],
+            createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+          },
+          {
+            id: "fb-2",
+            restaurantId: "rest-arabian-delight",
+            orderId: "ord-ad-102",
+            tableNumber: "05",
+            customerName: "Ayesha Fatima",
+            rating: 5,
+            comment: "Kunafa dessert is heavenly! Very smooth UPI payment on table.",
+            tags: ["Delicious Food", "Great Ambience"],
+            createdAt: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
+          },
+        ];
+        updated = true;
+      }
       if (updated) {
         try {
           fs.writeFileSync(DB_FILE, JSON.stringify(inMemoryDb, null, 2), "utf-8");
@@ -232,16 +286,24 @@ export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "su
   db.categories.push(cat1, cat2);
 
   // Default Tables 01 to 05
+  const base = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://qrdineing.vercel.app");
+  const now = new Date().toISOString();
   for (let i = 1; i <= 5; i++) {
     const num = i < 10 ? `0${i}` : `${i}`;
+    const secureToken = `${data.slug}-tbl${num}-${crypto.randomBytes(8).toString("hex")}`;
     db.tables.push({
       id: `tbl-${id}-${num}`,
       restaurantId: id,
       tableNumber: num,
       tableName: `Table ${num}`,
+      location: "Main Dining Area",
       capacity: 4,
       status: "available",
-      qrToken: `${data.slug}-tok-${num}-${Math.random().toString(36).substring(2, 8)}`,
+      qrToken: secureToken,
+      destinationUrl: `${base}/restaurant/${data.slug}?table=${num}&token=${secureToken}`,
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
     });
   }
 
@@ -424,7 +486,7 @@ export function addTable(
 
   // Generate cryptographically secure, unpredictable QR token
   const secureToken = `${slug}-tbl${formattedNum}-${crypto.randomBytes(8).toString("hex")}`;
-  const base = baseUrl || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const base = baseUrl || process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://qrdineing.vercel.app");
   const now = new Date().toISOString();
 
   const newTable: RestaurantTable = {
@@ -480,7 +542,7 @@ export function regenerateTableQRToken(
 
   // Invalidate previous token and generate new unpredictable secure cryptographic token
   const secureToken = `${slug}-tbl${table.tableNumber}-${crypto.randomBytes(8).toString("hex")}`;
-  const base = baseUrl || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const base = baseUrl || process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://qrdineing.vercel.app");
   table.qrToken = secureToken;
   table.destinationUrl = `${base}/restaurant/${slug}?table=${table.tableNumber}&token=${secureToken}`;
   table.updatedAt = new Date().toISOString();
@@ -756,6 +818,84 @@ export function updateOrderPayment(
 
   saveDatabase(db);
   return order;
+}
+
+export function cancelOrder(restaurantId: string, orderId: string, reason?: string): Order | null {
+  const db = loadDatabase();
+  const order = db.orders.find((o) => o.id === orderId && o.restaurantId === restaurantId);
+  if (!order) return null;
+
+  // Can only cancel if order is new or accepted (not preparing, ready, or completed)
+  if (order.orderStatus !== "new" && order.orderStatus !== "accepted") {
+    throw new Error(`Order cannot be cancelled once it is in ${order.orderStatus} state.`);
+  }
+
+  order.orderStatus = "cancelled";
+  order.cancellationReason = reason || "Cancelled by customer";
+  order.updatedAt = new Date().toISOString();
+
+  // Reset table status if dine-in
+  if (order.tableNumber) {
+    const table = db.tables.find(
+      (t) =>
+        t.restaurantId === restaurantId &&
+        (t.tableNumber === order.tableNumber || parseInt(t.tableNumber) === parseInt(order.tableNumber || "0"))
+    );
+    if (table && table.activeOrderId === orderId) {
+      table.status = "available";
+      table.activeOrderId = undefined;
+      table.updatedAt = new Date().toISOString();
+    }
+  }
+
+  saveDatabase(db);
+  return order;
+}
+
+// ==========================================
+// CUSTOMER FEEDBACK & REVIEWS
+// ==========================================
+
+export function getFeedbacks(restaurantId: string): CustomerFeedback[] {
+  const db = loadDatabase();
+  return (db.feedbacks || [])
+    .filter((f) => f.restaurantId === restaurantId)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export function createFeedback(
+  restaurantId: string,
+  data: {
+    orderId?: string;
+    tableNumber?: string;
+    customerName: string;
+    customerPhone?: string;
+    rating: number;
+    comment?: string;
+    tags?: string[];
+  }
+): CustomerFeedback {
+  const db = loadDatabase();
+  if (!db.feedbacks) {
+    db.feedbacks = [];
+  }
+
+  const feedback: CustomerFeedback = {
+    id: `fb-${restaurantId}-${Date.now().toString().slice(-6)}`,
+    restaurantId,
+    orderId: data.orderId,
+    tableNumber: data.tableNumber,
+    customerName: data.customerName?.trim() || "Guest",
+    customerPhone: data.customerPhone,
+    rating: Math.max(1, Math.min(5, Math.round(data.rating))),
+    comment: data.comment?.trim() || "",
+    tags: data.tags || [],
+    createdAt: new Date().toISOString(),
+  };
+
+  db.feedbacks.unshift(feedback);
+  saveDatabase(db);
+  return feedback;
 }
 
 // ==========================================

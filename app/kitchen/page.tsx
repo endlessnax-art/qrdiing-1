@@ -16,6 +16,7 @@ import {
   ExternalLink,
   Store,
   Filter,
+  Printer,
 } from "lucide-react";
 import { Order, OrderStatus } from "@/lib/db/types";
 import { formatCurrency } from "@/lib/utils";
@@ -31,12 +32,115 @@ function KitchenContent() {
   const [cancelModalOrder, setCancelModalOrder] = useState<Order | null>(null);
   const [cancelReason, setCancelReason] = useState("Out of required ingredients");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [prevNewOrderCount, setPrevNewOrderCount] = useState<number>(0);
+
+  const playChime = () => {
+    if (!audioEnabled || typeof window === "undefined") return;
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.35, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.45);
+    } catch {
+      // Browser autoplay policy catch
+    }
+  };
+
+  const printKOT = (order: Order) => {
+    if (typeof window === "undefined") return;
+    const printWin = window.open("", "_blank");
+    if (!printWin) {
+      alert("Please allow popups to print KOT ticket.");
+      return;
+    }
+
+    const itemsHtml = order.items
+      .map(
+        (it) => `
+      <div class="item-row">
+        <div class="qty">${it.quantity}x</div>
+        <div class="details">
+          <div class="name">${it.name}</div>
+          ${it.selectedVariant ? `<div class="variant">Portion: ${it.selectedVariant.name}</div>` : ""}
+          ${it.selectedAddons && it.selectedAddons.length > 0 ? `<div class="addons">+ ${it.selectedAddons.map((a) => a.name).join(", ")}</div>` : ""}
+          ${it.specialInstructions ? `<div class="inst">NOTE: ${it.specialInstructions}</div>` : ""}
+        </div>
+      </div>
+    `
+      )
+      .join("");
+
+    printWin.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KOT - ${order.orderNumber}</title>
+  <style>
+    @page { size: 80mm auto; margin: 4mm; }
+    body { font-family: 'Courier New', monospace; font-size: 11pt; color: #000; margin: 0; padding: 4px; }
+    .header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 6px; margin-bottom: 6px; }
+    .kot-title { font-size: 14pt; font-weight: 900; }
+    .rest { font-size: 10pt; font-weight: bold; margin-top: 2px; }
+    .meta { font-size: 9pt; margin-top: 4px; }
+    .table-banner { background: #000; color: #fff; text-align: center; font-size: 16pt; font-weight: 900; padding: 4px; margin: 6px 0; }
+    .items { margin: 8px 0; border-bottom: 2px dashed #000; padding-bottom: 8px; }
+    .item-row { display: flex; align-items: flex-start; margin-bottom: 6px; font-size: 11pt; }
+    .qty { width: 32px; font-weight: 900; font-size: 13pt; }
+    .details { flex: 1; }
+    .name { font-weight: 900; }
+    .variant { font-size: 9pt; }
+    .addons { font-size: 8pt; }
+    .inst { font-weight: 900; font-size: 10pt; background: #eee; padding: 2px 4px; margin-top: 2px; border: 1px solid #000; }
+    .footer { text-align: center; font-size: 8pt; margin-top: 6px; }
+    @media print { body { width: 72mm; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="kot-title">*** K.O.T ***</div>
+    <div class="rest">${order.restaurantName}</div>
+    <div class="meta">Order: ${order.orderNumber} • ${new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+  </div>
+  <div class="table-banner">
+    ${order.orderType === "dine_in" ? `TABLE ${order.tableNumber}` : "TAKEAWAY"}
+  </div>
+  <div class="items">
+    ${itemsHtml}
+  </div>
+  <div class="footer">
+    Chef Terminal • QRDening KDS
+  </div>
+  <script>
+    window.onload = function() {
+      setTimeout(function() { window.print(); }, 250);
+    };
+  </script>
+</body>
+</html>
+    `);
+    printWin.document.close();
+  };
 
   const fetchKitchenOrders = async () => {
     try {
       const res = await fetch(`/api/orders?slug=${slug}`);
       const json = await res.json();
       if (json.success && json.data) {
+        const newCount = (json.data as Order[]).filter((o) => o.orderStatus === "new").length;
+        if (newCount > prevNewOrderCount) {
+          playChime();
+        }
+        setPrevNewOrderCount(newCount);
         setOrders(json.data);
       }
     } catch (err) {
@@ -333,9 +437,19 @@ function KitchenContent() {
                   <div className="p-3 bg-slate-950/70 border-t border-slate-800 space-y-2">
                     <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
                       <span>Status: <strong className="uppercase text-white">{order.orderStatus}</strong></span>
-                      <span className={order.paymentStatus === "paid" ? "text-emerald-400 font-bold" : "text-amber-400"}>
-                        {order.paymentStatus === "paid" ? "PAID" : "UNPAID"}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => printKOT(order)}
+                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 border border-slate-700 transition"
+                          title="Print Kitchen Order Ticket (KOT)"
+                        >
+                          <Printer className="w-3 h-3 text-amber-400" /> KOT
+                        </button>
+                        <span className={order.paymentStatus === "paid" ? "text-emerald-400 font-bold" : "text-amber-400"}>
+                          {order.paymentStatus === "paid" ? "PAID" : "UNPAID"}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Dynamic Action Buttons based on state */}

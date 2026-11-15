@@ -267,3 +267,16 @@ export interface AuditLog {
   ipAddress?: string;
   timestamp: string;
 }
+
+export interface CustomerFeedback {
+  id: string;
+  restaurantId: string;
+  orderId?: string;
+  tableNumber?: string;
+  customerName: string;
+  customerPhone?: string;
+  rating: number; // 1 to 5 stars
+  comment: string;
+  tags?: string[];
+  createdAt: string;
+}

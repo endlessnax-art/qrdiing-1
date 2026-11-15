@@ -212,3 +212,261 @@ export function downloadTableQRSVG({
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
+/**
+ * Triggers PDF export / print dialog with an optimized printable table standee.
+ */
+export function downloadTableQRPDF({
+  restaurantName,
+  tableNumber,
+  tableName,
+  location,
+  qrDataUrl,
+}: QRCanvasOptions): void {
+  if (typeof window === "undefined") return;
+
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) {
+    alert("Please allow popups to generate and print PDF placard.");
+    return;
+  }
+
+  printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>${restaurantName} - Table ${tableNumber} QR Standee</title>
+  <style>
+    @page {
+      size: A5 portrait;
+      margin: 15mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f8fafc;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .card {
+      width: 130mm;
+      background: #ffffff;
+      border: 3px solid #0f172a;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .brand {
+      font-size: 20pt;
+      font-weight: 900;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #10b981;
+      font-size: 22pt;
+      font-weight: 900;
+      padding: 6px 24px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .loc {
+      font-size: 11pt;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .qr-box {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .qr-box img {
+      width: 75mm;
+      height: 75mm;
+      display: block;
+    }
+    .cta {
+      font-size: 15pt;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .sub {
+      font-size: 10pt;
+      color: #475569;
+      margin-bottom: 16px;
+    }
+    .foot {
+      font-size: 8pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      font-weight: 600;
+    }
+    @media print {
+      body {
+        background: transparent;
+      }
+      .card {
+        border: 2px solid #0f172a;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">${restaurantName}</div>
+    <div class="badge">TABLE ${tableNumber}</div>
+    <div class="loc">${[tableName, location].filter(Boolean).join(" • ") || "Dine-In Area"}</div>
+    <div class="qr-box">
+      <img src="${qrDataUrl}" alt="QR Code" />
+    </div>
+    <div class="cta">SCAN WITH CAMERA TO ORDER</div>
+    <div class="sub">1. Point phone camera • 2. View digital menu • 3. Pay via UPI or Cash</div>
+    <div class="foot">No app needed • Powered by QRDening Multi-Restaurant SaaS</div>
+  </div>
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 300);
+    };
+  </script>
+</body>
+</html>
+  `);
+  printWindow.document.close();
+}
+
+/**
+ * Printable Sticker Sheet: A4 sheet with 12 stickers (3 columns x 4 rows)
+ */
+export function printStickerSheet({
+  restaurantName,
+  tables,
+}: {
+  restaurantName: string;
+  tables: { tableNumber: string; qrDataUrl: string; location?: string }[];
+}): void {
+  if (typeof window === "undefined") return;
+
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) {
+    alert("Please allow popups to print sticker sheet.");
+    return;
+  }
+
+  const stickersHtml = tables
+    .map(
+      (t) => `
+    <div class="sticker">
+      <div class="st-brand">${restaurantName}</div>
+      <div class="st-badge">TABLE ${t.tableNumber}</div>
+      <div class="st-qr"><img src="${t.qrDataUrl}" alt="Table ${t.tableNumber}" /></div>
+      <div class="st-cta">SCAN TO ORDER</div>
+    </div>
+  `
+    )
+    .join("");
+
+  printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>${restaurantName} - Sticker Sheet</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8mm;
+    }
+    .sticker {
+      background: #ffffff;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      box-sizing: border-box;
+      page-break-inside: avoid;
+    }
+    .st-brand {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .st-badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #10b981;
+      font-size: 11pt;
+      font-weight: 900;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+    .st-qr img {
+      width: 44mm;
+      height: 44mm;
+      display: block;
+      margin: 0 auto;
+    }
+    .st-cta {
+      font-size: 8.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    @media print {
+      body { background: transparent; }
+      .sticker { border: 1px dashed #cbd5e1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    ${stickersHtml}
+  </div>
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 350);
+    };
+  </script>
+</body>
+</html>
+  `);
+  printWindow.document.close();
+}

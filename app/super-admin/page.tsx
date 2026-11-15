@@ -21,6 +21,8 @@ import {
   Layers,
   FileText,
   Sliders,
+  Plus,
+  X,
 } from "lucide-react";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -28,6 +30,18 @@ export default function SuperAdminDashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [editingPlan, setEditingPlan] = useState<any>(null);
+  const [isOnboardOpen, setIsOnboardOpen] = useState(false);
+  const [onboarding, setOnboarding] = useState(false);
+  const [newRestaurant, setNewRestaurant] = useState({
+    name: "",
+    ownerName: "",
+    phone: "",
+    email: "",
+    city: "Hyderabad",
+    category: "Casual Dining",
+    planId: "free_trial",
+    address: "Banjara Hills",
+  });
 
   const fetchSuperAdminData = async () => {
     try {
@@ -47,6 +61,43 @@ export default function SuperAdminDashboard() {
   useEffect(() => {
     fetchSuperAdminData();
   }, []);
+
+  const handleCreateRestaurant = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newRestaurant.name || !newRestaurant.ownerName || !newRestaurant.phone || !newRestaurant.email) {
+      alert("Please fill in all required restaurant and owner fields.");
+      return;
+    }
+    setOnboarding(true);
+    try {
+      const res = await fetch("/api/restaurants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRestaurant),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setIsOnboardOpen(false);
+        setNewRestaurant({
+          name: "",
+          ownerName: "",
+          phone: "",
+          email: "",
+          city: "Hyderabad",
+          category: "Casual Dining",
+          planId: "free_trial",
+          address: "Banjara Hills",
+        });
+        fetchSuperAdminData();
+      } else {
+        alert(json.error || "Failed to onboard restaurant");
+      }
+    } catch {
+      alert("Error onboarding restaurant");
+    } finally {
+      setOnboarding(false);
+    }
+  };
 
   const handleToggleVerification = async (restaurantId: string) => {
     try {
@@ -226,11 +277,17 @@ export default function SuperAdminDashboard() {
 
         {/* 4. RESTAURANT TENANT MANAGEMENT TABLE */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-black text-white">Registered Restaurant Accounts</h2>
               <p className="text-xs text-slate-400">Inspect performance, verify accounts, and toggle tenant access</p>
             </div>
+            <button
+              onClick={() => setIsOnboardOpen(true)}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition"
+            >
+              <Plus className="w-4 h-4" /> Onboard New Restaurant
+            </button>
           </div>
 
           <div className="overflow-x-auto">
@@ -434,6 +491,149 @@ export default function SuperAdminDashboard() {
                   className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-xl text-xs font-black"
                 >
                   Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ONBOARD NEW RESTAURANT MODAL */}
+      {isOnboardOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl my-8">
+            <button
+              onClick={() => setIsOnboardOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-2 mb-1">
+              <Store className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-base font-black text-white">Onboard New Restaurant Tenant</h3>
+            </div>
+            <p className="text-xs text-slate-400 mb-5">
+              Instantly create restaurant profile, isolated database account, default categories, and 5 initial tables.
+            </p>
+
+            <form onSubmit={handleCreateRestaurant} className="space-y-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Restaurant Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Copper Chimney"
+                    value={newRestaurant.name}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, name: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+                  <select
+                    value={newRestaurant.category}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, category: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  >
+                    <option value="Casual Dining">Casual Dining</option>
+                    <option value="Fine Dining">Fine Dining</option>
+                    <option value="Fast Food / QSR">Fast Food / QSR</option>
+                    <option value="Café & Bakery">Café & Bakery</option>
+                    <option value="Cloud Kitchen">Cloud Kitchen</option>
+                    <option value="Biryani & Kebabs">Biryani & Kebabs</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">City *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Hyderabad"
+                    value={newRestaurant.city}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, city: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Neighborhood / Area</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Jubilee Hills"
+                    value={newRestaurant.address}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, address: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Owner Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Rajiv Mehra"
+                    value={newRestaurant.ownerName}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, ownerName: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Phone *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={newRestaurant.phone}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, phone: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Email *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="owner@restaurant.in"
+                    value={newRestaurant.email}
+                    onChange={(e) => setNewRestaurant({ ...newRestaurant, email: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Assign Subscription Plan</label>
+                <select
+                  value={newRestaurant.planId}
+                  onChange={(e) => setNewRestaurant({ ...newRestaurant, planId: e.target.value })}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="free_trial">14-Day Free Trial (₹0)</option>
+                  <option value="starter">Starter Plan (₹999/mo • 30 items)</option>
+                  <option value="growth">Growth Plan (₹2,499/mo • 100 items)</option>
+                  <option value="enterprise_pro">Enterprise Pro (₹4,999/mo • Unlimited items)</option>
+                </select>
+              </div>
+
+              <div className="mt-6 flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsOnboardOpen(false)}
+                  className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={onboarding}
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-black py-2.5 rounded-xl text-xs transition"
+                >
+                  {onboarding ? "Creating Tenant..." : "Complete Onboarding"}
                 </button>
               </div>
             </form>

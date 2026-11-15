@@ -30,6 +30,30 @@ function WaiterContent() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTable, setSelectedTable] = useState<RestaurantTable | null>(null);
+  const [prevCallsCount, setPrevCallsCount] = useState<number>(0);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+
+  const playWaiterChime = () => {
+    if (!audioEnabled || typeof window === "undefined") return;
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.4);
+    } catch {
+      // Audio autoplay policy catch
+    }
+  };
 
   const fetchFloorData = async () => {
     try {
@@ -46,7 +70,13 @@ function WaiterContent() {
       ]);
 
       if (tablesJson.success) setTables(tablesJson.data);
-      if (callsJson.success) setWaiterCalls(callsJson.data);
+      if (callsJson.success) {
+        if (callsJson.data.length > prevCallsCount) {
+          playWaiterChime();
+        }
+        setPrevCallsCount(callsJson.data.length);
+        setWaiterCalls(callsJson.data);
+      }
       if (ordersJson.success) setOrders(ordersJson.data);
     } catch (err) {
       console.error("Failed to fetch waiter floor data", err);
@@ -244,6 +274,32 @@ function WaiterContent() {
                       <p className="font-bold text-white">{activeOrder.orderNumber}</p>
                       <p>{formatCurrency(activeOrder.totalAmount)}</p>
                     </div>
+                  )}
+
+                  {table.status === "ready" && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdateTableStatus(table.tableNumber, "occupied");
+                      }}
+                      className="mt-2 w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-1.5 rounded-lg text-[10px] uppercase shadow transition"
+                    >
+                      Mark Served ✓
+                    </button>
+                  )}
+
+                  {table.status === "bill_requested" && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdateTableStatus(table.tableNumber, "available");
+                      }}
+                      className="mt-2 w-full bg-rose-500 hover:bg-rose-400 text-white font-black py-1.5 rounded-lg text-[10px] uppercase shadow transition"
+                    >
+                      Clear Table ✓
+                    </button>
                   )}
                 </div>
               </div>
