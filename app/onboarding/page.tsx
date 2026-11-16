@@ -804,7 +804,9 @@ export default function OnboardingPage() {
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider inline-block mb-2">
-                Platform Active • Free Trial Started
+                {selectedPlan === "free_trial"
+                  ? "Platform Active • 14-Day Free Trial Started"
+                  : `Platform Active • ${PLANS.find((p) => p.id === selectedPlan)?.name} Active`}
               </span>
               <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                 {createdRestaurant.name} is Live!

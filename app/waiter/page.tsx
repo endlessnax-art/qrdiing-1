@@ -139,9 +139,9 @@ function WaiterContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col font-sans">
       {/* 1. HEADER */}
-      <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 px-6 py-4 shadow-xl">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200/80 px-6 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-black">
@@ -149,13 +149,13 @@ function WaiterContent() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-white">Waiter & Floor Management</h1>
+                <h1 className="text-xl font-black text-slate-900">Waiter & Floor Management</h1>
                 <span className="bg-blue-500/20 text-blue-400 text-[10px] font-black px-2 py-0.5 rounded uppercase">
                   Floor Staff
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Restaurant: <strong className="text-white capitalize">{slug.replace(/-/g, " ")}</strong>
+              <p className="text-xs text-slate-500">
+                Restaurant: <strong className="text-slate-900 capitalize">{slug.replace(/-/g, " ")}</strong>
               </p>
             </div>
           </div>
@@ -164,7 +164,7 @@ function WaiterContent() {
             <select
               value={slug}
               onChange={(e) => (window.location.href = `/waiter?slug=${e.target.value}`)}
-              className="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-3 py-2"
+              className="bg-stone-100 border border-stone-300 text-xs font-bold text-slate-800 rounded-lg px-3 py-2"
             >
               <option value="arabian-delight">Arabian Delight</option>
               <option value="royal-biryani">Royal Biryani House</option>
@@ -173,7 +173,7 @@ function WaiterContent() {
 
             <Link
               href={`/kitchen?slug=${slug}`}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition"
+              className="bg-stone-100 hover:bg-stone-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-lg border border-stone-300 transition"
             >
               Kitchen KDS →
             </Link>
@@ -183,11 +183,11 @@ function WaiterContent() {
 
       {/* 2. LIVE WAITER CALL ALERTS BANNER */}
       {waiterCalls.length > 0 && (
-        <div className="bg-amber-500/10 border-b border-amber-500/30 p-4">
+        <div className="bg-amber-50 border-b border-amber-200 p-4">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <BellRing className="w-5 h-5 text-amber-400 animate-bounce" />
-              <span className="text-sm font-bold text-white">
+              <span className="text-sm font-bold text-slate-900">
                 Active Staff Calls ({waiterCalls.length}):
               </span>
             </div>
@@ -196,17 +196,17 @@ function WaiterContent() {
               {waiterCalls.map((call) => (
                 <div
                   key={call.id}
-                  className="bg-slate-900 border border-amber-500/40 rounded-xl px-3 py-1.5 flex items-center gap-3 text-xs"
+                  className="bg-white text-slate-900 border border-amber-500/40 rounded-xl px-3 py-1.5 flex items-center gap-3 text-xs"
                 >
                   <span className="font-black text-amber-400">
                     Table {call.tableNumber}:
                   </span>
-                  <span className="text-slate-200">
+                  <span className="text-slate-800">
                     {call.type === "bill_request" ? "🧾 Bill Requested" : "🛎️ Call Waiter"}
                   </span>
                   <button
                     onClick={() => handleResolveCall(call.id)}
-                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-2 py-0.5 rounded text-[11px]"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 px-2 py-0.5 rounded text-[11px]"
                   >
                     Done ✓
                   </button>
@@ -221,12 +221,12 @@ function WaiterContent() {
       <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-lg font-black text-white">Floor Table Overview</h2>
-            <p className="text-xs text-slate-400">Click any table to view active orders and update table state</p>
+            <h2 className="text-lg font-black text-slate-900">Floor Table Overview</h2>
+            <p className="text-xs text-slate-500">Click any table to view active orders and update table state</p>
           </div>
           <button
             onClick={fetchFloorData}
-            className="text-xs text-slate-400 hover:text-white flex items-center gap-1"
+            className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Refresh (4s)
           </button>
@@ -246,23 +246,23 @@ function WaiterContent() {
               <div
                 key={table.id}
                 onClick={() => setSelectedTable(table)}
-                className={`bg-slate-900 rounded-2xl p-4 border-2 ${conf.border} cursor-pointer hover:scale-[1.02] transition flex flex-col justify-between shadow-xl relative`}
+                className={`bg-white text-slate-900 rounded-2xl p-4 border-2 ${conf.border} cursor-pointer hover:scale-[1.02] transition flex flex-col justify-between shadow-xl relative`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-2xl font-black text-white">
+                    <span className="text-2xl font-black text-slate-900">
                       T-{table.tableNumber}
                     </span>
-                    <span className="text-[10px] text-slate-400 font-semibold">
+                    <span className="text-[10px] text-slate-500 font-semibold">
                       {table.capacity} seats
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 font-medium truncate">
+                  <p className="text-xs text-slate-700 font-medium truncate">
                     {table.tableName || `Table ${table.tableNumber}`}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-800">
+                <div className="mt-4 pt-3 border-t border-stone-200">
                   <span
                     className={`text-[10px] font-black uppercase px-2 py-1 rounded-md block text-center ${conf.bg} ${conf.text}`}
                   >
@@ -270,8 +270,8 @@ function WaiterContent() {
                   </span>
 
                   {activeOrder && (
-                    <div className="mt-2 text-[10px] text-slate-400 text-center">
-                      <p className="font-bold text-white">{activeOrder.orderNumber}</p>
+                    <div className="mt-2 text-[10px] text-slate-500 text-center">
+                      <p className="font-bold text-slate-900">{activeOrder.orderNumber}</p>
                       <p>{formatCurrency(activeOrder.totalAmount)}</p>
                     </div>
                   )}
@@ -311,25 +311,25 @@ function WaiterContent() {
       {/* TABLE DETAILS MODAL */}
       {selectedTable && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 relative">
+          <div className="bg-white text-slate-900 border border-stone-200 rounded-2xl max-w-lg w-full p-6 relative">
             <button
               onClick={() => setSelectedTable(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-4">
               <div>
-                <h3 className="text-xl font-black text-white">
+                <h3 className="text-xl font-black text-slate-900">
                   Table {selectedTable.tableNumber} Management
                 </h3>
-                <p className="text-xs text-slate-400">{selectedTable.tableName} • Capacity: {selectedTable.capacity} guests</p>
+                <p className="text-xs text-slate-500">{selectedTable.tableName} • Capacity: {selectedTable.capacity} guests</p>
               </div>
               <Link
                 href={`/restaurant/${slug}?table=${selectedTable.tableNumber}`}
                 target="_blank"
-                className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"
+                className="bg-stone-100 hover:bg-stone-200 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 flex items-center gap-1"
               >
                 Preview Menu <ExternalLink className="w-3 h-3" />
               </Link>
@@ -337,7 +337,7 @@ function WaiterContent() {
 
             {/* Set Table Status */}
             <div className="mt-4">
-              <label className="block text-xs font-bold text-slate-300 mb-2">
+              <label className="block text-xs font-bold text-slate-700 mb-2">
                 Update Table State:
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -348,7 +348,7 @@ function WaiterContent() {
                     className={`py-2 px-2.5 rounded-lg text-xs font-bold capitalize transition border ${
                       selectedTable.status === st
                         ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                        : "bg-slate-800 text-slate-300 border-slate-700 hover:text-white"
+                        : "bg-stone-100 text-slate-700 border-stone-200 hover:bg-stone-200"
                     }`}
                   >
                     {st.replace(/_/g, " ")}
@@ -358,8 +358,8 @@ function WaiterContent() {
             </div>
 
             {/* Active Table Order */}
-            <div className="mt-6 pt-4 border-t border-slate-800">
-              <h4 className="text-xs font-bold uppercase text-slate-400 mb-2">
+            <div className="mt-6 pt-4 border-t border-stone-200">
+              <h4 className="text-xs font-bold uppercase text-slate-500 mb-2">
                 Active Table Orders
               </h4>
               {orders.filter(
@@ -379,17 +379,17 @@ function WaiterContent() {
                         o.orderStatus !== "cancelled"
                     )
                     .map((ord) => (
-                      <div key={ord.id} className="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 text-xs">
+                      <div key={ord.id} className="bg-stone-50 p-3.5 rounded-xl border border-stone-200 text-xs">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="font-bold text-white text-sm">{ord.orderNumber}</span>
+                          <span className="font-bold text-slate-900 text-sm">{ord.orderNumber}</span>
                           <span className="uppercase font-bold text-emerald-400">{ord.orderStatus}</span>
                         </div>
-                        <div className="space-y-1 text-slate-300">
+                        <div className="space-y-1 text-slate-700">
                           {ord.items.map((i, idx) => (
                             <p key={idx}>{i.quantity}x {i.name} ({formatCurrency(i.totalPrice)})</p>
                           ))}
                         </div>
-                        <div className="mt-3 pt-2 border-t border-slate-700 flex justify-between items-center font-bold">
+                        <div className="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center font-bold">
                           <span>Total Bill: {formatCurrency(ord.totalAmount)}</span>
                           <span className={ord.paymentStatus === "paid" ? "text-emerald-400" : "text-amber-400"}>
                             {ord.paymentStatus === "paid" ? "PAID" : "UNPAID"}
@@ -409,7 +409,7 @@ function WaiterContent() {
 
 export default function WaiterDashboard() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading Waiter Floor...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center text-slate-900">Loading Waiter Floor...</div>}>
       <WaiterContent />
     </Suspense>
   );

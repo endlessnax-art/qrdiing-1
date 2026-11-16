@@ -243,18 +243,19 @@ export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "su
   const db = loadDatabase();
   const id = `rest-${data.slug}-${Date.now().toString().slice(-4)}`;
   const plan = db.subscriptionPlans.find((p) => p.id === (data.planId || "free_trial")) || db.subscriptionPlans[0];
+  const isTrial = plan.id === "free_trial";
 
   const newRestaurant: Restaurant = {
     ...data,
     id,
-    isVerified: false,
+    isVerified: true,
     isActive: true,
     subscription: {
       planId: plan.id as any,
       planName: plan.name,
-      status: "trial",
+      status: isTrial ? "trial" : "active",
       startDate: new Date().toISOString(),
-      endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+      endDate: new Date(Date.now() + (isTrial ? 14 : 30) * 24 * 60 * 60 * 1000).toISOString(),
       monthlyPrice: plan.monthlyPrice,
       menuItemLimit: plan.menuItemLimit,
       purchasedAddonItems: 0,
@@ -272,23 +273,120 @@ export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "su
   const cat1: MenuCategory = {
     id: `cat-${id}-1`,
     restaurantId: id,
-    name: "Main Specials",
+    name: "Chef's Specials",
+    nameHi: "शेफ स्पेशल",
+    nameTe: "చెఫ్ స్పెషల్స్",
+    nameUr: "شیف کے خاص پکوان",
     sortOrder: 1,
     isActive: true,
   };
   const cat2: MenuCategory = {
     id: `cat-${id}-2`,
     restaurantId: id,
-    name: "Beverages",
+    name: "Starters & Appetizers",
+    nameHi: "शुरुआती व्यंजन",
+    nameTe: "స్టార్టర్స్",
+    nameUr: "شروعاتی پکوان",
     sortOrder: 2,
     isActive: true,
   };
-  db.categories.push(cat1, cat2);
+  const cat3: MenuCategory = {
+    id: `cat-${id}-3`,
+    restaurantId: id,
+    name: "Beverages & Desserts",
+    nameHi: "पेय और डेसर्ट",
+    nameTe: "పానీయాలు & డెజర్ట్స్",
+    nameUr: "مشروبات اور میٹھا",
+    sortOrder: 3,
+    isActive: true,
+  };
+  db.categories.push(cat1, cat2, cat3);
 
-  // Default Tables 01 to 05
+  // Default Starter Menu Items
+  const starterItems: MenuItem[] = [
+    {
+      id: `item-${id}-1`,
+      restaurantId: id,
+      categoryId: cat1.id,
+      name: `${data.name} Signature Platter`,
+      nameHi: "सिग्नेचर प्लेटर",
+      nameTe: "సిగ్నేచర్ ప్లాటర్",
+      nameUr: "خاص پلیٹر",
+      description: "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      basePrice: 380,
+      image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      isVeg: data.category === "Café & Bakery" ? true : false,
+      isBestseller: true,
+      isAvailable: true,
+      preparationTimeMinutes: 15,
+      variants: [
+        { id: `var-${id}-s`, name: "Single Portion", price: 380 },
+        { id: `var-${id}-f`, name: "Full / Sharing Platter", price: 680 },
+      ],
+      addons: [
+        { id: `add-${id}-1`, name: "Extra Dip / Sauce", price: 40 },
+        { id: `add-${id}-2`, name: "Special Rice / Bread", price: 60 },
+      ],
+      sortOrder: 1,
+    },
+    {
+      id: `item-${id}-2`,
+      restaurantId: id,
+      categoryId: cat2.id,
+      name: "Crispy Golden Bites",
+      nameHi: "क्रिस्पी गोल्डन बाइट्स",
+      nameTe: "క్రిస్పీ గోల్డెన్ బైట్స్",
+      nameUr: "کرسپی گولڈن بائٹس",
+      description: "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      basePrice: 190,
+      image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      isVeg: true,
+      isBestseller: true,
+      isAvailable: true,
+      preparationTimeMinutes: 10,
+      sortOrder: 2,
+    },
+    {
+      id: `item-${id}-3`,
+      restaurantId: id,
+      categoryId: cat3.id,
+      name: "Fresh Mint Lime Cooler",
+      nameHi: "पुदीना नींबू पानी",
+      nameTe: "పుదీనా నిమ్మ కూలర్",
+      nameUr: "پودینہ لیموں شربت",
+      description: "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      basePrice: 110,
+      image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      isVeg: true,
+      isBestseller: false,
+      isAvailable: true,
+      preparationTimeMinutes: 5,
+      sortOrder: 3,
+    },
+    {
+      id: `item-${id}-4`,
+      restaurantId: id,
+      categoryId: cat3.id,
+      name: "Royal Pistachio Dessert Treat",
+      nameHi: "रॉयल पिस्ता डेसर्ट",
+      nameTe: "రాయల్ పిస్తా డెజర్ట్",
+      nameUr: "شاہی پستہ میٹھا",
+      description: "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      basePrice: 160,
+      image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      isVeg: true,
+      isBestseller: true,
+      isAvailable: true,
+      preparationTimeMinutes: 8,
+      sortOrder: 4,
+    },
+  ];
+  db.menuItems.push(...starterItems);
+
+  // Default Tables 01 to 08
   const base = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://qrdineing.vercel.app");
   const now = new Date().toISOString();
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 8; i++) {
     const num = i < 10 ? `0${i}` : `${i}`;
     const secureToken = `${data.slug}-tbl${num}-${crypto.randomBytes(8).toString("hex")}`;
     db.tables.push({
@@ -296,8 +394,8 @@ export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "su
       restaurantId: id,
       tableNumber: num,
       tableName: `Table ${num}`,
-      location: "Main Dining Area",
-      capacity: 4,
+      location: i <= 4 ? "Main Dining Hall" : "Window Garden Section",
+      capacity: i % 2 === 0 ? 6 : 4,
       status: "available",
       qrToken: secureToken,
       destinationUrl: `${base}/restaurant/${data.slug}?table=${num}&token=${secureToken}`,

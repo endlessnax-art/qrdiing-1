@@ -217,9 +217,9 @@ function KitchenContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col font-sans">
       {/* 1. KITCHEN HEADER */}
-      <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 px-6 py-4 shadow-xl">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200/80 px-6 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-black">
@@ -227,13 +227,13 @@ function KitchenContent() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black text-white">Live Kitchen Display (KDS)</h1>
+                <h1 className="text-xl font-black text-slate-900">Live Kitchen Display (KDS)</h1>
                 <span className="bg-amber-500/20 text-amber-400 text-[10px] font-black px-2 py-0.5 rounded uppercase">
                   Chef Terminal
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Active Restaurant: <strong className="text-white capitalize">{slug.replace(/-/g, " ")}</strong>
+              <p className="text-xs text-slate-500">
+                Active Restaurant: <strong className="text-slate-900 capitalize">{slug.replace(/-/g, " ")}</strong>
               </p>
             </div>
           </div>
@@ -244,8 +244,8 @@ function KitchenContent() {
               onClick={() => setAudioEnabled(!audioEnabled)}
               className={`p-2 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition ${
                 audioEnabled
-                  ? "bg-slate-800 border-slate-700 text-emerald-400"
-                  : "bg-slate-800 border-slate-700 text-slate-500"
+                  ? "bg-slate-800 border-stone-200 text-emerald-400"
+                  : "bg-slate-800 border-stone-200 text-slate-500"
               }`}
               title={audioEnabled ? "Sound Alert Enabled" : "Sound Muted"}
             >
@@ -257,7 +257,7 @@ function KitchenContent() {
             <select
               value={slug}
               onChange={(e) => (window.location.href = `/kitchen?slug=${e.target.value}`)}
-              className="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-3 py-2"
+              className="bg-stone-100 border border-stone-300 text-xs font-bold text-slate-800 rounded-lg px-3 py-2"
             >
               <option value="arabian-delight">Arabian Delight</option>
               <option value="royal-biryani">Royal Biryani House</option>
@@ -266,7 +266,7 @@ function KitchenContent() {
 
             <Link
               href={`/waiter?slug=${slug}`}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition"
+              className="bg-stone-100 hover:bg-stone-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-lg border border-stone-300 transition"
             >
               Floor Waiter View →
             </Link>
@@ -274,14 +274,14 @@ function KitchenContent() {
         </div>
 
         {/* Filter bar */}
-        <div className="max-w-7xl mx-auto mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto mt-4 pt-3 border-t border-stone-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setFilter("active")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
                 filter === "active"
                   ? "bg-amber-400 text-slate-950 shadow"
-                  : "bg-slate-800 text-slate-400 hover:text-white"
+                  : "bg-stone-100 text-slate-600 hover:text-slate-900 border border-stone-200"
               }`}
             >
               Active Kitchen Queue ({orders.filter((o) => o.orderStatus === "new" || o.orderStatus === "accepted" || o.orderStatus === "preparing").length})
@@ -291,7 +291,7 @@ function KitchenContent() {
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
                 filter === "ready"
                   ? "bg-emerald-500 text-slate-950 shadow"
-                  : "bg-slate-800 text-slate-400 hover:text-white"
+                  : "bg-stone-100 text-slate-600 hover:text-slate-900 border border-stone-200"
               }`}
             >
               Ready to Serve ({orders.filter((o) => o.orderStatus === "ready").length})
@@ -300,8 +300,8 @@ function KitchenContent() {
               onClick={() => setFilter("all")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
                 filter === "all"
-                  ? "bg-slate-700 text-white"
-                  : "bg-slate-800 text-slate-400 hover:text-white"
+                  ? "bg-emerald-600 text-white shadow"
+                  : "bg-stone-100 text-slate-600 hover:text-slate-900 border border-stone-200"
               }`}
             >
               All Recent Orders
@@ -310,7 +310,7 @@ function KitchenContent() {
 
           <button
             onClick={fetchKitchenOrders}
-            className="text-xs text-slate-400 hover:text-white flex items-center gap-1"
+            className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Auto-sync (4s)
           </button>
@@ -320,21 +320,21 @@ function KitchenContent() {
       {/* 2. LIVE ORDER CARDS GRID */}
       <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
         {loading ? (
-          <div className="flex items-center justify-center py-24 text-slate-400">
+          <div className="flex items-center justify-center py-24 text-slate-500">
             <RefreshCw className="w-8 h-8 animate-spin mr-2" /> Loading kitchen tickets...
           </div>
         ) : displayedOrders.length === 0 ? (
-          <div className="text-center py-24 bg-slate-900/50 border border-slate-800 rounded-3xl">
+          <div className="text-center py-24 bg-stone-50 border border-stone-200 text-slate-900 rounded-3xl">
             <ChefHat className="w-16 h-16 text-slate-700 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-white">All orders cleared!</h3>
-            <p className="text-xs text-slate-400 mt-1">
+            <h3 className="text-lg font-bold text-slate-900">All orders cleared!</h3>
+            <p className="text-xs text-slate-500 mt-1">
               Kitchen is idle. Incoming table QR orders will appear here automatically.
             </p>
             <div className="mt-6">
               <Link
                 href={`/restaurant/${slug}?table=03`}
                 target="_blank"
-                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs inline-flex items-center gap-1.5 shadow"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 px-4 py-2 rounded-xl text-xs inline-flex items-center gap-1.5 shadow"
               >
                 Place Test Order from Table 03 <ExternalLink className="w-3.5 h-3.5" />
               </Link>
@@ -350,14 +350,14 @@ function KitchenContent() {
               return (
                 <div
                   key={order.id}
-                  className={`bg-slate-900 rounded-2xl border-2 flex flex-col justify-between overflow-hidden shadow-2xl transition ${
+                  className={`bg-white text-slate-900 rounded-2xl border-2 flex flex-col justify-between overflow-hidden shadow-2xl transition ${
                     order.orderStatus === "new"
                       ? "border-amber-400 ring-2 ring-amber-400/20"
                       : order.orderStatus === "ready"
                       ? "border-emerald-500"
                       : isUrgent
                       ? "border-rose-500"
-                      : "border-slate-800"
+                      : "border-stone-200"
                   }`}
                 >
                   {/* Card Header */}
@@ -367,12 +367,12 @@ function KitchenContent() {
                         ? "bg-amber-400/10 border-amber-400/30"
                         : order.orderStatus === "ready"
                         ? "bg-emerald-500/10 border-emerald-500/30"
-                        : "bg-slate-800/60 border-slate-800"
+                        : "bg-stone-50 border-stone-200"
                     }`}
                   >
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-black text-white text-base">
+                        <span className="font-black text-slate-900 text-base">
                           {order.orderNumber}
                         </span>
                         <span
@@ -385,7 +385,7 @@ function KitchenContent() {
                           {order.orderType === "dine_in" ? `T-${order.tableNumber}` : "Takeaway"}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-400 mt-0.5">{order.customerName}</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{order.customerName}</p>
                     </div>
 
                     {/* Timer */}
@@ -395,7 +395,7 @@ function KitchenContent() {
                           ? "bg-rose-500 text-white animate-pulse"
                           : isWarning
                           ? "bg-amber-400 text-slate-950"
-                          : "bg-slate-800 text-slate-300"
+                          : "bg-stone-100 text-slate-700"
                       }`}
                     >
                       <Clock className="w-3.5 h-3.5" />
@@ -406,17 +406,17 @@ function KitchenContent() {
                   {/* Order Items List */}
                   <div className="p-4 flex-1 space-y-3">
                     {order.items.map((item, idx) => (
-                      <div key={idx} className="border-b border-slate-800/60 pb-2.5 last:border-0 last:pb-0">
+                      <div key={idx} className="border-b border-stone-200/60 pb-2.5 last:border-0 last:pb-0">
                         <div className="flex items-start justify-between">
-                          <span className="font-bold text-white text-sm">
+                          <span className="font-bold text-slate-900 text-sm">
                             <span className="text-amber-400 font-black mr-1.5">{item.quantity}x</span>
                             {item.name}
                           </span>
                         </div>
 
                         {item.selectedVariant && (
-                          <p className="text-xs text-slate-400 ml-5">
-                            Portion: <strong className="text-slate-300">{item.selectedVariant.name}</strong>
+                          <p className="text-xs text-slate-500 ml-5">
+                            Portion: <strong className="text-slate-700">{item.selectedVariant.name}</strong>
                           </p>
                         )}
                         {item.selectedAddons && item.selectedAddons.length > 0 && (
@@ -434,14 +434,14 @@ function KitchenContent() {
                   </div>
 
                   {/* Card Footer Actions */}
-                  <div className="p-3 bg-slate-950/70 border-t border-slate-800 space-y-2">
-                    <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
-                      <span>Status: <strong className="uppercase text-white">{order.orderStatus}</strong></span>
+                  <div className="p-3 bg-stone-50 border-t border-stone-200 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+                      <span>Status: <strong className="uppercase text-slate-900">{order.orderStatus}</strong></span>
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
                           onClick={() => printKOT(order)}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 border border-slate-700 transition"
+                          className="bg-stone-100 hover:bg-stone-200 text-slate-800 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 border border-stone-300 transition"
                           title="Print Kitchen Order Ticket (KOT)"
                         >
                           <Printer className="w-3 h-3 text-amber-400" /> KOT
@@ -464,7 +464,7 @@ function KitchenContent() {
                           </button>
                           <button
                             onClick={() => setCancelModalOrder(order)}
-                            className="bg-slate-800 hover:bg-rose-500/20 text-rose-400 px-3 py-2.5 rounded-xl text-xs font-bold border border-slate-700"
+                            className="bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 px-3 py-2.5 rounded-xl text-xs font-bold"
                           >
                             Reject
                           </button>
@@ -492,7 +492,7 @@ function KitchenContent() {
                       {order.orderStatus === "ready" && (
                         <button
                           onClick={() => handleUpdateStatus(order.id, "completed")}
-                          className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs border border-slate-700 transition"
+                          className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs border border-stone-200 transition"
                         >
                           Mark Delivered / Completed ✓
                         </button>
@@ -515,17 +515,17 @@ function KitchenContent() {
       {/* REJECT / CANCEL MODAL */}
       {cancelModalOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 text-center">
-            <h3 className="text-base font-bold text-white">
+          <div className="bg-white text-slate-900 border border-stone-200 rounded-2xl max-w-sm w-full p-6 text-center">
+            <h3 className="text-base font-bold text-slate-900">
               Reject / Cancel {cancelModalOrder.orderNumber}
             </h3>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Select reason for cancellation (customer and waiter will be notified):
             </p>
             <select
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
-              className="mt-4 w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-white"
+              className="mt-4 w-full bg-stone-50 border border-stone-300 rounded-lg p-2.5 text-xs text-slate-900"
             >
               <option value="Out of required ingredients">Out of required ingredients</option>
               <option value="Kitchen overloaded with queue">Kitchen overloaded with queue</option>
@@ -535,7 +535,7 @@ function KitchenContent() {
             <div className="mt-5 flex gap-2">
               <button
                 onClick={() => setCancelModalOrder(null)}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2 rounded-xl text-xs font-semibold"
+                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-700 py-2 rounded-xl text-xs font-semibold"
               >
                 Back
               </button>
@@ -555,7 +555,7 @@ function KitchenContent() {
 
 export default function KitchenDashboard() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading Kitchen...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center text-slate-900">Loading Kitchen...</div>}>
       <KitchenContent />
     </Suspense>
   );

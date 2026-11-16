@@ -344,9 +344,9 @@ function CustomerMenuContent() {
 
   if (loading || !restaurantData) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4 text-white">
+      <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col items-center justify-center p-4">
         <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-sm font-semibold text-slate-300">Loading {slug} digital menu...</p>
+        <p className="mt-4 text-sm font-semibold text-slate-600">Loading {slug} digital menu...</p>
       </div>
     );
   }
@@ -354,9 +354,9 @@ function CustomerMenuContent() {
   const { restaurant, categories } = restaurantData;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col pb-28">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col pb-28">
       {/* 1. TOP HEADER & TABLE IDENTIFICATION */}
-      <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-lg">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-xs">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <img
@@ -365,14 +365,14 @@ function CustomerMenuContent() {
               className="w-10 h-10 rounded-xl object-cover border border-emerald-500/40 shadow-sm"
             />
             <div>
-              <h1 className="font-bold text-white text-base leading-tight flex items-center gap-1.5">
+              <h1 className="font-black text-slate-900 text-base leading-tight flex items-center gap-1.5">
                 {restaurant.name}
               </h1>
               <p className="text-[11px] text-emerald-400 font-medium">
                 {orderType === "dine_in" ? (
                   <span className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    {t.orderingForTable}: <strong className="text-white font-bold">{t.table} {tableParam}</strong>
+                    {t.orderingForTable}: <strong className="text-slate-900 font-bold">{t.table} {tableParam}</strong>
                   </span>
                 ) : (
                   <span>{t.takeaway} Mode</span>
@@ -387,20 +387,20 @@ function CustomerMenuContent() {
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value as Language)}
-                className="bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500 appearance-none pr-6 cursor-pointer"
+                className="bg-stone-100 border border-stone-300 text-xs font-bold text-emerald-700 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-emerald-500 appearance-none pr-6 cursor-pointer"
               >
                 <option value="en">English</option>
                 <option value="hi">हिंदी (Hindi)</option>
                 <option value="te">తెలుగు (Telugu)</option>
                 <option value="ur">اردو (Urdu)</option>
               </select>
-              <Globe className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-2.5 pointer-events-none" />
+              <Globe className="w-3.5 h-3.5 text-slate-500 absolute right-2 top-2.5 pointer-events-none" />
             </div>
 
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative bg-emerald-500 hover:bg-emerald-400 text-slate-950 p-2 rounded-xl shadow-md transition"
+              className="relative bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 p-2 rounded-xl shadow-md transition"
               aria-label="View Cart"
             >
               <ShoppingCart className="w-5 h-5" />
@@ -415,13 +415,13 @@ function CustomerMenuContent() {
 
         {/* Dine-In vs Takeaway Switcher */}
         <div className="max-w-3xl mx-auto px-4 pb-2.5 flex items-center gap-2">
-          <div className="bg-slate-800 p-0.5 rounded-lg flex w-full border border-slate-700/80">
+          <div className="bg-stone-100 p-0.5 rounded-xl flex w-full border border-stone-200">
             <button
               onClick={() => setOrderType("dine_in")}
               className={`flex-1 py-1 text-xs font-bold rounded-md transition ${
                 orderType === "dine_in"
-                  ? "bg-emerald-500 text-slate-950 shadow"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-emerald-600 text-white font-bold shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               🍽️ {t.dineIn} ({t.table} {tableParam})
@@ -430,8 +430,8 @@ function CustomerMenuContent() {
               onClick={() => setOrderType("takeaway")}
               className={`flex-1 py-1 text-xs font-bold rounded-md transition ${
                 orderType === "takeaway"
-                  ? "bg-emerald-500 text-slate-950 shadow"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-emerald-600 text-white font-bold shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               🛍️ {t.takeaway}
@@ -496,7 +496,7 @@ function CustomerMenuContent() {
             <p className="text-white text-xs sm:text-sm font-semibold mt-1">
               {restaurant.tagline}
             </p>
-            <p className="text-[11px] text-slate-300 mt-0.5 flex items-center gap-2">
+            <p className="text-[11px] text-slate-600 mt-0.5 flex items-center gap-2">
               <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-emerald-400" /> {restaurant.openingTime} - {restaurant.closingTime}</span>
               <span>•</span>
               <span>{restaurant.city}</span>
@@ -514,23 +514,23 @@ function CustomerMenuContent() {
       </div>
 
       {/* 3. SEARCH & CATEGORY CHIPS */}
-      <div className="sticky top-[95px] z-20 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80 py-3 shadow-md">
+      <div className="sticky top-[95px] z-20 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-stone-200 py-3 shadow-md">
         <div className="max-w-3xl mx-auto px-4 space-y-3">
           {/* Search bar & Veg toggle */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-stone-200/80 shadow-xs text-slate-900 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-2.5 text-slate-400 hover:text-white"
+                  className="absolute right-2.5 top-2.5 text-slate-600 hover:text-slate-900"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -542,7 +542,7 @@ function CustomerMenuContent() {
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition ${
                 vegOnly
                   ? "bg-emerald-500/20 border-emerald-500 text-emerald-400"
-                  : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                  : "bg-white text-slate-900 border-stone-200 text-slate-600 hover:text-slate-900"
               }`}
             >
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
@@ -556,8 +556,8 @@ function CustomerMenuContent() {
               onClick={() => setSelectedCategory("all")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition ${
                 selectedCategory === "all"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
+                  ? "bg-emerald-600 text-white font-bold shadow-sm-md shadow-emerald-500/20"
+                  : "bg-white border border-stone-200/80 shadow-xs text-slate-900 text-slate-600 hover:text-slate-900"
               }`}
             >
               {t.allCategories}
@@ -568,8 +568,8 @@ function CustomerMenuContent() {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition ${
                   selectedCategory === cat.id
-                    ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                    : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-emerald-600 text-white font-bold shadow-sm-md shadow-emerald-500/20"
+                    : "bg-white border border-stone-200/80 shadow-xs text-slate-900 text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {getCategoryName(cat)}
@@ -582,10 +582,10 @@ function CustomerMenuContent() {
       {/* 4. FOOD MENU ITEMS LIST */}
       <main className="max-w-3xl mx-auto px-4 pt-4 w-full">
         {filteredItems.length === 0 ? (
-          <div className="text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800 mt-4">
+          <div className="text-center py-16 bg-white text-slate-900/50 rounded-2xl border border-stone-200 mt-4">
             <HelpCircle className="w-10 h-10 text-slate-600 mx-auto mb-2" />
-            <h3 className="font-bold text-white text-sm">No items found</h3>
-            <p className="text-xs text-slate-400 mt-1">Try clearing your search or filter</p>
+            <h3 className="font-bold text-slate-900 text-sm">No items found</h3>
+            <p className="text-xs text-slate-500 mt-1">Try clearing your search or filter</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -596,7 +596,7 @@ function CustomerMenuContent() {
               return (
                 <div
                   key={item.id}
-                  className="bg-slate-900/80 border border-slate-800/90 rounded-2xl p-4 flex gap-4 hover:border-slate-700 transition"
+                  className="bg-white text-slate-900/80 border border-stone-200/90 rounded-2xl p-4 flex gap-4 hover:border-stone-200 transition"
                 >
                   {/* Left: Info */}
                   <div className="flex-1 flex flex-col justify-between">
@@ -621,22 +621,22 @@ function CustomerMenuContent() {
                         )}
                       </div>
 
-                      <h3 className="font-bold text-white text-sm sm:text-base leading-snug">
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug">
                         {getItemName(item)}
                       </h3>
 
-                      <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
                         {getItemDesc(item)}
                       </p>
                     </div>
 
                     <div className="mt-3 flex items-center justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-sm sm:text-base font-extrabold text-white">
+                        <span className="text-sm sm:text-base font-extrabold text-slate-900">
                           {formatCurrency(item.basePrice)}
                         </span>
                         {isCustomizable && (
-                          <span className="text-[10px] text-slate-400">onwards</span>
+                          <span className="text-[10px] text-slate-500">onwards</span>
                         )}
                       </div>
                     </div>
@@ -662,8 +662,8 @@ function CustomerMenuContent() {
                       onClick={() => handleItemAddClick(item)}
                       className={`-mt-3 z-10 w-24 py-1.5 px-3 rounded-xl font-bold text-xs uppercase shadow-md flex items-center justify-center gap-1 transition ${
                         item.isAvailable
-                          ? "bg-slate-900 border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950"
-                          : "bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed"
+                          ? "bg-white border border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-slate-900 shadow-xs"
+                          : "bg-stone-50 text-slate-900 text-slate-500 border border-stone-200 cursor-not-allowed"
                       }`}
                     >
                       <Plus className="w-3.5 h-3.5" /> {t.addToCart}
@@ -687,13 +687,13 @@ function CustomerMenuContent() {
           <div className="pointer-events-auto flex items-center gap-2">
             <button
               onClick={() => handleCallStaff("call_waiter")}
-              className="bg-slate-900/90 border border-slate-700 hover:border-emerald-500 text-slate-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg backdrop-blur-sm transition active:scale-95"
+              className="bg-white text-slate-900/90 border border-stone-200 hover:border-emerald-500 text-slate-800 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg backdrop-blur-sm transition active:scale-95"
             >
               <BellRing className="w-3.5 h-3.5 text-amber-400" /> {t.callWaiter}
             </button>
             <button
               onClick={() => handleCallStaff("bill_request")}
-              className="bg-slate-900/90 border border-slate-700 hover:border-emerald-500 text-slate-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg backdrop-blur-sm transition active:scale-95"
+              className="bg-white text-slate-900/90 border border-stone-200 hover:border-emerald-500 text-slate-800 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg backdrop-blur-sm transition active:scale-95"
             >
               <Receipt className="w-3.5 h-3.5 text-blue-400" /> {t.requestBill}
             </button>
@@ -703,20 +703,20 @@ function CustomerMenuContent() {
 
       {/* 6. BOTTOM STICKY CART BAR */}
       {cart.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-4 shadow-2xl">
+        <div className="fixed bottom-0 left-0 right-0 z-30 bg-white text-slate-900/95 backdrop-blur-md border-t border-stone-200 p-4 shadow-2xl">
           <div className="max-w-3xl mx-auto flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500">
                 {cart.reduce((sum, c) => sum + c.quantity, 0)} {t.itemsInCart}
               </p>
-              <p className="text-lg font-black text-white">
+              <p className="text-lg font-black text-slate-900">
                 {formatCurrency(totalAmount)}
               </p>
             </div>
 
             <button
               onClick={() => setIsCartOpen(true)}
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-6 py-3 rounded-xl text-sm shadow-lg shadow-emerald-500/25 transition flex items-center gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 font-black px-6 py-3 rounded-xl text-sm shadow-lg shadow-emerald-500/25 transition flex items-center gap-2"
             >
               {t.viewCart} <ChevronRight className="w-4 h-4" />
             </button>
@@ -727,18 +727,18 @@ function CustomerMenuContent() {
       {/* 7. CART DRAWER / SHEET */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden">
+          <div className="bg-white border border-stone-200/80 shadow-xs text-slate-900 rounded-t-3xl sm:rounded-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+            <div className="p-4 border-b border-stone-200 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-white text-base">{t.orderSummary}</h3>
+                <h3 className="font-bold text-slate-900 text-base">{t.orderSummary}</h3>
                 <p className="text-xs text-emerald-400">
                   {orderType === "dine_in" ? `${t.table} ${tableParam}` : t.takeaway} • {restaurant.name}
                 </p>
               </div>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-600 hover:text-slate-900 p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -749,12 +749,12 @@ function CustomerMenuContent() {
               {cart.map((item, idx) => (
                 <div key={idx} className="pt-3 first:pt-0 flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <h4 className="font-bold text-white text-sm">{item.name}</h4>
+                    <h4 className="font-bold text-slate-900 text-sm">{item.name}</h4>
                     {item.selectedVariant && (
-                      <p className="text-xs text-slate-400">Size: {item.selectedVariant.name}</p>
+                      <p className="text-xs text-slate-500">Size: {item.selectedVariant.name}</p>
                     )}
                     {item.selectedAddons && item.selectedAddons.length > 0 && (
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-500">
                         + {item.selectedAddons.map((a) => a.name).join(", ")}
                       </p>
                     )}
@@ -763,25 +763,25 @@ function CustomerMenuContent() {
                         "{item.specialInstructions}"
                       </p>
                     )}
-                    <p className="text-xs font-bold text-slate-300 mt-1">
+                    <p className="text-xs font-bold text-slate-600 mt-1">
                       {formatCurrency(item.totalPrice)}
                     </p>
                   </div>
 
                   {/* Quantity Controls */}
-                  <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg p-1">
+                  <div className="flex items-center gap-2 bg-stone-50 text-slate-900 border border-stone-200 rounded-lg p-1">
                     <button
                       onClick={() => updateCartQty(idx, -1)}
-                      className="p-1 text-slate-300 hover:text-white"
+                      className="p-1 text-slate-600 hover:text-slate-900"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-xs font-bold text-white w-4 text-center">
+                    <span className="text-xs font-bold text-slate-900 w-4 text-center">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => updateCartQty(idx, 1)}
-                      className="p-1 text-slate-300 hover:text-white"
+                      className="p-1 text-slate-600 hover:text-slate-900"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -797,11 +797,11 @@ function CustomerMenuContent() {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                     placeholder={t.couponCode}
-                    className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 uppercase font-semibold"
+                    className="flex-1 bg-stone-50 text-slate-900 border border-stone-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500 uppercase font-semibold"
                   />
                   <button
                     onClick={handleApplyCoupon}
-                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 font-bold px-3 py-2 rounded-lg text-xs"
                   >
                     {t.applyCoupon}
                   </button>
@@ -813,7 +813,7 @@ function CustomerMenuContent() {
                 )}
                 {couponError && <p className="text-xs text-rose-400">{couponError}</p>}
                 <p className="text-[10px] text-slate-500">
-                  Try promo codes: <code className="text-slate-300">WELCOME50</code>, <code className="text-slate-300">MANDI20</code>, <code className="text-slate-300">FLAT100</code>
+                  Try promo codes: <code className="text-slate-600">WELCOME50</code>, <code className="text-slate-600">MANDI20</code>, <code className="text-slate-600">FLAT100</code>
                 </p>
               </div>
 
@@ -825,21 +825,21 @@ function CustomerMenuContent() {
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder={t.yourName}
-                    className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="bg-stone-50 text-slate-900 border border-stone-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                   />
                   <input
                     type="tel"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder={t.phoneNumber}
-                    className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="bg-stone-50 text-slate-900 border border-stone-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
 
               {/* Payment Method Selector */}
               <div className="pt-4 space-y-2">
-                <label className="block text-xs font-semibold text-slate-300">
+                <label className="block text-xs font-semibold text-slate-600">
                   {t.choosePayment}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -849,7 +849,7 @@ function CustomerMenuContent() {
                     className={`p-2.5 rounded-lg border text-xs font-bold text-left transition flex items-center justify-between ${
                       paymentMethod === "upi"
                         ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
-                        : "bg-slate-800 border-slate-700 text-slate-300"
+                        : "bg-stone-50 text-slate-900 border-stone-200 text-slate-600"
                     }`}
                   >
                     <span>Instant UPI</span>
@@ -861,7 +861,7 @@ function CustomerMenuContent() {
                     className={`p-2.5 rounded-lg border text-xs font-bold text-left transition ${
                       paymentMethod === "cash"
                         ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
-                        : "bg-slate-800 border-slate-700 text-slate-300"
+                        : "bg-stone-50 text-slate-900 border-stone-200 text-slate-600"
                     }`}
                   >
                     Cash / Counter
@@ -872,7 +872,7 @@ function CustomerMenuContent() {
                     className={`p-2.5 rounded-lg border text-xs font-bold text-left transition ${
                       paymentMethod === "razorpay_online"
                         ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
-                        : "bg-slate-800 border-slate-700 text-slate-300"
+                        : "bg-stone-50 text-slate-900 border-stone-200 text-slate-600"
                     }`}
                   >
                     Card / Gateway
@@ -882,7 +882,7 @@ function CustomerMenuContent() {
 
               {/* Bill Breakdown */}
               <div className="pt-4 space-y-1.5 text-xs">
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-500">
                   <span>{t.subtotal}</span>
                   <span>{formatCurrency(subtotal)}</span>
                 </div>
@@ -892,11 +892,11 @@ function CustomerMenuContent() {
                     <span>-{formatCurrency(discountAmount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-500">
                   <span>{t.gstTax}</span>
                   <span>{formatCurrency(taxAmount)}</span>
                 </div>
-                <div className="flex justify-between text-white font-extrabold text-sm pt-2 border-t border-slate-800">
+                <div className="flex justify-between text-slate-900 font-extrabold text-sm pt-2 border-t border-stone-200">
                   <span>{t.total}</span>
                   <span className="text-emerald-400">{formatCurrency(totalAmount)}</span>
                 </div>
@@ -904,11 +904,11 @@ function CustomerMenuContent() {
             </div>
 
             {/* Footer Checkout Button */}
-            <div className="p-4 border-t border-slate-800 bg-slate-900">
+            <div className="p-4 border-t border-stone-200 bg-white text-slate-900">
               <button
                 disabled={orderSubmitting}
                 onClick={handlePlaceOrder}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-sm shadow-xl shadow-emerald-500/25 transition flex items-center justify-center gap-2"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 font-black py-3.5 rounded-xl text-sm shadow-xl shadow-emerald-500/25 transition flex items-center justify-center gap-2"
               >
                 {orderSubmitting ? "Placing Order..." : `${t.placeOrder} (${formatCurrency(totalAmount)})`}
               </button>
@@ -920,21 +920,21 @@ function CustomerMenuContent() {
       {/* 8. CUSTOMIZATION MODAL */}
       {customizingItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 relative">
+          <div className="bg-white border border-stone-200/80 shadow-xs text-slate-900 rounded-2xl max-w-md w-full p-6 relative">
             <button
               onClick={() => setCustomizingItem(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-600 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-bold text-white text-base">{getItemName(customizingItem)}</h3>
-            <p className="text-xs text-slate-400 mt-1">{getItemDesc(customizingItem)}</p>
+            <h3 className="font-bold text-slate-900 text-base">{getItemName(customizingItem)}</h3>
+            <p className="text-xs text-slate-500 mt-1">{getItemDesc(customizingItem)}</p>
 
             {/* Variants */}
             {customizingItem.variants && customizingItem.variants.length > 0 && (
               <div className="mt-4">
-                <label className="block text-xs font-bold text-slate-300 mb-2">
+                <label className="block text-xs font-bold text-slate-600 mb-2">
                   {t.selectVariants}
                 </label>
                 <div className="space-y-1.5">
@@ -944,7 +944,7 @@ function CustomerMenuContent() {
                       className={`flex items-center justify-between p-2.5 rounded-lg border text-xs cursor-pointer transition ${
                         selectedVariant?.id === variant.id
                           ? "bg-emerald-500/10 border-emerald-500 text-emerald-300 font-bold"
-                          : "bg-slate-800 border-slate-700 text-slate-300"
+                          : "bg-stone-50 text-slate-900 border-stone-200 text-slate-600"
                       }`}
                     >
                       <span className="flex items-center gap-2">
@@ -967,7 +967,7 @@ function CustomerMenuContent() {
             {/* Addons */}
             {customizingItem.addons && customizingItem.addons.length > 0 && (
               <div className="mt-4">
-                <label className="block text-xs font-bold text-slate-300 mb-2">
+                <label className="block text-xs font-bold text-slate-600 mb-2">
                   {t.selectAddons}
                 </label>
                 <div className="space-y-1.5">
@@ -979,7 +979,7 @@ function CustomerMenuContent() {
                         className={`flex items-center justify-between p-2.5 rounded-lg border text-xs cursor-pointer transition ${
                           isSelected
                             ? "bg-emerald-500/10 border-emerald-500 text-emerald-300 font-bold"
-                            : "bg-slate-800 border-slate-700 text-slate-300"
+                            : "bg-stone-50 text-slate-900 border-stone-200 text-slate-600"
                         }`}
                       >
                         <span className="flex items-center gap-2">
@@ -1007,7 +1007,7 @@ function CustomerMenuContent() {
 
             {/* Special Instructions */}
             <div className="mt-4">
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-600 mb-1">
                 {t.specialInstructions}
               </label>
               <input
@@ -1015,13 +1015,13 @@ function CustomerMenuContent() {
                 value={itemInstructions}
                 onChange={(e) => setItemInstructions(e.target.value)}
                 placeholder="e.g. Less spicy, extra crispy, etc."
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                className="w-full bg-stone-50 text-slate-900 border border-stone-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             <button
               onClick={handleAddCustomizedToCart}
-              className="mt-6 w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-xs transition"
+              className="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm shadow-emerald-600/20 font-bold py-3 rounded-xl text-xs transition"
             >
               Add to Order
             </button>
@@ -1032,13 +1032,13 @@ function CustomerMenuContent() {
       {/* 9. SPIN & WIN WHEEL MODAL */}
       {spinModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 text-center relative">
+          <div className="bg-white text-slate-900 border border-stone-200 rounded-2xl max-w-sm w-full p-6 text-center relative">
             <button
               onClick={() => {
                 setSpinModalOpen(false);
                 setSpinWon(null);
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-600 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1046,8 +1046,8 @@ function CustomerMenuContent() {
             <span className="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase">
               {t.spinAndWin}
             </span>
-            <h3 className="text-lg font-black text-white mt-2">Daily Lucky Treat</h3>
-            <p className="text-xs text-slate-400 mt-1">Spin the wheel to win a surprise discount or free item!</p>
+            <h3 className="text-lg font-black text-slate-900 mt-2">Daily Lucky Treat</h3>
+            <p className="text-xs text-slate-500 mt-1">Spin the wheel to win a surprise discount or free item!</p>
 
             <div className="my-6 relative flex items-center justify-center">
               <div
@@ -1063,9 +1063,9 @@ function CustomerMenuContent() {
 
             {spinWon ? (
               <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl">
-                <p className="text-xs text-slate-300">{t.congratulations}</p>
+                <p className="text-xs text-slate-600">{t.congratulations}</p>
                 <p className="text-sm font-black text-emerald-400 mt-1">{spinWon}</p>
-                <p className="text-[10px] text-slate-400 mt-1">Show this screen to your waiter to claim!</p>
+                <p className="text-[10px] text-slate-500 mt-1">Show this screen to your waiter to claim!</p>
               </div>
             ) : (
               <button
@@ -1085,7 +1085,7 @@ function CustomerMenuContent() {
 
 export default function CustomerMenuPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading Digital Menu...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center text-slate-900">Loading Digital Menu...</div>}>
       <CustomerMenuContent />
     </Suspense>
   );

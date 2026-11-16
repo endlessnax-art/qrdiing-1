@@ -83,6 +83,7 @@ function AdminDashboardContent() {
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [feedbacks, setFeedbacks] = useState<CustomerFeedback[]>([]);
+  const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -169,6 +170,12 @@ function AdminDashboardContent() {
 
   useEffect(() => {
     fetchData();
+    fetch("/api/restaurants")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data) setAllRestaurants(d.data);
+      })
+      .catch(() => {});
   }, [slug]);
 
   // Generate real scannable QR codes whenever tables change
@@ -584,9 +591,9 @@ function AdminDashboardContent() {
 
   if (loading || !restaurantData) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-white">
+      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-4 text-slate-900">
         <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-xs font-semibold text-slate-400">Loading {slug} admin panel...</p>
+        <p className="mt-4 text-xs font-semibold text-slate-500">Loading {slug} admin panel...</p>
       </div>
     );
   }
@@ -596,15 +603,15 @@ function AdminDashboardContent() {
   const allowedItemsCount = restaurant.subscription?.totalAllowedItems || 20;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col font-sans">
       {/* 1. TOP NAVBAR */}
-      <header className="sticky top-0 z-30 bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-3.5 shadow-xl">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200/80 px-4 sm:px-6 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2.5 sm:gap-3">
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700"
+              className="md:hidden p-2 rounded-xl bg-stone-100 text-slate-700 hover:text-slate-900 border border-stone-200"
               title="Toggle Menu"
             >
               <Menu className="w-5 h-5" />
@@ -616,12 +623,12 @@ function AdminDashboardContent() {
             />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-black text-white truncate max-w-[140px] sm:max-w-none">{restaurant.name}</h1>
-                <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-0.5 rounded uppercase hidden sm:inline">
+                <h1 className="text-base sm:text-lg font-black text-slate-900 truncate max-w-[140px] sm:max-w-none">{restaurant.name}</h1>
+                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded uppercase hidden sm:inline">
                   {restaurant.subscription?.planName}
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-slate-400">
+              <p className="text-[10px] sm:text-[11px] text-slate-500">
                 {restaurant.city} • Owner: {restaurant.ownerName}
               </p>
             </div>
@@ -632,17 +639,28 @@ function AdminDashboardContent() {
             <select
               value={slug}
               onChange={(e) => (window.location.href = `/admin/dashboard?slug=${e.target.value}`)}
-              className="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-2 sm:px-3 py-2 max-w-[130px] sm:max-w-none"
+              className="bg-stone-100 border border-stone-300 text-xs font-bold text-slate-800 rounded-lg px-2 sm:px-3 py-2 max-w-[150px] sm:max-w-none focus:outline-none focus:border-emerald-600"
             >
-              <option value="arabian-delight">Arabian Delight</option>
-              <option value="royal-biryani">Royal Biryani House</option>
-              <option value="food-corner">Food Corner & Café</option>
+              {allRestaurants && allRestaurants.length > 0 ? (
+                allRestaurants.map((r) => (
+                  <option key={r.slug} value={r.slug}>
+                    {r.name}
+                  </option>
+                ))
+              ) : (
+                <>
+                  <option value="arabian-delight">Arabian Delight</option>
+                  <option value="royal-biryani">Royal Biryani House</option>
+                  <option value="food-corner">Food Corner & Café</option>
+                  {slug && <option value={slug}>{restaurant.name || slug}</option>}
+                </>
+              )}
             </select>
 
             <Link
               href={`/restaurant/${slug}?table=03`}
               target="_blank"
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1 shadow whitespace-nowrap"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-emerald-600/20 whitespace-nowrap"
             >
               <span className="hidden sm:inline">Customer Menu</span>
               <span className="sm:hidden">Menu</span>
@@ -651,7 +669,7 @@ function AdminDashboardContent() {
 
             <Link
               href="/super-admin"
-              className="bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-semibold px-2.5 sm:px-3 py-2 rounded-lg border border-slate-700 transition hidden sm:inline"
+              className="bg-stone-100 hover:bg-stone-200 text-indigo-700 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg border border-stone-200 transition hidden sm:inline"
             >
               Super Admin →
             </Link>
@@ -660,7 +678,7 @@ function AdminDashboardContent() {
 
         {/* MOBILE NAVIGATION DRAWER */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-3 pt-3 border-t border-slate-800 space-y-1">
+          <div className="md:hidden mt-3 pt-3 border-t border-stone-200 space-y-1">
             {[
               { id: "overview", label: "Overview", icon: LayoutDashboard },
               { id: "orders", label: `Live Orders (${orders.filter((o) => o.orderStatus !== "completed").length})`, icon: ShoppingBag },
@@ -683,8 +701,8 @@ function AdminDashboardContent() {
                   }}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold transition text-left ${
                     activeTab === tab.id
-                      ? "bg-emerald-500 text-slate-950 font-black"
-                      : "text-slate-300 hover:bg-slate-800"
+                      ? "bg-emerald-600 text-white font-black"
+                      : "text-slate-700 hover:bg-stone-100 text-slate-900"
                   }`}
                 >
                   <Icon className="w-4 h-4" /> {tab.label}
@@ -698,14 +716,14 @@ function AdminDashboardContent() {
       {/* 2. MAIN DASHBOARD LAYOUT (SIDEBAR + CONTENT) */}
       <div className="flex-1 flex max-w-7xl mx-auto w-full">
         {/* SIDEBAR NAVIGATION */}
-        <aside className="w-64 bg-slate-900/60 border-r border-slate-800/80 p-4 hidden md:flex flex-col justify-between shrink-0">
+        <aside className="w-64 bg-white border-r border-stone-200/80 p-4 hidden md:flex flex-col justify-between shrink-0 shadow-xs">
           <nav className="space-y-1">
             <button
               onClick={() => setActiveTab("overview")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "overview"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <LayoutDashboard className="w-4 h-4" /> Overview
@@ -714,8 +732,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("orders")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "orders"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <ShoppingBag className="w-4 h-4" /> Live Orders ({orders.filter((o) => o.orderStatus !== "completed").length})
@@ -724,8 +742,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("menu")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "menu"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <UtensilsCrossed className="w-4 h-4" /> Menu Items ({usedItemsCount}/{allowedItemsCount})
@@ -734,8 +752,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("tables")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "tables"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <QrCode className="w-4 h-4" /> Tables & QR Generator
@@ -744,8 +762,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("reviews")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "reviews"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <Star className="w-4 h-4 text-amber-400" /> Customer Reviews ({feedbacks.length})
@@ -754,8 +772,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("daily_sales")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "daily_sales"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <Calendar className="w-4 h-4" /> Daily Sales
@@ -764,8 +782,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("monthly_sales")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "monthly_sales"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <BarChart3 className="w-4 h-4" /> Monthly Sales & Reports
@@ -774,8 +792,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("coupons")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "coupons"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <Tag className="w-4 h-4" /> Coupons & Promos
@@ -784,8 +802,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("inventory")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "inventory"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <Boxes className="w-4 h-4" /> Inventory Tracker
@@ -794,8 +812,8 @@ function AdminDashboardContent() {
               onClick={() => setActiveTab("subscription")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
                 activeTab === "subscription"
-                  ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
+                  : "text-slate-600 hover:text-emerald-700 hover:bg-stone-100 font-medium"
               }`}
             >
               <CreditCard className="w-4 h-4" /> Plan & Addon Packs
@@ -803,12 +821,12 @@ function AdminDashboardContent() {
           </nav>
 
           {/* Freemium Item Limit Alert Box */}
-          <div className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 text-xs">
+          <div className="bg-stone-50 border border-stone-200 rounded-2xl p-3.5 text-xs">
             <div className="flex justify-between items-center mb-1">
-              <span className="font-bold text-white">Menu Slots</span>
-              <span className="text-emerald-400 font-bold">{usedItemsCount}/{allowedItemsCount}</span>
+              <span className="font-bold text-slate-900">Menu Slots</span>
+              <span className="text-emerald-700 font-bold">{usedItemsCount}/{allowedItemsCount}</span>
             </div>
-            <div className="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden mb-2">
+            <div className="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden mb-2">
               <div
                 className="bg-emerald-500 h-full rounded-full"
                 style={{ width: `${Math.min(100, (usedItemsCount / allowedItemsCount) * 100)}%` }}
@@ -816,7 +834,7 @@ function AdminDashboardContent() {
             </div>
             <button
               onClick={() => setActiveTab("subscription")}
-              className="text-[10px] text-amber-400 hover:underline font-bold"
+              className="text-[10px] text-emerald-700 hover:underline font-bold"
             >
               Buy +10 Items Add-on Pack →
             </button>
@@ -830,12 +848,12 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Restaurant Performance Overview</h2>
-                  <p className="text-xs text-slate-400">Live operational & sales telemetry for today</p>
+                  <h2 className="text-2xl font-black text-slate-900">Restaurant Performance Overview</h2>
+                  <p className="text-xs text-slate-500">Live operational & sales telemetry for today</p>
                 </div>
                 <button
                   onClick={fetchData}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5"
+                  className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-200 flex items-center gap-1.5"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> Sync Data
                 </button>
@@ -843,14 +861,14 @@ function AdminDashboardContent() {
 
               {/* KPI Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Today's Sales</span>
+                    <span className="text-xs font-bold text-slate-500 uppercase">Today's Sales</span>
                     <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                       <IndianRupee className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-black text-white mt-2">
+                  <p className="text-2xl font-black text-slate-900 mt-2">
                     {formatCurrency(dailySales?.totalSales || 0)}
                   </p>
                   <p className="text-[11px] text-emerald-400 mt-1">
@@ -858,44 +876,44 @@ function AdminDashboardContent() {
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Today's Orders</span>
+                    <span className="text-xs font-bold text-slate-500 uppercase">Today's Orders</span>
                     <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
                       <ShoppingBag className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-black text-white mt-2">
+                  <p className="text-2xl font-black text-slate-900 mt-2">
                     {dailySales?.totalOrders || 0}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1">
                     {dailySales?.completedOrders || 0} completed • {dailySales?.pendingOrders || 0} active
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Avg Order Value</span>
+                    <span className="text-xs font-bold text-slate-500 uppercase">Avg Order Value</span>
                     <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
                       <Percent className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-black text-white mt-2">
+                  <p className="text-2xl font-black text-slate-900 mt-2">
                     {formatCurrency(dailySales?.averageOrderValue || 0)}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1">
                     GST collected: {formatCurrency(dailySales?.totalTax || 0)}
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Table Occupancy</span>
+                    <span className="text-xs font-bold text-slate-500 uppercase">Table Occupancy</span>
                     <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
                       <UtensilsCrossed className="w-4 h-4" />
                     </div>
                   </div>
-                  <p className="text-2xl font-black text-white mt-2">
+                  <p className="text-2xl font-black text-slate-900 mt-2">
                     {tables.filter((t) => t.status !== "available").length} / {tables.length}
                   </p>
                   <p className="text-[11px] text-amber-400 mt-1">
@@ -908,15 +926,15 @@ function AdminDashboardContent() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Link
                   href={`/kitchen?slug=${slug}`}
-                  className="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-amber-400/50 p-5 rounded-2xl transition flex items-center justify-between"
+                  className="bg-slate-900 hover:bg-slate-850 border border-stone-200 hover:border-amber-400/50 p-5 rounded-2xl transition flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
                       <ChefHat className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Open Kitchen KDS</h4>
-                      <p className="text-xs text-slate-400">Live order ticket management</p>
+                      <h4 className="font-bold text-slate-900 text-sm">Open Kitchen KDS</h4>
+                      <p className="text-xs text-slate-500">Live order ticket management</p>
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-500" />
@@ -924,15 +942,15 @@ function AdminDashboardContent() {
 
                 <Link
                   href={`/waiter?slug=${slug}`}
-                  className="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-blue-400/50 p-5 rounded-2xl transition flex items-center justify-between"
+                  className="bg-slate-900 hover:bg-slate-850 border border-stone-200 hover:border-blue-400/50 p-5 rounded-2xl transition flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
                       <BellRing className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Open Waiter Floor</h4>
-                      <p className="text-xs text-slate-400">Table states & call alerts</p>
+                      <h4 className="font-bold text-slate-900 text-sm">Open Waiter Floor</h4>
+                      <p className="text-xs text-slate-500">Table states & call alerts</p>
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-500" />
@@ -940,15 +958,15 @@ function AdminDashboardContent() {
 
                 <button
                   onClick={() => setActiveTab("tables")}
-                  className="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-teal-400/50 p-5 rounded-2xl transition flex items-center justify-between text-left"
+                  className="bg-slate-900 hover:bg-slate-850 border border-stone-200 hover:border-teal-400/50 p-5 rounded-2xl transition flex items-center justify-between text-left"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center">
                       <QrCode className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Print Table QRs</h4>
-                      <p className="text-xs text-slate-400">Download table tent sheets</p>
+                      <h4 className="font-bold text-slate-900 text-sm">Print Table QRs</h4>
+                      <p className="text-xs text-slate-500">Download table tent sheets</p>
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-500" />
@@ -956,27 +974,27 @@ function AdminDashboardContent() {
               </div>
 
               {/* Best Selling Dishes Today */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-base mb-4">Today's Top Selling Dishes</h3>
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-6">
+                <h3 className="font-bold text-slate-900 text-base mb-4">Today's Top Selling Dishes</h3>
                 {dailySales?.bestSellingItems && dailySales.bestSellingItems.length > 0 ? (
                   <div className="space-y-3">
                     {dailySales.bestSellingItems.map((item: any, i: number) => (
-                      <div key={i} className="flex items-center justify-between text-xs border-b border-slate-800/80 pb-2.5 last:border-0 last:pb-0">
+                      <div key={i} className="flex items-center justify-between text-xs border-b border-stone-200/80 pb-2.5 last:border-0 last:pb-0">
                         <div className="flex items-center gap-2">
                           <span className="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-400 font-black flex items-center justify-center">
                             #{i + 1}
                           </span>
-                          <span className="font-bold text-white">{item.name}</span>
+                          <span className="font-bold text-slate-900">{item.name}</span>
                         </div>
                         <div className="flex items-center gap-4">
-                          <span className="text-slate-400">{item.quantity} orders</span>
+                          <span className="text-slate-500">{item.quantity} orders</span>
                           <span className="font-bold text-emerald-400">{formatCurrency(item.revenue)}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400">No dish sales recorded yet today.</p>
+                  <p className="text-xs text-slate-500">No dish sales recorded yet today.</p>
                 )}
               </div>
             </div>
@@ -987,20 +1005,20 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Order Management</h2>
-                  <p className="text-xs text-slate-400">Total orders in database: {orders.length}</p>
+                  <h2 className="text-2xl font-black text-slate-900">Order Management</h2>
+                  <p className="text-xs text-slate-500">Total orders in database: {orders.length}</p>
                 </div>
                 <button
                   onClick={fetchData}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"
+                  className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-200 flex items-center gap-1"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> Refresh Orders
                 </button>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-800/60 text-slate-400 uppercase text-[10px] font-bold border-b border-slate-800">
+                  <thead className="bg-stone-100 text-slate-900/60 text-slate-500 uppercase text-[10px] font-bold border-b border-stone-200">
                     <tr>
                       <th className="p-3.5">Order #</th>
                       <th className="p-3.5">Type & Table</th>
@@ -1014,24 +1032,24 @@ function AdminDashboardContent() {
                   </thead>
                   <tbody className="divide-y divide-slate-800/80">
                     {orders.map((ord) => (
-                      <tr key={ord.id} className="hover:bg-slate-800/40 transition">
-                        <td className="p-3.5 font-bold text-white">
+                      <tr key={ord.id} className="hover:bg-stone-100 text-slate-900/40 transition">
+                        <td className="p-3.5 font-bold text-slate-900">
                           {ord.orderNumber}
                           <p className="text-[10px] text-slate-500 font-normal">{formatDate(ord.createdAt)}</p>
                         </td>
                         <td className="p-3.5">
-                          <span className="font-semibold text-slate-300">
+                          <span className="font-semibold text-slate-700">
                             {ord.orderType === "dine_in" ? `Table ${ord.tableNumber}` : "Takeaway"}
                           </span>
                         </td>
                         <td className="p-3.5">
-                          <span className="text-white font-medium">{ord.customerName}</span>
+                          <span className="text-slate-900 font-medium">{ord.customerName}</span>
                           {ord.customerPhone && <p className="text-slate-500">{ord.customerPhone}</p>}
                         </td>
-                        <td className="p-3.5 text-slate-300 max-w-xs">
+                        <td className="p-3.5 text-slate-700 max-w-xs">
                           {ord.items.map((i) => `${i.quantity}x ${i.name}`).join(", ")}
                         </td>
-                        <td className="p-3.5 font-black text-white">
+                        <td className="p-3.5 font-black text-slate-900">
                           {formatCurrency(ord.totalAmount)}
                         </td>
                         <td className="p-3.5">
@@ -1052,7 +1070,7 @@ function AdminDashboardContent() {
                             className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                               ord.paymentStatus === "paid"
                                 ? "bg-emerald-500/20 text-emerald-400"
-                                : "bg-slate-800 text-slate-400"
+                                : "bg-stone-100 text-slate-900 text-slate-500"
                             }`}
                           >
                             {ord.paymentStatus} ({ord.paymentMethod})
@@ -1091,9 +1109,9 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Menu Item Catalog</h2>
-                  <p className="text-xs text-slate-400">
-                    Using <strong className="text-white">{usedItemsCount}</strong> of <strong className="text-white">{allowedItemsCount}</strong> allowed items in your current plan.
+                  <h2 className="text-2xl font-black text-slate-900">Menu Item Catalog</h2>
+                  <p className="text-xs text-slate-500">
+                    Using <strong className="text-slate-900">{usedItemsCount}</strong> of <strong className="text-slate-900">{allowedItemsCount}</strong> allowed items in your current plan.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -1102,13 +1120,13 @@ function AdminDashboardContent() {
                       setNewItem({ ...newItem, categoryId: categories[0]?.id || "" });
                       setIsAddItemOpen(true);
                     }}
-                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
                   >
                     <Plus className="w-4 h-4" /> Add Food Item
                   </button>
                   <button
                     onClick={() => setActiveTab("subscription")}
-                    className="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold"
+                    className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-amber-400 border border-stone-200 px-3 py-2 rounded-xl text-xs font-bold"
                   >
                     + Add-on Item Packs
                   </button>
@@ -1116,9 +1134,9 @@ function AdminDashboardContent() {
               </div>
 
               {/* Items Table */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-800/60 text-slate-400 uppercase text-[10px] font-bold border-b border-slate-800">
+                  <thead className="bg-stone-100 text-slate-900/60 text-slate-500 uppercase text-[10px] font-bold border-b border-stone-200">
                     <tr>
                       <th className="p-3.5">Food Dish</th>
                       <th className="p-3.5">Category</th>
@@ -1130,7 +1148,7 @@ function AdminDashboardContent() {
                   </thead>
                   <tbody className="divide-y divide-slate-800/80">
                     {menuItems.map((item) => (
-                      <tr key={item.id} className="hover:bg-slate-800/40 transition">
+                      <tr key={item.id} className="hover:bg-stone-100 text-slate-900/40 transition">
                         <td className="p-3.5 flex items-center gap-3">
                           <img
                             src={item.image}
@@ -1138,16 +1156,16 @@ function AdminDashboardContent() {
                             className="w-10 h-10 rounded-lg object-cover"
                           />
                           <div>
-                            <span className="font-bold text-white text-sm">{item.name}</span>
+                            <span className="font-bold text-slate-900 text-sm">{item.name}</span>
                             {item.isBestseller && (
                               <span className="ml-2 text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">
                                 Bestseller
                               </span>
                             )}
-                            <p className="text-[11px] text-slate-400 max-w-sm truncate">{item.description}</p>
+                            <p className="text-[11px] text-slate-500 max-w-sm truncate">{item.description}</p>
                           </div>
                         </td>
-                        <td className="p-3.5 text-slate-300">
+                        <td className="p-3.5 text-slate-700">
                           {categories.find((c) => c.id === item.categoryId)?.name || "General"}
                         </td>
                         <td className="p-3.5">
@@ -1161,7 +1179,7 @@ function AdminDashboardContent() {
                             {item.isVeg ? "Veg" : "Non-Veg"}
                           </span>
                         </td>
-                        <td className="p-3.5 font-bold text-white">
+                        <td className="p-3.5 font-bold text-slate-900">
                           {formatCurrency(item.basePrice)}
                         </td>
                         <td className="p-3.5">
@@ -1179,7 +1197,7 @@ function AdminDashboardContent() {
                         <td className="p-3.5 text-right space-x-2">
                           <button
                             onClick={() => handleDeleteMenuItem(item.id)}
-                            className="p-1.5 bg-slate-800 hover:bg-rose-500/20 text-rose-400 rounded-lg transition"
+                            className="p-1.5 bg-stone-100 text-slate-900 hover:bg-rose-500/20 text-rose-400 rounded-lg transition"
                             title="Delete Item"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -1198,8 +1216,8 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Table-Wise QR Code System</h2>
-                  <p className="text-xs text-slate-400">
+                  <h2 className="text-2xl font-black text-slate-900">Table-Wise QR Code System</h2>
+                  <p className="text-xs text-slate-500">
                     Generate, test, download and print table-specific QR codes with tamper-proof tokens.
                   </p>
                 </div>
@@ -1209,13 +1227,13 @@ function AdminDashboardContent() {
                       setTableFormError("");
                       setIsAddTableOpen(true);
                     }}
-                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition"
                   >
                     <Plus className="w-4 h-4" /> Add New Table
                   </button>
                   <button
                     onClick={() => setIsPrintSheetOpen(true)}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition"
+                    className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-200 border border-stone-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition"
                   >
                     <Printer className="w-4 h-4" /> Print QR Sheet
                   </button>
@@ -1232,14 +1250,14 @@ function AdminDashboardContent() {
                   return (
                     <div
                       key={table.id}
-                      className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-xl transition hover:border-slate-700"
+                      className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 flex flex-col justify-between shadow-xl transition hover:border-stone-200"
                     >
                       <div>
                         {/* Table Header: Table Number, Status & Capacity */}
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-xl font-black text-white">Table {table.tableNumber}</span>
+                              <span className="text-xl font-black text-slate-900">Table {table.tableNumber}</span>
                               <button
                                 onClick={() => handleToggleTableActive(table.tableNumber, table.isActive !== false)}
                                 className={`px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition ${
@@ -1253,11 +1271,11 @@ function AdminDashboardContent() {
                                 {table.isActive !== false ? "Active" : "Inactive"}
                               </button>
                             </div>
-                            <p className="text-xs text-slate-400 font-medium">
+                            <p className="text-xs text-slate-500 font-medium">
                               {table.tableName} {table.location ? `• ${table.location}` : ""}
                             </p>
                           </div>
-                          <span className="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-300 font-semibold border border-slate-700">
+                          <span className="text-[10px] bg-stone-100 text-slate-900 px-2 py-1 rounded text-slate-700 font-semibold border border-stone-200">
                             {table.capacity} guests
                           </span>
                         </div>
@@ -1271,7 +1289,7 @@ function AdminDashboardContent() {
                               className="w-36 h-36 object-contain"
                             />
                           ) : (
-                            <div className="w-36 h-36 flex flex-col items-center justify-center text-slate-400 gap-2">
+                            <div className="w-36 h-36 flex flex-col items-center justify-center text-slate-500 gap-2">
                               <RefreshCw className="w-6 h-6 animate-spin text-emerald-600" />
                               <span className="text-[10px] font-bold text-slate-500">Generating QR...</span>
                             </div>
@@ -1295,13 +1313,13 @@ function AdminDashboardContent() {
                         </div>
 
                         {/* Token Information */}
-                        <div className="mt-3 bg-slate-950/70 border border-slate-800 px-2.5 py-1.5 rounded-lg flex items-center justify-between">
-                          <span className="text-[10px] text-slate-400 font-mono truncate max-w-[145px]" title={table.qrToken}>
+                        <div className="mt-3 bg-slate-950/70 border border-stone-200 px-2.5 py-1.5 rounded-lg flex items-center justify-between">
+                          <span className="text-[10px] text-slate-500 font-mono truncate max-w-[145px]" title={table.qrToken}>
                             Token: {table.qrToken}
                           </span>
                           <button
                             onClick={() => handleCopyToken(table.qrToken)}
-                            className="text-[10px] text-slate-400 hover:text-emerald-400 flex items-center gap-1 transition ml-1 shrink-0"
+                            className="text-[10px] text-slate-500 hover:text-emerald-400 flex items-center gap-1 transition ml-1 shrink-0"
                             title="Copy Secure Token"
                           >
                             {copiedToken === table.qrToken ? (
@@ -1315,7 +1333,7 @@ function AdminDashboardContent() {
                       </div>
 
                       {/* Card Action Buttons */}
-                      <div className="mt-4 pt-3 border-t border-slate-800 space-y-2">
+                      <div className="mt-4 pt-3 border-t border-stone-200 space-y-2">
                         {/* Download Buttons: PNG and SVG */}
                         <div className="flex gap-2">
                           <button
@@ -1357,7 +1375,7 @@ function AdminDashboardContent() {
                         <div className="flex gap-2">
                           <button
                             onClick={() => setPrintQrTable(table)}
-                            className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1 transition"
+                            className="flex-1 bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-200 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1 transition"
                           >
                             <Printer className="w-3.5 h-3.5" /> Table Tent
                           </button>
@@ -1403,15 +1421,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Customer Reviews & Ratings</h2>
-                  <p className="text-xs text-slate-400">
+                  <h2 className="text-2xl font-black text-slate-900">Customer Reviews & Ratings</h2>
+                  <p className="text-xs text-slate-500">
                     Real-time guest feedback submitted directly from digital table QR menus
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={fetchData}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"
+                  className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-200 flex items-center gap-1"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> Refresh Reviews
                 </button>
@@ -1419,8 +1437,8 @@ function AdminDashboardContent() {
 
               {/* Review KPI Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Average Rating</span>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-500">Average Rating</span>
                   <div className="flex items-center gap-3 mt-1">
                     <span className="text-3xl font-black text-amber-400">
                       {feedbacks.length > 0
@@ -1433,20 +1451,20 @@ function AdminDashboardContent() {
                       ))}
                     </div>
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-2">Based on {feedbacks.length} guest reviews</p>
+                  <p className="text-[11px] text-slate-500 mt-2">Based on {feedbacks.length} guest reviews</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Customer Satisfaction</span>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-500">Customer Satisfaction</span>
                   <div className="text-3xl font-black text-emerald-400 mt-1">98.4%</div>
-                  <p className="text-[11px] text-slate-400 mt-2">Guests loved the taste and fast service</p>
+                  <p className="text-[11px] text-slate-500 mt-2">Guests loved the taste and fast service</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Top Complimented Tags</span>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 shadow-xl">
+                  <span className="text-[10px] uppercase font-bold text-slate-500">Top Complimented Tags</span>
                   <div className="flex flex-wrap gap-1 mt-2">
                     {["Delicious Food", "Fast Service", "Authentic Flavor", "Great Ambience"].map((tag) => (
-                      <span key={tag} className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-semibold border border-slate-700">
+                      <span key={tag} className="text-[10px] bg-stone-100 text-slate-900 text-slate-700 px-2 py-0.5 rounded-md font-semibold border border-stone-200">
                         {tag}
                       </span>
                     ))}
@@ -1457,10 +1475,10 @@ function AdminDashboardContent() {
               {/* Reviews List */}
               <div className="space-y-4">
                 {feedbacks.length === 0 ? (
-                  <div className="text-center py-16 bg-slate-900 border border-slate-800 rounded-2xl">
+                  <div className="text-center py-16 bg-white border border-stone-200/80 rounded-3xl shadow-sm">
                     <Star className="w-10 h-10 text-slate-700 mx-auto mb-2" />
-                    <h3 className="font-bold text-white text-sm">No reviews submitted yet</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className="font-bold text-slate-900 text-sm">No reviews submitted yet</h3>
+                    <p className="text-xs text-slate-500 mt-1">
                       Customer ratings submitted on the order tracking page will show up here.
                     </p>
                   </div>
@@ -1468,7 +1486,7 @@ function AdminDashboardContent() {
                   feedbacks.map((fb) => (
                     <div
                       key={fb.id}
-                      className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3 hover:border-slate-700 transition"
+                      className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 shadow-lg space-y-3 hover:border-stone-200 transition"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-3">
@@ -1477,12 +1495,12 @@ function AdminDashboardContent() {
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-white text-sm">{fb.customerName}</span>
+                              <span className="font-bold text-slate-900 text-sm">{fb.customerName}</span>
                               <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/20">
                                 Verified Dine-In
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-400">
+                            <p className="text-[11px] text-slate-500">
                               {fb.tableNumber ? `Table ${fb.tableNumber}` : "Dine-In"} • {formatDate(fb.createdAt)}
                             </p>
                           </div>
@@ -1505,7 +1523,7 @@ function AdminDashboardContent() {
 
                       {/* Review Comment */}
                       {fb.comment && (
-                        <p className="text-xs text-slate-200 leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                        <p className="text-xs text-slate-200 leading-relaxed bg-stone-100 text-slate-900/40 p-3 rounded-xl border border-stone-200">
                           "{fb.comment}"
                         </p>
                       )}
@@ -1535,21 +1553,21 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Daily Sales Management</h2>
-                  <p className="text-xs text-slate-400">
-                    Business report for <strong className="text-white">{dailySales.date}</strong> (Calculated from paid database orders)
+                  <h2 className="text-2xl font-black text-slate-900">Daily Sales Management</h2>
+                  <p className="text-xs text-slate-500">
+                    Business report for <strong className="text-slate-900">{dailySales.date}</strong> (Calculated from paid database orders)
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleExportCSV}
-                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
                   >
                     <FileSpreadsheet className="w-4 h-4" /> Export CSV / Excel
                   </button>
                   <button
                     onClick={() => window.print()}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5"
+                    className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-slate-200 border border-stone-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5"
                   >
                     <FileText className="w-4 h-4" /> Print Daily PDF
                   </button>
@@ -1558,31 +1576,31 @@ function AdminDashboardContent() {
 
               {/* Sales Metrics Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-                  <span className="text-xs font-bold text-slate-400 uppercase">Gross Sales</span>
-                  <p className="text-2xl font-black text-white mt-1">{formatCurrency(dailySales.grossSales)}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Total items before discounts</p>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
+                  <span className="text-xs font-bold text-slate-500 uppercase">Gross Sales</span>
+                  <p className="text-2xl font-black text-slate-900 mt-1">{formatCurrency(dailySales.grossSales)}</p>
+                  <p className="text-[11px] text-slate-500 mt-1">Total items before discounts</p>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <span className="text-xs font-bold text-emerald-400 uppercase">Net Collection</span>
                   <p className="text-2xl font-black text-emerald-400 mt-1">{formatCurrency(dailySales.totalSales)}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">Recognized paid sales volume</p>
+                  <p className="text-[11px] text-slate-500 mt-1">Recognized paid sales volume</p>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <span className="text-xs font-bold text-blue-400 uppercase">Cash vs Online Split</span>
-                  <p className="text-sm font-bold text-white mt-1">Cash: {formatCurrency(dailySales.cashCollection)}</p>
+                  <p className="text-sm font-bold text-slate-900 mt-1">Cash: {formatCurrency(dailySales.cashCollection)}</p>
                   <p className="text-sm font-bold text-emerald-400">UPI/Online: {formatCurrency(dailySales.onlineCollection)}</p>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
                   <span className="text-xs font-bold text-amber-400 uppercase">GST & Tax Breakdown</span>
-                  <p className="text-2xl font-black text-white mt-1">{formatCurrency(dailySales.totalTax)}</p>
-                  <p className="text-[11px] text-slate-400 mt-1">5% Restaurant CGST + SGST</p>
+                  <p className="text-2xl font-black text-slate-900 mt-1">{formatCurrency(dailySales.totalTax)}</p>
+                  <p className="text-[11px] text-slate-500 mt-1">5% Restaurant CGST + SGST</p>
                 </div>
               </div>
 
               {/* Hour by Hour Sales Breakdown Table */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-base mb-4">Hourly Sales Breakdown (Today)</h3>
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-6">
+                <h3 className="font-bold text-slate-900 text-base mb-4">Hourly Sales Breakdown (Today)</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
                   {dailySales.hourlyBuckets.map((bucket: any, idx: number) => (
                     <div
@@ -1590,12 +1608,12 @@ function AdminDashboardContent() {
                       className={`p-3 rounded-xl border text-center ${
                         bucket.revenue > 0
                           ? "bg-emerald-500/10 border-emerald-500/40"
-                          : "bg-slate-800/40 border-slate-800 text-slate-500"
+                          : "bg-stone-100 text-slate-900/40 border-stone-200 text-slate-500"
                       }`}
                     >
-                      <p className="text-[11px] font-bold text-slate-400">{bucket.hour}</p>
-                      <p className="text-xs font-black text-white mt-1">{formatCurrency(bucket.revenue)}</p>
-                      <p className="text-[10px] text-slate-400">{bucket.orders} orders</p>
+                      <p className="text-[11px] font-bold text-slate-500">{bucket.hour}</p>
+                      <p className="text-xs font-black text-slate-900 mt-1">{formatCurrency(bucket.revenue)}</p>
+                      <p className="text-[10px] text-slate-500">{bucket.orders} orders</p>
                     </div>
                   ))}
                 </div>
@@ -1608,8 +1626,8 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Monthly Sales & Growth Reports</h2>
-                  <p className="text-xs text-slate-400">
+                  <h2 className="text-2xl font-black text-slate-900">Monthly Sales & Growth Reports</h2>
+                  <p className="text-xs text-slate-500">
                     Comprehensive performance for Month {monthlySales.month}, {monthlySales.year}
                   </p>
                 </div>
@@ -1622,37 +1640,37 @@ function AdminDashboardContent() {
 
               {/* Monthly KPI Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-                  <span className="text-xs font-bold text-slate-400 uppercase">Total Monthly Revenue</span>
-                  <p className="text-3xl font-black text-white mt-1">{formatCurrency(monthlySales.totalMonthlySales)}</p>
-                  <p className="text-xs text-slate-400 mt-1">{monthlySales.totalMonthlyOrders} total orders processed</p>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
+                  <span className="text-xs font-bold text-slate-500 uppercase">Total Monthly Revenue</span>
+                  <p className="text-3xl font-black text-slate-900 mt-1">{formatCurrency(monthlySales.totalMonthlySales)}</p>
+                  <p className="text-xs text-slate-500 mt-1">{monthlySales.totalMonthlyOrders} total orders processed</p>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-                  <span className="text-xs font-bold text-slate-400 uppercase">Average Order Value (AOV)</span>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
+                  <span className="text-xs font-bold text-slate-500 uppercase">Average Order Value (AOV)</span>
                   <p className="text-3xl font-black text-emerald-400 mt-1">{formatCurrency(monthlySales.averageOrderValue)}</p>
-                  <p className="text-xs text-slate-400 mt-1">Across dine-in and takeaways</p>
+                  <p className="text-xs text-slate-500 mt-1">Across dine-in and takeaways</p>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-                  <span className="text-xs font-bold text-slate-400 uppercase">Highest Selling Day</span>
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5">
+                  <span className="text-xs font-bold text-slate-500 uppercase">Highest Selling Day</span>
                   <p className="text-3xl font-black text-amber-400 mt-1">Day {monthlySales.highestSellingDay?.day}</p>
-                  <p className="text-xs text-slate-400 mt-1">{formatCurrency(monthlySales.highestSellingDay?.sales)} peak revenue</p>
+                  <p className="text-xs text-slate-500 mt-1">{formatCurrency(monthlySales.highestSellingDay?.sales)} peak revenue</p>
                 </div>
               </div>
 
               {/* Calendar Daily Sales Grid */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-base mb-4">Daily Sales Calendar Breakdown</h3>
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-6">
+                <h3 className="font-bold text-slate-900 text-base mb-4">Daily Sales Calendar Breakdown</h3>
                 <div className="grid grid-cols-7 gap-2 text-center text-xs">
                   {monthlySales.dailyBreakdown.map((d: any) => (
                     <div
                       key={d.day}
                       className={`p-3 rounded-xl border flex flex-col justify-between ${
                         d.sales > 0
-                          ? "bg-slate-800 border-emerald-500/40 text-white"
-                          : "bg-slate-900/60 border-slate-800 text-slate-600"
+                          ? "bg-emerald-600 text-white shadow-sm font-bold"
+                          : "bg-slate-900/60 border-stone-200 text-slate-600"
                       }`}
                     >
-                      <span className="font-bold text-slate-400 text-[10px]">Day {d.day}</span>
+                      <span className="font-bold text-slate-500 text-[10px]">Day {d.day}</span>
                       <span className="font-black text-emerald-400 mt-1">{formatCurrency(d.sales)}</span>
                       <span className="text-[10px] text-slate-500">{d.orders} orders</span>
                     </div>
@@ -1667,12 +1685,12 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-black text-white">Promo Codes & Coupons</h2>
-                  <p className="text-xs text-slate-400">Boost sales with targeted customer discounts</p>
+                  <h2 className="text-2xl font-black text-slate-900">Promo Codes & Coupons</h2>
+                  <p className="text-xs text-slate-500">Boost sales with targeted customer discounts</p>
                 </div>
                 <button
                   onClick={() => setIsAddCouponOpen(true)}
-                  className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
                 >
                   <Plus className="w-4 h-4" /> Create Coupon
                 </button>
@@ -1680,20 +1698,20 @@ function AdminDashboardContent() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {coupons.map((coupon) => (
-                  <div key={coupon.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                  <div key={coupon.id} className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-5 shadow-xl">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-black text-white text-base font-mono bg-slate-800 px-2.5 py-1 rounded-lg">
+                      <span className="font-black text-slate-900 text-base font-mono bg-stone-100 text-slate-900 px-2.5 py-1 rounded-lg">
                         {coupon.code}
                       </span>
                       <span className="text-xs text-emerald-400 font-bold">
                         {coupon.discountType === "percentage" ? `${coupon.discountValue}% OFF` : `₹${coupon.discountValue} OFF`}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300 mt-2">{coupon.description}</p>
-                    <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
+                    <p className="text-xs text-slate-700 mt-2">{coupon.description}</p>
+                    <div className="mt-4 pt-3 border-t border-stone-200 text-[11px] text-slate-500 space-y-1">
                       <p>Min Order: {formatCurrency(coupon.minOrderValue)}</p>
                       {coupon.maxDiscount && <p>Max Discount: {formatCurrency(coupon.maxDiscount)}</p>}
-                      <p>Times Used: <strong className="text-white">{coupon.usageCount}</strong></p>
+                      <p>Times Used: <strong className="text-slate-900">{coupon.usageCount}</strong></p>
                     </div>
                   </div>
                 ))}
@@ -1705,13 +1723,13 @@ function AdminDashboardContent() {
           {activeTab === "inventory" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-black text-white">Kitchen Ingredient Inventory</h2>
-                <p className="text-xs text-slate-400">Auto-deducted when kitchen marks orders completed</p>
+                <h2 className="text-2xl font-black text-slate-900">Kitchen Ingredient Inventory</h2>
+                <p className="text-xs text-slate-500">Auto-deducted when kitchen marks orders completed</p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-800/60 text-slate-400 uppercase text-[10px] font-bold border-b border-slate-800">
+                  <thead className="bg-stone-100 text-slate-900/60 text-slate-500 uppercase text-[10px] font-bold border-b border-stone-200">
                     <tr>
                       <th className="p-3.5">Ingredient</th>
                       <th className="p-3.5">Current Stock</th>
@@ -1722,11 +1740,11 @@ function AdminDashboardContent() {
                   </thead>
                   <tbody className="divide-y divide-slate-800/80">
                     {inventory.map((inv) => (
-                      <tr key={inv.id} className="hover:bg-slate-800/40 transition">
-                        <td className="p-3.5 font-bold text-white">{inv.ingredientName}</td>
-                        <td className="p-3.5 font-black text-white">{inv.currentStock} {inv.unit}</td>
-                        <td className="p-3.5 text-slate-400">{inv.minThreshold} {inv.unit}</td>
-                        <td className="p-3.5 text-slate-300">{formatCurrency(inv.costPerUnit)}</td>
+                      <tr key={inv.id} className="hover:bg-stone-100 text-slate-900/40 transition">
+                        <td className="p-3.5 font-bold text-slate-900">{inv.ingredientName}</td>
+                        <td className="p-3.5 font-black text-slate-900">{inv.currentStock} {inv.unit}</td>
+                        <td className="p-3.5 text-slate-500">{inv.minThreshold} {inv.unit}</td>
+                        <td className="p-3.5 text-slate-700">{formatCurrency(inv.costPerUnit)}</td>
                         <td className="p-3.5">
                           {inv.currentStock <= inv.minThreshold ? (
                             <span className="bg-rose-500/20 text-rose-400 text-[10px] font-black uppercase px-2 py-0.5 rounded">
@@ -1750,65 +1768,65 @@ function AdminDashboardContent() {
           {activeTab === "subscription" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-black text-white">Subscription & Menu Packages</h2>
-                <p className="text-xs text-slate-400">Manage your SaaS tier and add-on capacity packages</p>
+                <h2 className="text-2xl font-black text-slate-900">Subscription & Menu Packages</h2>
+                <p className="text-xs text-slate-500">Manage your SaaS tier and add-on capacity packages</p>
               </div>
 
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <span className="text-xs font-bold text-slate-400 uppercase">Active Plan</span>
-                <h3 className="text-2xl font-black text-white mt-1">
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-6">
+                <span className="text-xs font-bold text-slate-500 uppercase">Active Plan</span>
+                <h3 className="text-2xl font-black text-slate-900 mt-1">
                   {restaurant.subscription?.planName}
                 </h3>
                 <p className="text-xs text-emerald-400 font-semibold mt-1">
                   Status: {restaurant.subscription?.status.toUpperCase()} • {formatCurrency(restaurant.subscription?.monthlyPrice || 0)} / month
                 </p>
 
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-xs">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-stone-200 text-xs">
                   <div>
-                    <span className="text-slate-400">Total Allowed Items:</span>
-                    <p className="text-lg font-bold text-white mt-0.5">{allowedItemsCount} dishes</p>
+                    <span className="text-slate-500">Total Allowed Items:</span>
+                    <p className="text-lg font-bold text-slate-900 mt-0.5">{allowedItemsCount} dishes</p>
                   </div>
                   <div>
-                    <span className="text-slate-400">Purchased Add-on Items:</span>
+                    <span className="text-slate-500">Purchased Add-on Items:</span>
                     <p className="text-lg font-bold text-amber-400 mt-0.5">+{restaurant.subscription?.purchasedAddonItems || 0} extra dishes</p>
                   </div>
                   <div>
-                    <span className="text-slate-400">Table Limit:</span>
-                    <p className="text-lg font-bold text-white mt-0.5">{restaurant.subscription?.tableLimit} tables</p>
+                    <span className="text-slate-500">Table Limit:</span>
+                    <p className="text-lg font-bold text-slate-900 mt-0.5">{restaurant.subscription?.tableLimit} tables</p>
                   </div>
                 </div>
               </div>
 
               {/* Add-on Menu Packages */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-base mb-2">Buy Menu Item Add-on Packages</h3>
-                <p className="text-xs text-slate-400 mb-6">
+              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm p-6">
+                <h3 className="font-bold text-slate-900 text-base mb-2">Buy Menu Item Add-on Packages</h3>
+                <p className="text-xs text-slate-500 mb-6">
                   Expand your menu capacity without upgrading full tiers. Menu items are never deleted when subscriptions renew.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-slate-800/80 border border-slate-700 rounded-xl p-4 flex flex-col justify-between">
+                  <div className="bg-stone-50 border border-stone-200 text-slate-900 rounded-xl p-4 flex flex-col justify-between">
                     <div>
-                      <h4 className="font-bold text-white text-sm">+10 Menu Items</h4>
+                      <h4 className="font-bold text-slate-900 text-sm">+10 Menu Items</h4>
                       <p className="text-xl font-black text-emerald-400 mt-2">₹299</p>
-                      <p className="text-[11px] text-slate-400 mt-1">Permanent capacity expansion</p>
+                      <p className="text-[11px] text-slate-500 mt-1">Permanent capacity expansion</p>
                     </div>
                     <button
                       onClick={() => handlePurchasePack("pack-10")}
-                      className="mt-4 w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2 rounded-lg text-xs"
+                      className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs"
                     >
                       Buy Package
                     </button>
                   </div>
 
-                  <div className="bg-slate-800/80 border border-amber-500/40 rounded-xl p-4 flex flex-col justify-between relative shadow-lg">
+                  <div className="bg-stone-100 text-slate-900/80 border border-amber-500/40 rounded-xl p-4 flex flex-col justify-between relative shadow-lg">
                     <span className="absolute -top-2.5 right-3 bg-amber-400 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-full uppercase">
                       Best Value
                     </span>
                     <div>
-                      <h4 className="font-bold text-white text-sm">+20 Menu Items</h4>
+                      <h4 className="font-bold text-slate-900 text-sm">+20 Menu Items</h4>
                       <p className="text-xl font-black text-amber-400 mt-2">₹499</p>
-                      <p className="text-[11px] text-slate-400 mt-1">Popular for growing menus</p>
+                      <p className="text-[11px] text-slate-500 mt-1">Popular for growing menus</p>
                     </div>
                     <button
                       onClick={() => handlePurchasePack("pack-20")}
@@ -1818,11 +1836,11 @@ function AdminDashboardContent() {
                     </button>
                   </div>
 
-                  <div className="bg-slate-800/80 border border-slate-700 rounded-xl p-4 flex flex-col justify-between">
+                  <div className="bg-stone-50 border border-stone-200 text-slate-900 rounded-xl p-4 flex flex-col justify-between">
                     <div>
-                      <h4 className="font-bold text-white text-sm">+50 Menu Items</h4>
+                      <h4 className="font-bold text-slate-900 text-sm">+50 Menu Items</h4>
                       <p className="text-xl font-black text-indigo-400 mt-2">₹999</p>
-                      <p className="text-[11px] text-slate-400 mt-1">For multi-cuisine banquets</p>
+                      <p className="text-[11px] text-slate-500 mt-1">For multi-cuisine banquets</p>
                     </div>
                     <button
                       onClick={() => handlePurchasePack("pack-50")}
@@ -1841,36 +1859,36 @@ function AdminDashboardContent() {
       {/* MODAL 1: ADD MENU ITEM */}
       {isAddItemOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative">
+          <div className="bg-slate-900 border border-stone-200 rounded-2xl max-w-md w-full p-6 relative">
             <button
               onClick={() => setIsAddItemOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-white">Add New Food Item</h3>
-            <p className="text-xs text-slate-400 mt-1">Adds dish to your digital menu</p>
+            <h3 className="text-lg font-bold text-slate-900">Add New Food Item</h3>
+            <p className="text-xs text-slate-500 mt-1">Adds dish to your digital menu</p>
 
             <form onSubmit={handleCreateMenuItem} className="mt-4 space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Dish Name (English) *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Dish Name (English) *</label>
                 <input
                   type="text"
                   required
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
                   placeholder="e.g. Charcoal Grilled Chicken Tikka"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Category *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Category *</label>
                   <select
                     value={newItem.categoryId}
                     onChange={(e) => setNewItem({ ...newItem, categoryId: e.target.value })}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -1878,23 +1896,23 @@ function AdminDashboardContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Base Price (₹) *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Base Price (₹) *</label>
                   <input
                     type="number"
                     required
                     value={newItem.basePrice}
                     onChange={(e) => setNewItem({ ...newItem, basePrice: Number(e.target.value) })}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Description</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Description</label>
                 <textarea
                   value={newItem.description}
                   onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white h-16"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 h-16"
                   placeholder="Tender chicken cubes in spices..."
                 />
               </div>
@@ -1922,7 +1940,7 @@ function AdminDashboardContent() {
 
               <button
                 type="submit"
-                className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition mt-2"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2"
               >
                 Save Menu Item
               </button>
@@ -1934,17 +1952,17 @@ function AdminDashboardContent() {
       {/* MODAL 2: ADD TABLE */}
       {isAddTableOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm no-print">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
+          <div className="bg-slate-900 border border-stone-200 rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
             <button
               onClick={() => setIsAddTableOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Plus className="w-5 h-5 text-emerald-400" /> Add New Table
             </h3>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Creates a table in the database and generates an unpredictable cryptographic QR code.
             </p>
 
@@ -1958,7 +1976,7 @@ function AdminDashboardContent() {
             <form onSubmit={handleCreateTable} className="mt-4 space-y-3.5">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Table Number *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Table Number *</label>
                   <input
                     type="text"
                     required
@@ -1967,18 +1985,18 @@ function AdminDashboardContent() {
                       setNewTableNum(e.target.value);
                       setTableFormError("");
                     }}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-bold"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500 font-bold"
                     placeholder="e.g. 09 or T-12"
                   />
                   <p className="text-[10px] text-slate-500 mt-0.5">Must be unique</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Guest Capacity</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Guest Capacity</label>
                   <select
                     value={newTableCapacity}
                     onChange={(e) => setNewTableCapacity(Number(e.target.value))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                   >
                     <option value={2}>2 Guests (Couple)</option>
                     <option value={4}>4 Guests (Standard)</option>
@@ -1991,22 +2009,22 @@ function AdminDashboardContent() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Table Name / Label</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Table Name / Label</label>
                 <input
                   type="text"
                   value={newTableName}
                   onChange={(e) => setNewTableName(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                   placeholder="e.g. Window Booth 9 or Rooftop 4"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Table Location / Section</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Table Location / Section</label>
                 <select
                   value={newTableLocation}
                   onChange={(e) => setNewTableLocation(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 mb-2"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500 mb-2"
                 >
                   <option value="Main Dining Area">Main Dining Area</option>
                   <option value="Rooftop Terrace">Rooftop Terrace</option>
@@ -2021,7 +2039,7 @@ function AdminDashboardContent() {
                     type="text"
                     required
                     onChange={(e) => setNewTableLocation(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                     placeholder="Enter custom section name"
                   />
                 )}
@@ -2031,7 +2049,7 @@ function AdminDashboardContent() {
                 <button
                   type="submit"
                   disabled={tableFormSubmitting}
-                  className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {tableFormSubmitting ? (
                     <>
@@ -2083,13 +2101,13 @@ function AdminDashboardContent() {
                       slug,
                     })
                   }
-                  className="bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5"
+                  className="bg-stone-100 hover:bg-stone-200 text-slate-800 border border-stone-200 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5"
                 >
                   <Download className="w-3.5 h-3.5" /> Placard PNG
                 </button>
                 <button
                   onClick={() => setPrintQrTable(null)}
-                  className="p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+                  className="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2309,7 +2327,7 @@ function AdminDashboardContent() {
               </div>
 
               {/* Sheet Footer */}
-              <div className="mt-6 pt-3 border-t border-slate-200 text-center text-[10px] text-slate-400 flex items-center justify-between">
+              <div className="mt-6 pt-3 border-t border-slate-200 text-center text-[10px] text-slate-500 flex items-center justify-between">
                 <span>QRDening Restaurant Management Platform</span>
                 <span>Cut along borders and place on designated tables</span>
               </div>

@@ -190,9 +190,9 @@ export default function OrderTrackingPage() {
 
   if (loading || !order) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-white">
+      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-4 text-slate-900">
         <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-xs font-semibold text-slate-400">Loading order status...</p>
+        <p className="mt-4 text-xs font-semibold text-slate-500">Loading order status...</p>
       </div>
     );
   }
@@ -210,13 +210,13 @@ export default function OrderTrackingPage() {
   const currentStepIdx = statusOrder.indexOf(order.orderStatus);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col pb-16">
+    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col pb-16">
       {/* Top Header */}
-      <header className="sticky top-0 z-20 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4">
+      <header className="sticky top-0 z-20 bg-white text-slate-900/90 backdrop-blur-md border-b border-stone-200 p-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <Link
             href={`/restaurant/${slug}?table=${order.tableNumber || "03"}`}
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white"
+            className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Menu
           </Link>
@@ -225,7 +225,7 @@ export default function OrderTrackingPage() {
           </span>
           <button
             onClick={fetchOrder}
-            className="text-slate-400 hover:text-white p-1"
+            className="text-slate-500 hover:text-slate-900 p-1"
             title="Refresh Status"
           >
             <RefreshCw className="w-4 h-4" />
@@ -241,14 +241,14 @@ export default function OrderTrackingPage() {
 
       <main className="max-w-2xl mx-auto px-4 pt-6 w-full space-y-6">
         {/* Order Header Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center relative overflow-hidden shadow-xl">
+        <div className="bg-white border border-stone-200/80 shadow-sm text-slate-900 rounded-2xl p-6 text-center relative overflow-hidden shadow-xl">
           <div className="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold mb-3">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             Live Kitchen Tracking
           </div>
 
-          <h1 className="text-2xl font-black text-white">{order.orderNumber}</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-2xl font-black text-slate-900">{order.orderNumber}</h1>
+          <p className="text-xs text-slate-500 mt-1">
             {order.orderType === "dine_in" ? `Dine-In • Table ${order.tableNumber}` : "Takeaway Order"} • Placed at {formatDate(order.createdAt)}
           </p>
 
@@ -263,10 +263,10 @@ export default function OrderTrackingPage() {
             </div>
           ) : (
             /* Stepper Progress */
-            <div className="mt-8 pt-4 border-t border-slate-800">
+            <div className="mt-8 pt-4 border-t border-stone-200">
               <div className="flex items-center justify-between relative">
                 {/* Line */}
-                <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
+                <div className="absolute top-1/2 left-0 right-0 h-1 bg-stone-100 text-slate-900 -translate-y-1/2 z-0"></div>
                 <div
                   className="absolute top-1/2 left-0 h-1 bg-emerald-500 -translate-y-1/2 z-0 transition-all duration-500"
                   style={{
@@ -286,15 +286,15 @@ export default function OrderTrackingPage() {
                           isCurrent
                             ? "bg-emerald-500 border-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/40 ring-4 ring-emerald-500/20"
                             : isPassed
-                            ? "bg-slate-900 border-emerald-500 text-emerald-400"
-                            : "bg-slate-900 border-slate-800 text-slate-600"
+                            ? "bg-white text-slate-900 border-emerald-500 text-emerald-400"
+                            : "bg-white text-slate-900 border-stone-200 text-slate-600"
                         }`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
                       <span
                         className={`text-[10px] font-bold mt-2 text-center whitespace-nowrap ${
-                          isCurrent ? "text-emerald-400" : isPassed ? "text-slate-300" : "text-slate-600"
+                          isCurrent ? "text-emerald-400" : isPassed ? "text-slate-600" : "text-slate-600"
                         }`}
                       >
                         {st.label}
@@ -308,9 +308,9 @@ export default function OrderTrackingPage() {
         </div>
 
         {/* Payment Status Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="bg-white border border-stone-200/80 shadow-sm text-slate-900 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="text-[10px] uppercase font-bold text-slate-400">Payment Status</span>
+            <span className="text-[10px] uppercase font-bold text-slate-500">Payment Status</span>
             <div className="flex items-center gap-2 mt-1">
               <span
                 className={`text-xs font-black uppercase px-2.5 py-0.5 rounded-full ${
@@ -321,19 +321,19 @@ export default function OrderTrackingPage() {
               >
                 {order.paymentStatus === "paid" ? "Paid Online" : "Payment Pending"}
               </span>
-              <span className="text-sm font-bold text-white">
+              <span className="text-sm font-bold text-slate-900">
                 {formatCurrency(order.totalAmount)}
               </span>
             </div>
             {order.paymentReference && (
-              <p className="text-[11px] text-slate-400 mt-1">Ref: {order.paymentReference}</p>
+              <p className="text-[11px] text-slate-500 mt-1">Ref: {order.paymentReference}</p>
             )}
           </div>
 
           {order.paymentStatus !== "paid" && (
             <button
               onClick={() => setShowUpiModal(true)}
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs shadow-lg transition flex items-center gap-1.5"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-black px-4 py-2.5 rounded-xl text-xs shadow-lg transition flex items-center gap-1.5"
             >
               <QrCode className="w-4 h-4" /> Pay Now via UPI / Gateway
             </button>
@@ -341,16 +341,16 @@ export default function OrderTrackingPage() {
         </div>
 
         {/* Digital Stamp Card Progress */}
-        <div className="bg-gradient-to-r from-slate-900 to-emerald-950/40 border border-emerald-500/20 rounded-2xl p-5">
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 border border-emerald-200 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-white text-xs flex items-center gap-1.5">
+            <h3 className="font-bold text-slate-900 text-xs flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-amber-400" /> Digital Stamp Card
             </h3>
             <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded">
               +1 Stamp on this order
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mb-3">
+          <p className="text-[11px] text-slate-500 mb-3">
             Collect 5 stamps for a free dessert or beverage on your next visit!
           </p>
           <div className="grid grid-cols-5 gap-2">
@@ -359,8 +359,8 @@ export default function OrderTrackingPage() {
                 key={stamp}
                 className={`h-11 rounded-xl border flex items-center justify-center font-black text-xs ${
                   stamp <= 4
-                    ? "bg-emerald-500/20 border-emerald-500 text-emerald-400"
-                    : "bg-slate-800/60 border-slate-700/80 text-slate-500 border-dashed"
+                    ? "bg-emerald-600 text-white font-black"
+                    : "bg-white text-slate-400 border-stone-300 border-dashed"
                 }`}
               >
                 {stamp <= 4 ? "★" : stamp}
@@ -370,18 +370,18 @@ export default function OrderTrackingPage() {
         </div>
 
         {/* Ordered Items List */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <h3 className="font-bold text-white text-sm mb-4">Items Ordered</h3>
+        <div className="bg-white border border-stone-200/80 shadow-sm text-slate-900 rounded-2xl p-5">
+          <h3 className="font-bold text-slate-900 text-sm mb-4">Items Ordered</h3>
           <div className="space-y-3 divide-y divide-slate-800/80">
             {order.items.map((item, idx) => (
               <div key={idx} className="pt-3 first:pt-0 flex justify-between items-start text-xs">
                 <div>
-                  <h4 className="font-bold text-white text-sm">{item.quantity}x {item.name}</h4>
+                  <h4 className="font-bold text-slate-900 text-sm">{item.quantity}x {item.name}</h4>
                   {item.selectedVariant && (
-                    <p className="text-slate-400">Variant: {item.selectedVariant.name}</p>
+                    <p className="text-slate-500">Variant: {item.selectedVariant.name}</p>
                   )}
                   {item.selectedAddons && item.selectedAddons.length > 0 && (
-                    <p className="text-slate-400">
+                    <p className="text-slate-500">
                       Addons: {item.selectedAddons.map((a) => a.name).join(", ")}
                     </p>
                   )}
@@ -389,7 +389,7 @@ export default function OrderTrackingPage() {
                     <p className="text-amber-300 italic">"{item.specialInstructions}"</p>
                   )}
                 </div>
-                <span className="font-bold text-white text-sm">
+                <span className="font-bold text-slate-900 text-sm">
                   {formatCurrency(item.totalPrice)}
                 </span>
               </div>
@@ -397,8 +397,8 @@ export default function OrderTrackingPage() {
           </div>
 
           {/* Financial summary */}
-          <div className="mt-4 pt-4 border-t border-slate-800 space-y-1.5 text-xs">
-            <div className="flex justify-between text-slate-400">
+          <div className="mt-4 pt-4 border-t border-stone-200 space-y-1.5 text-xs">
+            <div className="flex justify-between text-slate-500">
               <span>Subtotal</span>
               <span>{formatCurrency(order.subtotal)}</span>
             </div>
@@ -408,11 +408,11 @@ export default function OrderTrackingPage() {
                 <span>-{formatCurrency(order.discountAmount)}</span>
               </div>
             )}
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-slate-500">
               <span>Restaurant GST (5%)</span>
               <span>{formatCurrency(order.taxAmount)}</span>
             </div>
-            <div className="flex justify-between text-white font-extrabold text-sm pt-2 border-t border-slate-800">
+            <div className="flex justify-between text-slate-900 font-extrabold text-sm pt-2 border-t border-stone-200">
               <span>Total Bill</span>
               <span className="text-emerald-400">{formatCurrency(order.totalAmount)}</span>
             </div>
@@ -425,13 +425,13 @@ export default function OrderTrackingPage() {
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => handleCallStaff("call_waiter")}
-                className="bg-slate-900 border border-slate-800 hover:border-slate-700 p-3 rounded-xl text-xs font-bold text-slate-200 flex items-center justify-center gap-2 transition"
+                className="bg-white border border-stone-200/80 shadow-sm text-slate-900 hover:border-stone-200 p-3 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-2 transition"
               >
                 <BellRing className="w-4 h-4 text-amber-400" /> Call Waiter
               </button>
               <button
                 onClick={() => handleCallStaff("bill_request")}
-                className="bg-slate-900 border border-slate-800 hover:border-slate-700 p-3 rounded-xl text-xs font-bold text-slate-200 flex items-center justify-center gap-2 transition"
+                className="bg-white border border-stone-200/80 shadow-sm text-slate-900 hover:border-stone-200 p-3 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-2 transition"
               >
                 <Receipt className="w-4 h-4 text-blue-400" /> Request Printed Bill
               </button>
@@ -441,7 +441,7 @@ export default function OrderTrackingPage() {
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => setShowInvoiceModal(true)}
-              className="flex-1 bg-slate-900 border border-slate-800 hover:border-slate-700 p-3 rounded-xl text-xs font-bold text-slate-200 flex items-center justify-center gap-2 transition"
+              className="flex-1 bg-white border border-stone-200/80 shadow-sm text-slate-900 hover:border-stone-200 p-3 rounded-xl text-xs font-bold text-slate-800 flex items-center justify-center gap-2 transition"
             >
               <Printer className="w-4 h-4 text-emerald-400" /> View GST Tax Invoice
             </button>
@@ -459,13 +459,13 @@ export default function OrderTrackingPage() {
 
         {/* 5-STAR CUSTOMER FEEDBACK & RATING */}
         {order.orderStatus !== "cancelled" && (
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div className="bg-white border border-stone-200/80 shadow-sm text-slate-900 rounded-2xl p-5 shadow-xl">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <HeartHandshake className="w-5 h-5 text-amber-400" />
-                <h3 className="font-bold text-white text-sm">Rate Your Dining Experience</h3>
+                <h3 className="font-bold text-slate-900 text-sm">Rate Your Dining Experience</h3>
               </div>
-              <span className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+              <span className="text-[10px] text-slate-500 bg-stone-100 text-slate-900 px-2 py-0.5 rounded">
                 Table {order.tableNumber || "Guest"}
               </span>
             </div>
@@ -473,8 +473,8 @@ export default function OrderTrackingPage() {
             {feedbackSubmitted ? (
               <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl text-center my-2">
                 <Check className="w-8 h-8 text-emerald-400 mx-auto mb-1" />
-                <h4 className="font-bold text-white text-sm">Thank You for Your Review!</h4>
-                <p className="text-xs text-slate-300 mt-1">
+                <h4 className="font-bold text-slate-900 text-sm">Thank You for Your Review!</h4>
+                <p className="text-xs text-slate-600 mt-1">
                   Your feedback helps {order.restaurantName} maintain top quality cuisine & service.
                 </p>
               </div>
@@ -502,7 +502,7 @@ export default function OrderTrackingPage() {
 
                 {/* Quick Tags */}
                 <div>
-                  <p className="text-[11px] font-semibold text-slate-400 mb-2">What did you like most?</p>
+                  <p className="text-[11px] font-semibold text-slate-500 mb-2">What did you like most?</p>
                   <div className="flex flex-wrap gap-1.5">
                     {feedbackTagOptions.map((tag) => {
                       const isSel = selectedTags.includes(tag);
@@ -520,7 +520,7 @@ export default function OrderTrackingPage() {
                           className={`text-xs px-2.5 py-1 rounded-full border transition ${
                             isSel
                               ? "bg-emerald-500/20 border-emerald-500 text-emerald-400 font-bold"
-                              : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
+                              : "bg-stone-50 border-stone-200 text-slate-700 hover:border-emerald-500"
                           }`}
                         >
                           {tag}
@@ -537,7 +537,7 @@ export default function OrderTrackingPage() {
                     value={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
                     placeholder="Share any special comments about your food or staff service..."
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 resize-none"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 resize-none"
                   ></textarea>
                 </div>
 
@@ -545,7 +545,7 @@ export default function OrderTrackingPage() {
                   type="button"
                   disabled={submittingFeedback}
                   onClick={handleSubmitFeedback}
-                  className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-black py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20"
                 >
                   {submittingFeedback ? "Submitting Review..." : "Submit 5-Star Review"}
                 </button>
@@ -558,27 +558,27 @@ export default function OrderTrackingPage() {
       {/* CANCEL ORDER MODAL */}
       {showCancelModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-rose-500/40 rounded-2xl max-w-sm w-full p-6 text-center relative shadow-2xl">
+          <div className="bg-white text-slate-900 border border-rose-500/40 rounded-2xl max-w-sm w-full p-6 text-center relative shadow-2xl">
             <button
               onClick={() => setShowCancelModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
             <div className="w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-3">
               <AlertTriangle className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-black text-white">Cancel Order {order.orderNumber}?</h3>
-            <p className="text-xs text-slate-400 mt-1">
+            <h3 className="text-base font-black text-slate-900">Cancel Order {order.orderNumber}?</h3>
+            <p className="text-xs text-slate-500 mt-1">
               You can cancel this order because the kitchen has not started preparing it yet.
             </p>
 
             <div className="mt-4 text-left">
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">Cancellation Reason</label>
+              <label className="text-[11px] font-bold text-slate-600 block mb-1">Cancellation Reason</label>
               <select
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-rose-500"
+                className="w-full bg-stone-50 border border-stone-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-rose-500"
               >
                 <option value="Change of plans">Change of plans</option>
                 <option value="Ordered wrong item">Ordered wrong item</option>
@@ -592,7 +592,7 @@ export default function OrderTrackingPage() {
               <button
                 type="button"
                 onClick={() => setShowCancelModal(false)}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-semibold"
+                className="flex-1 bg-stone-100 hover:bg-stone-200 text-slate-800 border border-stone-200 py-2.5 rounded-xl text-xs font-semibold"
               >
                 Keep Order
               </button>
@@ -637,21 +637,21 @@ export default function OrderTrackingPage() {
             {/* Invoice Meta */}
             <div className="py-3 border-b border-slate-200 grid grid-cols-2 gap-2 text-xs">
               <div>
-                <span className="text-slate-400 block text-[10px]">Invoice No</span>
+                <span className="text-slate-500 block text-[10px]">Invoice No</span>
                 <span className="font-bold text-slate-900">{order.orderNumber}</span>
               </div>
               <div className="text-right">
-                <span className="text-slate-400 block text-[10px]">Date & Time</span>
+                <span className="text-slate-500 block text-[10px]">Date & Time</span>
                 <span className="font-semibold text-slate-800">{formatDate(order.createdAt)}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[10px]">Order Type / Table</span>
+                <span className="text-slate-500 block text-[10px]">Order Type / Table</span>
                 <span className="font-bold text-slate-900">
                   {order.orderType === "dine_in" ? `Table ${order.tableNumber}` : "Takeaway"}
                 </span>
               </div>
               <div className="text-right">
-                <span className="text-slate-400 block text-[10px]">Customer</span>
+                <span className="text-slate-500 block text-[10px]">Customer</span>
                 <span className="font-semibold text-slate-800">{order.customerName}</span>
               </div>
             </div>
@@ -731,7 +731,7 @@ export default function OrderTrackingPage() {
               <button
                 type="button"
                 onClick={() => window.print()}
-                className="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-sm"
               >
                 <Printer className="w-4 h-4" /> Print Tax Receipt
               </button>
@@ -750,19 +750,19 @@ export default function OrderTrackingPage() {
       {/* UPI / PAYMENT MODAL */}
       {showUpiModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 text-center relative">
+          <div className="bg-white text-slate-900 border border-stone-200 rounded-2xl max-w-sm w-full p-6 text-center relative">
             <button
               onClick={() => setShowUpiModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
             >
               ✕
             </button>
             <span className="text-xs uppercase font-bold text-emerald-400 tracking-wider">
               Scan & Pay via UPI
             </span>
-            <h3 className="text-lg font-black text-white mt-1">Instant Restaurant Payment</h3>
-            <p className="text-xs text-slate-400 mt-1">
-              Amount to Pay: <strong className="text-white">{formatCurrency(order.totalAmount)}</strong>
+            <h3 className="text-lg font-black text-slate-900 mt-1">Instant Restaurant Payment</h3>
+            <p className="text-xs text-slate-500 mt-1">
+              Amount to Pay: <strong className="text-slate-900">{formatCurrency(order.totalAmount)}</strong>
             </p>
 
             {/* Simulated UPI QR Card */}
@@ -773,7 +773,7 @@ export default function OrderTrackingPage() {
               </p>
             </div>
 
-            <p className="text-[11px] text-slate-400 mb-4">
+            <p className="text-[11px] text-slate-500 mb-4">
               Supports Google Pay, PhonePe, Paytm, BHIM and all banking apps.
             </p>
 
@@ -781,13 +781,13 @@ export default function OrderTrackingPage() {
               <button
                 disabled={paying}
                 onClick={() => handleSimulatePayment("upi")}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-lg transition"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold font-black py-2.5 rounded-xl text-xs shadow-lg transition"
               >
                 {paying ? "Verifying..." : "Confirm UPI Payment Success"}
               </button>
               <button
                 onClick={() => handleSimulatePayment("cash")}
-                className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2 rounded-xl text-xs transition"
+                className="w-full bg-stone-100 hover:bg-stone-200 text-slate-800 border border-stone-200 font-semibold py-2 rounded-xl text-xs transition"
               >
                 Switch to Pay Cash at Counter
               </button>
