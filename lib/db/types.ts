@@ -9,6 +9,10 @@ export interface User {
   restaurantId?: string; // Tenant isolation key (null for super_admin)
   pin?: string; // 4-digit fast pin for waiter/kitchen
   avatarUrl?: string;
+  passwordHash?: string;
+  googleId?: string;
+  resetToken?: string;
+  resetTokenExpiry?: string;
   createdAt: string;
 }
 

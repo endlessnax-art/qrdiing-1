@@ -1255,3 +1255,180 @@ export function purchaseAddonPackage(restaurantId: string, packageId: string): {
   saveDatabase(db);
   return { success: true, newLimit: rest.subscription.totalAllowedItems };
 }
+
+// ==========================================
+// USER AUTHENTICATION & MANAGEMENT
+// ==========================================
+
+const AUTH_SALT = "qrdening-secure-salt-2026";
+
+export function hashPassword(password: string): string {
+  return crypto.createHash("sha256").update(password + AUTH_SALT).digest("hex");
+}
+
+export function getUsers(): User[] {
+  const db = loadDatabase();
+  return db.users || [];
+}
+
+export function getUserById(id: string): User | undefined {
+  const db = loadDatabase();
+  return (db.users || []).find((u) => u.id === id);
+}
+
+export function getUserByEmail(email: string): User | undefined {
+  const db = loadDatabase();
+  const normalized = email.trim().toLowerCase();
+  return (db.users || []).find((u) => u.email.toLowerCase() === normalized);
+}
+
+export function createUser(data: {
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  role?: "super_admin" | "restaurant_admin" | "kitchen_staff" | "waiter_staff" | "customer";
+  restaurantId?: string;
+  googleId?: string;
+  avatarUrl?: string;
+}): User {
+  const db = loadDatabase();
+  if (!db.users) db.users = [];
+
+  const normalizedEmail = data.email.trim().toLowerCase();
+  const existing = db.users.find((u) => u.email.toLowerCase() === normalizedEmail);
+  if (existing) {
+    throw new Error("An account with this email address already exists.");
+  }
+
+  const id = `user-${Date.now().toString(36)}-${crypto.randomBytes(4).toString("hex")}`;
+  const newUser: User = {
+    id,
+    email: normalizedEmail,
+    name: data.name.trim(),
+    role: data.role || "restaurant_admin",
+    phone: data.phone?.trim() || undefined,
+    restaurantId: data.restaurantId || undefined,
+    passwordHash: data.password ? hashPassword(data.password) : undefined,
+    googleId: data.googleId || undefined,
+    avatarUrl: data.avatarUrl || undefined,
+    createdAt: new Date().toISOString(),
+  };
+
+  db.users.push(newUser);
+  saveDatabase(db);
+  return newUser;
+}
+
+export function authenticateUser(email: string, password: string): User | null {
+  const db = loadDatabase();
+  const normalized = email.trim().toLowerCase();
+  const user = (db.users || []).find((u) => u.email.toLowerCase() === normalized);
+  if (!user) return null;
+
+  // If user has a passwordHash, check it
+  if (user.passwordHash) {
+    const hashed = hashPassword(password);
+    if (user.passwordHash === hashed) {
+      return user;
+    }
+  }
+
+  // Support demo / default seed passwords for seed users if passwordHash isn't set yet
+  const validSeedPasswords = ["password123", "admin123", "123456", "qrdening2026", "admin"];
+  if (!user.passwordHash) {
+    if (validSeedPasswords.includes(password) || (user.pin && user.pin === password)) {
+      // Auto-set the hash for future logins
+      user.passwordHash = hashPassword(password);
+      saveDatabase(db);
+      return user;
+    }
+  }
+
+  return null;
+}
+
+export function authenticateGoogleUser(googleProfile: {
+  email: string;
+  name: string;
+  googleId: string;
+  avatarUrl?: string;
+}): User {
+  const db = loadDatabase();
+  if (!db.users) db.users = [];
+
+  const normalized = googleProfile.email.trim().toLowerCase();
+  let user = db.users.find(
+    (u) => u.email.toLowerCase() === normalized || (u.googleId && u.googleId === googleProfile.googleId)
+  );
+
+  if (user) {
+    let updated = false;
+    if (!user.googleId) {
+      user.googleId = googleProfile.googleId;
+      updated = true;
+    }
+    if (!user.avatarUrl && googleProfile.avatarUrl) {
+      user.avatarUrl = googleProfile.avatarUrl;
+      updated = true;
+    }
+    if (updated) {
+      saveDatabase(db);
+    }
+    return user;
+  }
+
+  // Create new user for first-time Google sign in
+  const id = `user-g-${Date.now().toString(36)}-${crypto.randomBytes(3).toString("hex")}`;
+  const newUser: User = {
+    id,
+    email: normalized,
+    name: googleProfile.name || "Google User",
+    role: "restaurant_admin",
+    googleId: googleProfile.googleId,
+    avatarUrl: googleProfile.avatarUrl,
+    createdAt: new Date().toISOString(),
+  };
+
+  db.users.push(newUser);
+  saveDatabase(db);
+  return newUser;
+}
+
+export function setPasswordResetToken(email: string): { user: User; token: string } | null {
+  const db = loadDatabase();
+  const normalized = email.trim().toLowerCase();
+  const user = (db.users || []).find((u) => u.email.toLowerCase() === normalized);
+  if (!user) return null;
+
+  const token = crypto.randomBytes(24).toString("hex");
+  user.resetToken = token;
+  user.resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+  saveDatabase(db);
+  return { user, token };
+}
+
+export function resetPassword(token: string, newPassword: string): boolean {
+  const db = loadDatabase();
+  const now = new Date().toISOString();
+  const user = (db.users || []).find(
+    (u) => u.resetToken === token && (!u.resetTokenExpiry || u.resetTokenExpiry > now)
+  );
+  if (!user) return false;
+
+  user.passwordHash = hashPassword(newPassword);
+  user.resetToken = undefined;
+  user.resetTokenExpiry = undefined;
+  saveDatabase(db);
+  return true;
+}
+
+export function updateUser(id: string, updates: Partial<User>): User | null {
+  const db = loadDatabase();
+  const user = (db.users || []).find((u) => u.id === id);
+  if (!user) return null;
+
+  Object.assign(user, updates);
+  saveDatabase(db);
+  return user;
+}

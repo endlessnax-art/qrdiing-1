@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getRestaurants, createRestaurant } from "@/lib/db/storage";
+import { getRestaurants, createRestaurant, updateUser, getUserByEmail } from "@/lib/db/storage";
+import { getCurrentUser } from "@/lib/auth";
 
 export async function GET() {
   try {
@@ -57,6 +58,21 @@ export async function POST(req: NextRequest) {
       },
       planId: body.planId || "free_trial",
     });
+
+    // Link restaurant to logged-in user or matching user record
+    try {
+      const session = await getCurrentUser();
+      if (session?.user) {
+        updateUser(session.user.id, { restaurantId: newRest.id });
+      } else {
+        const matched = getUserByEmail(body.email);
+        if (matched) {
+          updateUser(matched.id, { restaurantId: newRest.id });
+        }
+      }
+    } catch (e) {
+      console.warn("User link warning:", e);
+    }
 
     return NextResponse.json({ success: true, data: newRest });
   } catch (error) {

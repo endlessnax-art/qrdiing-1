@@ -313,6 +313,23 @@
       "pin": "4321",
       "phone": "+91 98765 43212",
       "createdAt": "2026-09-16T10:00:00Z"
+    },
+    {
+      "id": "user-mwjbrtfc-4e11180b",
+      "email": "arman.demo@rest.com",
+      "name": "Arman Malik",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 77777",
+      "passwordHash": "4a99c51d3c1fbf008fc76f629bb56dd35109b809bea7e8cab133797119574d57",
+      "createdAt": "2026-11-16T13:54:35.833Z"
+    },
+    {
+      "id": "user-g-mwjbrtn4-a9a21d",
+      "email": "google.partner@gmail.com",
+      "name": "Google Partner",
+      "role": "restaurant_admin",
+      "googleId": "gid_12345",
+      "createdAt": "2026-11-16T13:54:36.112Z"
     }
   ],
   "categories": [
