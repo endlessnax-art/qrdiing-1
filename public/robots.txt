@@ -1,0 +1,21 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Allow: /restaurant/
+Allow: /privacy
+Allow: /terms
+Allow: /compliance
+Allow: /security
+Allow: /refund
+
+# Protect private admin, kitchen, waiter, auth, and super-admin routes
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /admin/
+Disallow: /kitchen/
+Disallow: /waiter/
+Disallow: /super-admin/
+Disallow: /api/
+
+Sitemap: https://qrdineing.vercel.app/sitemap.xml

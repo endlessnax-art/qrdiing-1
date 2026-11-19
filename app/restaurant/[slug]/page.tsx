@@ -34,8 +34,8 @@ function CustomerMenuContent() {
   const router = useRouter();
   const slug = (params?.slug as string) || "arabian-delight";
 
-  const tableParam = searchParams.get("table") || "03";
-  const tokenParam = searchParams.get("token");
+  const tableParam = searchParams.get("table") || searchParams.get("t") || "03";
+  const tokenParam = searchParams.get("token") || searchParams.get("tk");
 
   // State
   const [lang, setLang] = useState<Language>("en");
@@ -83,7 +83,8 @@ function CustomerMenuContent() {
     return restaurantData.tables.find(
       (t) =>
         t.tableNumber === tableParam ||
-        parseInt(t.tableNumber) === parseInt(tableParam)
+        parseInt(t.tableNumber) === parseInt(tableParam) ||
+        (tokenParam && t.qrToken === tokenParam)
     );
   }, [restaurantData, tableParam]);
 
@@ -646,8 +647,13 @@ function CustomerMenuContent() {
                   <div className="w-28 sm:w-32 flex flex-col items-center justify-between shrink-0">
                     <div className="w-full h-24 rounded-xl overflow-hidden relative shadow-md">
                       <img
-                        src={item.image}
+                        src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"}
                         alt={item.name}
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80";
+                        }}
                         className="w-full h-full object-cover"
                       />
                       {!item.isAvailable && (

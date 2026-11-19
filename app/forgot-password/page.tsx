@@ -143,18 +143,7 @@ function ForgotPasswordContent() {
             <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" />
             <div>
               <p className="font-semibold">{message}</p>
-              {simulatedLink && (
-                <div className="mt-2 pt-2 border-t border-emerald-200/60">
-                  <p className="text-xs text-emerald-700 mb-1">Simulated Email Reset Link (Dev Demo):</p>
-                  <button
-                    type="button"
-                    onClick={() => setStep("reset")}
-                    className="text-xs font-bold text-emerald-800 underline bg-white/70 px-2.5 py-1 rounded border border-emerald-300 hover:bg-white"
-                  >
-                    Click to proceed with token →
-                  </button>
-                </div>
-              )}
+              <p className="text-xs text-slate-500 mt-1">Please check your inbox (and spam folder). For security, reset links remain valid for 15 minutes.</p>
             </div>
           </div>
         )}

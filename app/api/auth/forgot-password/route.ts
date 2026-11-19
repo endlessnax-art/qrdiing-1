@@ -14,21 +14,13 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const result = setPasswordResetToken(email);
-      // Even if user not found, don't expose enumeration in production, but provide simulated link for demo ease
-      if (!result) {
-        return NextResponse.json({
-          success: true,
-          message: "If an account exists with this email, a password reset link has been dispatched.",
-        });
-      }
+      // Anti-enumeration: Always trigger internal token creation if valid user,
+      // but return the EXACT identical response regardless of whether email exists or not.
+      setPasswordResetToken(email);
 
-      const resetLink = `/forgot-password?token=${result.token}`;
       return NextResponse.json({
         success: true,
-        message: "Password reset link has been generated.",
-        resetToken: result.token,
-        resetLink,
+        message: "If an account is associated with this email address, password reset instructions have been dispatched.",
       });
     }
 

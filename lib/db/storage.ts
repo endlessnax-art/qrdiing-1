@@ -475,13 +475,23 @@ export function deleteCategory(restaurantId: string, categoryId: string): boolea
   return false;
 }
 
-export function getMenuItems(restaurantId: string, categoryId?: string): MenuItem[] {
+export function getMenuItems(restaurantId: string, categoryId?: string, includeArchived: boolean = false): MenuItem[] {
   const db = loadDatabase();
   let items = db.menuItems.filter((m) => m.restaurantId === restaurantId);
+  if (!includeArchived) {
+    items = items.filter((m) => !m.isDeleted);
+  }
   if (categoryId) {
     items = items.filter((m) => m.categoryId === categoryId);
   }
   return items.sort((a, b) => a.sortOrder - b.sortOrder);
+}
+
+export function getArchivedMenuItems(restaurantId: string): MenuItem[] {
+  const db = loadDatabase();
+  return db.menuItems
+    .filter((m) => m.restaurantId === restaurantId && m.isDeleted === true)
+    .sort((a, b) => (b.deletedAt || "").localeCompare(a.deletedAt || ""));
 }
 
 export function getMenuItemById(restaurantId: string, itemId: string): MenuItem | undefined {
@@ -492,12 +502,13 @@ export function getMenuItemById(restaurantId: string, itemId: string): MenuItem 
 export function createMenuItem(restaurantId: string, itemData: Omit<MenuItem, "id" | "restaurantId" | "sortOrder">): { item?: MenuItem; error?: string } {
   const db = loadDatabase();
   const restaurant = db.restaurants.find((r) => r.id === restaurantId);
-  const currentCount = db.menuItems.filter((m) => m.restaurantId === restaurantId).length;
+  // Only active (non-deleted) items count toward subscription limit
+  const activeCount = db.menuItems.filter((m) => m.restaurantId === restaurantId && !m.isDeleted).length;
 
   const allowedLimit = restaurant?.subscription.totalAllowedItems || 20;
-  if (currentCount >= allowedLimit) {
+  if (activeCount >= allowedLimit) {
     return {
-      error: `Menu limit reached (${currentCount}/${allowedLimit} items). Please buy an add-on item pack or upgrade your subscription plan.`,
+      error: `Menu limit reached (${activeCount}/${allowedLimit} items). Please delete/archive unused items or upgrade your subscription plan.`,
     };
   }
 
@@ -505,7 +516,8 @@ export function createMenuItem(restaurantId: string, itemData: Omit<MenuItem, "i
     ...itemData,
     id: `item-${restaurantId}-${Date.now().toString().slice(-4)}`,
     restaurantId,
-    sortOrder: currentCount + 1,
+    sortOrder: activeCount + 1,
+    isDeleted: false,
   };
   db.menuItems.push(newItem);
   saveDatabase(db);
@@ -524,13 +536,37 @@ export function updateMenuItem(restaurantId: string, itemId: string, updates: Pa
 
 export function deleteMenuItem(restaurantId: string, itemId: string): boolean {
   const db = loadDatabase();
-  const initialLen = db.menuItems.length;
-  db.menuItems = db.menuItems.filter((m) => !(m.id === itemId && m.restaurantId === restaurantId));
-  if (db.menuItems.length !== initialLen) {
-    saveDatabase(db);
-    return true;
+  const item = db.menuItems.find((m) => m.id === itemId && m.restaurantId === restaurantId);
+  if (!item || item.isDeleted) return false;
+
+  // Soft delete: keep historical snapshot for orders, KDS and reports
+  item.isDeleted = true;
+  item.deletedAt = new Date().toISOString();
+  saveDatabase(db);
+  return true;
+}
+
+export function restoreMenuItem(restaurantId: string, itemId: string): { success: boolean; error?: string } {
+  const db = loadDatabase();
+  const restaurant = db.restaurants.find((r) => r.id === restaurantId);
+  const item = db.menuItems.find((m) => m.id === itemId && m.restaurantId === restaurantId);
+  if (!item || !item.isDeleted) {
+    return { success: false, error: "Archived item not found." };
   }
-  return false;
+
+  const activeCount = db.menuItems.filter((m) => m.restaurantId === restaurantId && !m.isDeleted).length;
+  const allowedLimit = restaurant?.subscription.totalAllowedItems || 20;
+  if (activeCount >= allowedLimit) {
+    return {
+      success: false,
+      error: `Cannot restore: plan item limit reached (${activeCount}/${allowedLimit}). Upgrade plan to add more items.`,
+    };
+  }
+
+  item.isDeleted = false;
+  item.deletedAt = undefined;
+  saveDatabase(db);
+  return { success: true };
 }
 
 // ==========================================
@@ -795,21 +831,34 @@ export function createOrder(
 
   db.orders.push(newOrder);
 
-  // Update table status if dine-in
-  if (data.orderType === "dine_in" && data.tableNumber) {
+  // Strict Server-Side Table & Cryptographic QR Token Verification
+  if (data.orderType === "dine_in") {
+    if (!data.tableNumber) {
+      throw new Error("Table number is required for dine-in orders.");
+    }
     const table = db.tables.find(
       (t) =>
         t.restaurantId === restaurantId &&
         (t.tableNumber === data.tableNumber || parseInt(t.tableNumber) === parseInt(data.tableNumber || "0"))
     );
-    if (table) {
-      if (table.isActive === false) {
-        throw new Error(`Table ${table.tableNumber} is currently inactive and cannot accept orders.`);
-      }
-      table.status = "order_pending";
-      table.activeOrderId = orderId;
-      table.updatedAt = new Date().toISOString();
+    if (!table) {
+      throw new Error(`Table ${data.tableNumber} was not found for this restaurant.`);
     }
+    if (table.isActive === false) {
+      throw new Error(`Table ${table.tableNumber} is currently marked inactive by staff and cannot accept orders.`);
+    }
+    // Verify QR token matches table's current token
+    if (table.qrToken) {
+      if (!data.token) {
+        throw new Error("Missing table QR token. Please scan your table QR code to place an order.");
+      }
+      if (data.token !== table.qrToken) {
+        throw new Error("Invalid or expired table QR token. This table's QR was regenerated. Please scan the newly printed QR code on your table.");
+      }
+    }
+    table.status = "order_pending";
+    table.activeOrderId = orderId;
+    table.updatedAt = new Date().toISOString();
   }
 
   // Update or create customer record
@@ -1354,6 +1403,36 @@ export function purchaseAddonPackage(restaurantId: string, packageId: string): {
   return { success: true, newLimit: rest.subscription.totalAllowedItems };
 }
 
+export function recordAuditLog(data: {
+  restaurantId?: string;
+  userName: string;
+  userRole: string;
+  action: string;
+  details: string;
+  ipAddress?: string;
+}): AuditLog {
+  const db = loadDatabase();
+  if (!db.auditLogs) db.auditLogs = [];
+
+  const log: AuditLog = {
+    id: `log-${Date.now().toString(36)}-${crypto.randomBytes(3).toString("hex")}`,
+    restaurantId: data.restaurantId,
+    userName: data.userName,
+    userRole: data.userRole,
+    action: data.action,
+    details: data.details,
+    ipAddress: data.ipAddress || "127.0.0.1",
+    timestamp: new Date().toISOString(),
+  };
+
+  db.auditLogs.unshift(log);
+  if (db.auditLogs.length > 200) {
+    db.auditLogs = db.auditLogs.slice(0, 200);
+  }
+  saveDatabase(db);
+  return log;
+}
+
 // ==========================================
 // USER AUTHENTICATION & MANAGEMENT
 // ==========================================
@@ -1399,12 +1478,22 @@ export function createUser(data: {
     throw new Error("An account with this email address already exists.");
   }
 
+  // Only super admin emails from environment whitelist may have super_admin role
+  const isAllowedSuperAdmin = (process.env.SUPER_ADMIN_EMAILS || "admin@qrdening.com,owner@qrdening.com")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .includes(normalizedEmail);
+
+  const assignedRole = data.role === "super_admin" && !isAllowedSuperAdmin
+    ? "restaurant_admin"
+    : (data.role || "restaurant_admin");
+
   const id = `user-${Date.now().toString(36)}-${crypto.randomBytes(4).toString("hex")}`;
   const newUser: User = {
     id,
     email: normalizedEmail,
     name: data.name.trim(),
-    role: data.role || "restaurant_admin",
+    role: assignedRole,
     phone: data.phone?.trim() || undefined,
     restaurantId: data.restaurantId || undefined,
     passwordHash: data.password ? hashPassword(data.password) : undefined,
@@ -1499,9 +1588,19 @@ export function setPasswordResetToken(email: string): { user: User; token: strin
   const user = (db.users || []).find((u) => u.email.toLowerCase() === normalized);
   if (!user) return null;
 
+  // Security: Super admin accounts cannot be reset via public forgot-password endpoint
+  const isSuper = user.role === "super_admin" || (process.env.SUPER_ADMIN_EMAILS || "admin@qrdening.com,owner@qrdening.com")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .includes(normalized);
+  if (isSuper) {
+    return null;
+  }
+
   const token = crypto.randomBytes(24).toString("hex");
   user.resetToken = token;
-  user.resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+  // Short-lived 15 minutes token
+  user.resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000).toISOString();
   saveDatabase(db);
   return { user, token };
 }
@@ -1510,11 +1609,12 @@ export function resetPassword(token: string, newPassword: string): boolean {
   const db = loadDatabase();
   const now = new Date().toISOString();
   const user = (db.users || []).find(
-    (u) => u.resetToken === token && (!u.resetTokenExpiry || u.resetTokenExpiry > now)
+    (u) => u.resetToken === token && u.resetTokenExpiry && u.resetTokenExpiry > now
   );
   if (!user) return false;
 
   user.passwordHash = hashPassword(newPassword);
+  // One-time use: immediately revoke token
   user.resetToken = undefined;
   user.resetTokenExpiry = undefined;
   saveDatabase(db);

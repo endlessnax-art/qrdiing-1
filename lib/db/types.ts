@@ -115,6 +115,8 @@ export interface MenuItem {
   isVeg: boolean;
   isBestseller: boolean;
   isAvailable: boolean; // In Stock or Sold Out
+  isDeleted?: boolean; // Soft-delete flag (orders and reports preserved)
+  deletedAt?: string; // ISO timestamp when soft deleted
   variants?: FoodVariant[];
   addons?: FoodAddon[];
   preparationTimeMinutes: number;

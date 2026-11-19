@@ -43,6 +43,9 @@ import {
   ShieldCheck,
   Menu,
   Star,
+  Upload,
+  Camera,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   generateQRCodeDataURL,
@@ -85,6 +88,12 @@ function AdminDashboardContent() {
   const [feedbacks, setFeedbacks] = useState<CustomerFeedback[]>([]);
   const [allRestaurants, setAllRestaurants] = useState<Restaurant[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [archivedMenuItems, setArchivedMenuItems] = useState<MenuItem[]>([]);
+  const [menuSubTab, setMenuSubTab] = useState<"active" | "archived">("active");
+  const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const [loadTimeout, setLoadTimeout] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Modals
@@ -161,6 +170,15 @@ function AdminDashboardContent() {
       if (couponsJson.success) setCoupons(couponsJson.data);
       if (invJson.success) setInventory(invJson.data);
       if (feedbackJson.success) setFeedbacks(feedbackJson.data);
+
+      // Fetch archived items
+      try {
+        const archRes = await fetch(`/api/restaurants/${slug}/menu?archived=true`);
+        const archJson = await archRes.json();
+        if (archJson.success && archJson.data) setArchivedMenuItems(archJson.data);
+      } catch (err) {
+        console.error("Failed to load archived items", err);
+      }
     } catch (err) {
       console.error("Failed to load restaurant admin data", err);
     } finally {
@@ -211,6 +229,129 @@ function AdminDashboardContent() {
     };
   }, [restaurantData?.tables, slug]);
 
+  // Compress image client-side before upload (max width 1200px, 80% JPEG)
+  const compressImage = async (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+        const maxWidth = 1200;
+        let { width, height } = img;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("Canvas context unavailable"));
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) resolve(blob);
+            else reject(new Error("Compression failed"));
+          },
+          "image/jpeg",
+          0.8
+        );
+      };
+      img.onerror = (err) => reject(err);
+    });
+  };
+
+  const handleImageUpload = async (file: File, isEdit: boolean = false) => {
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      alert("Sirf JPG, PNG aur WebP images allow hain.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("File size 5MB se zyada nahi ho sakti.");
+      return;
+    }
+
+    setIsUploadingImage(true);
+    setUploadError("");
+    try {
+      const compressed = await compressImage(file);
+      const formData = new FormData();
+      formData.append("file", compressed, file.name || "dish.jpg");
+      formData.append("slug", slug);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        if (isEdit) {
+          setEditingItem((prev) => (prev ? { ...prev, image: data.url } : null));
+        } else {
+          setNewItem((prev) => ({ ...prev, image: data.url }));
+        }
+      } else {
+        setUploadError(data.error || "Image upload fail ho gaya.");
+      }
+    } catch {
+      setUploadError("Image upload mein error aaya. Dobara try karein.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleRestoreMenuItem = async (itemId: string) => {
+    try {
+      const res = await fetch(`/api/restaurants/${slug}/menu`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "restore", itemId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+      } else {
+        alert(data.error || "Failed to restore item.");
+      }
+    } catch {
+      alert("Network error: Item restore nahi ho saka.");
+    }
+  };
+
+  const handleUpdateMenuItem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingItem) return;
+    try {
+      const res = await fetch(`/api/restaurants/${slug}/menu`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "item",
+          id: editingItem.id,
+          updates: {
+            name: editingItem.name,
+            categoryId: editingItem.categoryId,
+            basePrice: editingItem.basePrice,
+            description: editingItem.description,
+            image: editingItem.image,
+            isVeg: editingItem.isVeg,
+            isBestseller: editingItem.isBestseller,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEditingItem(null);
+        fetchData();
+      } else {
+        alert(data.error || "Failed to update item");
+      }
+    } catch {
+      alert("Network error: Failed to update item");
+    }
+  };
+
   // Add Menu Item
   const handleCreateMenuItem = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -256,7 +397,7 @@ function AdminDashboardContent() {
 
   // Delete Menu Item
   const handleDeleteMenuItem = async (itemId: string) => {
-    if (!confirm("Are you sure you want to delete this menu item?")) return;
+    if (!window.confirm("Ye item menu se hata dein? Purane orders mein ye record rahega.")) return;
     try {
       await fetch(`/api/restaurants/${slug}/menu?id=${itemId}&type=item`, {
         method: "DELETE",
@@ -589,11 +730,70 @@ function AdminDashboardContent() {
     win.document.close();
   };
 
+  if (loadTimeout && loading) {
+    return (
+      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 border border-amber-200 shadow-sm">
+          <Clock className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-slate-900 mb-2">Dashboard load karne mein waqt lag raha hai</h2>
+        <p className="text-sm text-slate-500 max-w-md mb-6">
+          Internet connection check karein ya refresh karein. Server response mein deri ho rahi hai.
+        </p>
+        <button
+          onClick={() => {
+            setLoadTimeout(false);
+            fetchData();
+          }}
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow"
+        >
+          <RefreshCw className="w-4 h-4" /> Retry
+        </button>
+      </div>
+    );
+  }
+
   if (loading || !restaurantData) {
     return (
-      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-4 text-slate-900">
-        <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-xs font-semibold text-slate-500">Loading {slug} admin panel...</p>
+      <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col font-sans animate-pulse">
+        <noscript>
+          <div className="p-4 bg-rose-50 border-b border-rose-200 text-rose-800 text-sm font-bold text-center">
+            QRDening dashboard chalane ke liye JavaScript enable karna zaroori hai.
+          </div>
+        </noscript>
+        {/* Top bar skeleton */}
+        <div className="h-16 bg-white border-b border-stone-200 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-stone-200 rounded-xl" />
+            <div className="space-y-1.5">
+              <div className="w-32 h-4 bg-stone-200 rounded" />
+              <div className="w-20 h-2.5 bg-stone-100 rounded" />
+            </div>
+          </div>
+          <div className="w-24 h-8 bg-stone-200 rounded-xl" />
+        </div>
+        {/* Body skeleton */}
+        <div className="flex flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 gap-6">
+          <div className="hidden md:flex flex-col w-56 space-y-2 shrink-0">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <div key={i} className="h-10 bg-stone-200/60 rounded-xl" />
+            ))}
+          </div>
+          <div className="flex-1 space-y-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-28 bg-white border border-stone-200 rounded-2xl p-4 space-y-3">
+                  <div className="w-16 h-3 bg-stone-200 rounded" />
+                  <div className="w-24 h-6 bg-stone-300 rounded" />
+                </div>
+              ))}
+            </div>
+            <div className="h-96 bg-white border border-stone-200 rounded-2xl p-6 space-y-4">
+              <div className="w-48 h-6 bg-stone-200 rounded" />
+              <div className="h-64 bg-stone-100 rounded-xl" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1116,100 +1316,264 @@ function AdminDashboardContent() {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
+                    disabled={usedItemsCount >= allowedItemsCount}
                     onClick={() => {
-                      setNewItem({ ...newItem, categoryId: categories[0]?.id || "" });
+                      if (usedItemsCount >= allowedItemsCount) {
+                        alert(`Aapke plan ki item limit (${allowedItemsCount} items) poori ho chuki hai. Naya item add karne ke liye plan upgrade karein.`);
+                        return;
+                      }
+                      setNewItem({
+                        name: "",
+                        nameHi: "",
+                        nameTe: "",
+                        nameUr: "",
+                        categoryId: categories[0]?.id || "",
+                        description: "",
+                        basePrice: 150,
+                        isVeg: true,
+                        isBestseller: false,
+                        image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80",
+                      });
                       setIsAddItemOpen(true);
                     }}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow"
+                    className={`font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition ${
+                      usedItemsCount >= allowedItemsCount
+                        ? "bg-slate-300 text-slate-500 cursor-not-allowed"
+                        : "bg-emerald-600 hover:bg-emerald-700 text-white"
+                    }`}
                   >
                     <Plus className="w-4 h-4" /> Add Food Item
                   </button>
                   <button
                     onClick={() => setActiveTab("subscription")}
-                    className="bg-stone-100 text-slate-900 hover:bg-slate-700 text-amber-400 border border-stone-200 px-3 py-2 rounded-xl text-xs font-bold"
+                    className="bg-stone-100 text-slate-900 hover:bg-stone-200 border border-stone-300 px-3 py-2 rounded-xl text-xs font-bold transition"
                   >
                     + Add-on Item Packs
                   </button>
                 </div>
               </div>
 
-              {/* Items Table */}
-              <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-stone-100 text-slate-900/60 text-slate-500 uppercase text-[10px] font-bold border-b border-stone-200">
-                    <tr>
-                      <th className="p-3.5">Food Dish</th>
-                      <th className="p-3.5">Category</th>
-                      <th className="p-3.5">Diet</th>
-                      <th className="p-3.5">Base Price</th>
-                      <th className="p-3.5">Availability</th>
-                      <th className="p-3.5 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/80">
-                    {menuItems.map((item) => (
-                      <tr key={item.id} className="hover:bg-stone-100 text-slate-900/40 transition">
-                        <td className="p-3.5 flex items-center gap-3">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-10 h-10 rounded-lg object-cover"
-                          />
-                          <div>
-                            <span className="font-bold text-slate-900 text-sm">{item.name}</span>
-                            {item.isBestseller && (
-                              <span className="ml-2 text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">
-                                Bestseller
-                              </span>
-                            )}
-                            <p className="text-[11px] text-slate-500 max-w-sm truncate">{item.description}</p>
-                          </div>
-                        </td>
-                        <td className="p-3.5 text-slate-700">
-                          {categories.find((c) => c.id === item.categoryId)?.name || "General"}
-                        </td>
-                        <td className="p-3.5">
-                          <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                              item.isVeg
-                                ? "bg-emerald-500/20 text-emerald-400"
-                                : "bg-rose-500/20 text-rose-400"
-                            }`}
-                          >
-                            {item.isVeg ? "Veg" : "Non-Veg"}
-                          </span>
-                        </td>
-                        <td className="p-3.5 font-bold text-slate-900">
-                          {formatCurrency(item.basePrice)}
-                        </td>
-                        <td className="p-3.5">
-                          <button
-                            onClick={() => handleToggleItemAvailability(item)}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
-                              item.isAvailable
-                                ? "bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30"
-                                : "bg-rose-500/20 text-rose-400 hover:bg-rose-500/30"
-                            }`}
-                          >
-                            {item.isAvailable ? "In Stock" : "Sold Out"}
-                          </button>
-                        </td>
-                        <td className="p-3.5 text-right space-x-2">
-                          <button
-                            onClick={() => handleDeleteMenuItem(item.id)}
-                            className="p-1.5 bg-stone-100 text-slate-900 hover:bg-rose-500/20 text-rose-400 rounded-lg transition"
-                            title="Delete Item"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              {/* Plan Limit Warning */}
+              {usedItemsCount >= allowedItemsCount && (
+                <div className="bg-amber-50 border border-amber-300 text-amber-900 p-4 rounded-2xl text-xs flex flex-wrap items-center justify-between gap-3 shadow-sm">
+                  <div className="flex items-center gap-2.5">
+                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+                    <span>
+                      Aapke plan ki item limit (<strong>{allowedItemsCount} items</strong>) poori ho chuki hai. Naya item add karne ke liye plan upgrade karein ya koi purana item archive karein.
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab("subscription")}
+                    className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs shrink-0 transition shadow-xs"
+                  >
+                    Upgrade Plan
+                  </button>
+                </div>
+              )}
+
+              {/* Sub-tabs: Active vs Archived */}
+              <div className="flex items-center gap-2 border-b border-stone-200 pb-2">
+                <button
+                  type="button"
+                  onClick={() => setMenuSubTab("active")}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+                    menuSubTab === "active"
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "bg-white text-slate-600 border border-stone-200 hover:bg-stone-50"
+                  }`}
+                >
+                  <span>Active Menu Items</span>
+                  <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                    menuSubTab === "active" ? "bg-emerald-500 text-white" : "bg-stone-200 text-slate-700"
+                  }`}>
+                    {menuItems.length}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMenuSubTab("archived")}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+                    menuSubTab === "archived"
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "bg-white text-slate-600 border border-stone-200 hover:bg-stone-50"
+                  }`}
+                >
+                  <span>Archived Items</span>
+                  <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                    menuSubTab === "archived" ? "bg-amber-500 text-white" : "bg-stone-200 text-slate-700"
+                  }`}>
+                    {archivedMenuItems.length}
+                  </span>
+                </button>
               </div>
+
+              {/* Active Items Table */}
+              {menuSubTab === "active" && (
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
+                  {menuItems.length === 0 ? (
+                    <div className="p-12 text-center text-slate-500">
+                      <UtensilsCrossed className="w-10 h-10 mx-auto mb-3 opacity-30 text-slate-400" />
+                      <p className="text-sm font-bold text-slate-700">Koi food items nahi hain</p>
+                      <p className="text-xs text-slate-400 mt-1">Add Food Item button dabakar apna pehla dish add karein.</p>
+                    </div>
+                  ) : (
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-stone-100 text-slate-600 uppercase text-[10px] font-bold border-b border-stone-200">
+                        <tr>
+                          <th className="p-3.5">Food Dish</th>
+                          <th className="p-3.5">Category</th>
+                          <th className="p-3.5">Diet</th>
+                          <th className="p-3.5">Base Price</th>
+                          <th className="p-3.5">Availability</th>
+                          <th className="p-3.5 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-100">
+                        {menuItems.map((item) => (
+                          <tr key={item.id} className="hover:bg-stone-50/70 transition">
+                            <td className="p-3.5 flex items-center gap-3">
+                              <img
+                                src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"}
+                                alt={item.name}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src =
+                                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80";
+                                }}
+                                className="w-11 h-11 rounded-xl object-cover border border-stone-200 shrink-0"
+                              />
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-slate-900 text-sm">{item.name}</span>
+                                  {item.isBestseller && (
+                                    <span className="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-full font-bold">
+                                      Bestseller
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-[11px] text-slate-500 max-w-sm truncate mt-0.5">{item.description}</p>
+                              </div>
+                            </td>
+                            <td className="p-3.5 text-slate-700 font-medium">
+                              {categories.find((c) => c.id === item.categoryId)?.name || "General"}
+                            </td>
+                            <td className="p-3.5">
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                  item.isVeg
+                                    ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                    : "bg-rose-100 text-rose-800 border border-rose-200"
+                                }`}
+                              >
+                                {item.isVeg ? "Veg" : "Non-Veg"}
+                              </span>
+                            </td>
+                            <td className="p-3.5 font-bold text-slate-900 text-sm">
+                              {formatCurrency(item.basePrice)}
+                            </td>
+                            <td className="p-3.5">
+                              <button
+                                onClick={() => handleToggleItemAvailability(item)}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+                                  item.isAvailable
+                                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
+                                    : "bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100"
+                                }`}
+                              >
+                                {item.isAvailable ? "In Stock" : "Sold Out"}
+                              </button>
+                            </td>
+                            <td className="p-3.5 text-right space-x-1.5">
+                              <button
+                                onClick={() => setEditingItem(item)}
+                                className="p-1.5 bg-stone-100 text-slate-700 hover:bg-stone-200 rounded-lg transition"
+                                title="Edit Item"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteMenuItem(item.id)}
+                                className="p-1.5 bg-stone-100 text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                                title="Delete Item"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )}
+
+              {/* Archived Items Table */}
+              {menuSubTab === "archived" && (
+                <div className="bg-white border border-stone-200/80 rounded-3xl shadow-sm overflow-hidden shadow-xl">
+                  {archivedMenuItems.length === 0 ? (
+                    <div className="p-12 text-center text-slate-500">
+                      <Layers className="w-10 h-10 mx-auto mb-3 opacity-30 text-slate-400" />
+                      <p className="text-sm font-bold text-slate-700">Koi archived items nahi hain</p>
+                      <p className="text-xs text-slate-400 mt-1">Jab aap kisi item ko delete karenge to wo yahan aayega aur past order records surakshit rahenge.</p>
+                    </div>
+                  ) : (
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-stone-100 text-slate-600 uppercase text-[10px] font-bold border-b border-stone-200">
+                        <tr>
+                          <th className="p-3.5">Food Dish</th>
+                          <th className="p-3.5">Category</th>
+                          <th className="p-3.5">Diet</th>
+                          <th className="p-3.5">Base Price</th>
+                          <th className="p-3.5">Archived On</th>
+                          <th className="p-3.5 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-100">
+                        {archivedMenuItems.map((item) => (
+                          <tr key={item.id} className="hover:bg-stone-50/70 transition">
+                            <td className="p-3.5 flex items-center gap-3">
+                              <img
+                                src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"}
+                                alt={item.name}
+                                className="w-10 h-10 rounded-xl object-cover grayscale opacity-60 border border-stone-200"
+                              />
+                              <div>
+                                <span className="font-bold text-slate-700 text-sm line-through">{item.name}</span>
+                                <p className="text-[11px] text-slate-400 max-w-sm truncate">{item.description}</p>
+                              </div>
+                            </td>
+                            <td className="p-3.5 text-slate-600 font-medium">
+                              {categories.find((c) => c.id === item.categoryId)?.name || "General"}
+                            </td>
+                            <td className="p-3.5">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-stone-100 text-slate-600">
+                                {item.isVeg ? "Veg" : "Non-Veg"}
+                              </span>
+                            </td>
+                            <td className="p-3.5 font-bold text-slate-700">
+                              {formatCurrency(item.basePrice)}
+                            </td>
+                            <td className="p-3.5 text-slate-500 text-[11px]">
+                              {item.deletedAt ? formatDate(item.deletedAt) : "Archived"}
+                            </td>
+                            <td className="p-3.5 text-right">
+                              <button
+                                onClick={() => handleRestoreMenuItem(item.id)}
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs inline-flex items-center gap-1.5 shadow transition"
+                              >
+                                <RefreshCw className="w-3.5 h-3.5" /> Restore to Menu
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )}
             </div>
           )}
+
+          
 
           {/* TAB 4: TABLES & QR CODE GENERATOR */}
           {activeTab === "tables" && (
@@ -1858,37 +2222,87 @@ function AdminDashboardContent() {
 
       {/* MODAL 1: ADD MENU ITEM */}
       {isAddItemOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="bg-slate-900 border border-stone-200 rounded-2xl max-w-md w-full p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="bg-white border border-stone-200 rounded-3xl max-w-md w-full p-6 relative shadow-2xl max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsAddItemOpen(false)}
-              className="absolute top-4 right-4 text-slate-500 hover:text-slate-900"
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-slate-900">Add New Food Item</h3>
-            <p className="text-xs text-slate-500 mt-1">Adds dish to your digital menu</p>
+            <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <UtensilsCrossed className="w-5 h-5 text-emerald-600" /> Add New Food Item
+            </h3>
+            <p className="text-xs text-slate-500 mt-1">Adds dish to your restaurant digital QR menu</p>
 
-            <form onSubmit={handleCreateMenuItem} className="mt-4 space-y-3">
+            <form onSubmit={handleCreateMenuItem} className="mt-5 space-y-3.5">
+              {/* Dish Photo Upload */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Dish Name (English) *</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">Dish Photo</label>
+                <div className="flex items-center gap-3 bg-stone-50 p-2.5 rounded-2xl border border-stone-200">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden border border-stone-200 bg-white shrink-0 relative">
+                    <img
+                      src={newItem.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"}
+                      alt="Dish preview"
+                      className="w-full h-full object-cover"
+                    />
+                    {isUploadingImage && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-1 text-xs flex-1">
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition shadow-xs text-xs">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>{newItem.image ? "Replace Photo" : "Upload Photo"}</span>
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          capture="environment"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleImageUpload(file, false);
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      {newItem.image && (
+                        <button
+                          type="button"
+                          onClick={() => setNewItem({ ...newItem, image: "" })}
+                          className="text-stone-500 hover:text-rose-600 px-2 py-1 text-xs font-semibold"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-slate-500">JPG, PNG, WebP up to 5MB (Auto-compressed to 1200px)</p>
+                    {uploadError && <p className="text-[10px] text-rose-500 font-bold">{uploadError}</p>}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Dish Name (English) *</label>
                 <input
                   type="text"
                   required
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
                   placeholder="e.g. Charcoal Grilled Chicken Tikka"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Category *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Category *</label>
                   <select
                     value={newItem.categoryId}
                     onChange={(e) => setNewItem({ ...newItem, categoryId: e.target.value })}
-                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -1896,34 +2310,35 @@ function AdminDashboardContent() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Base Price (₹) *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Base Price (₹) *</label>
                   <input
                     type="number"
                     required
+                    min="1"
                     value={newItem.basePrice}
                     onChange={(e) => setNewItem({ ...newItem, basePrice: Number(e.target.value) })}
-                    className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900"
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Description</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
                 <textarea
                   value={newItem.description}
                   onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-                  className="w-full bg-stone-50 border border-stone-300 rounded-xl text-slate-900 px-3 py-2 text-xs text-slate-900 h-16"
-                  placeholder="Tender chicken cubes in spices..."
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2 text-xs h-16 focus:outline-none focus:border-emerald-600"
+                  placeholder="Tender chicken marinated in yogurt and traditional spices..."
                 />
               </div>
 
-              <div className="flex items-center gap-4 text-xs font-semibold">
+              <div className="flex items-center gap-4 text-xs font-bold pt-1">
                 <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={newItem.isVeg}
                     onChange={(e) => setNewItem({ ...newItem, isVeg: e.target.checked })}
-                    className="rounded text-emerald-500"
+                    className="rounded text-emerald-600"
                   />
                   <span>Pure Vegetarian</span>
                 </label>
@@ -1934,16 +2349,169 @@ function AdminDashboardContent() {
                     onChange={(e) => setNewItem({ ...newItem, isBestseller: e.target.checked })}
                     className="rounded text-amber-500"
                   />
-                  <span>Mark Bestseller</span>
+                  <span>Mark as Bestseller</span>
                 </label>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2"
+                disabled={isUploadingImage}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs transition mt-3 shadow"
               >
-                Save Menu Item
+                {isUploadingImage ? "Uploading Photo..." : "Save Menu Item"}
               </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT MENU ITEM */}
+      {editingItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="bg-white border border-stone-200 rounded-3xl max-w-md w-full p-6 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setEditingItem(null)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <Edit2 className="w-5 h-5 text-emerald-600" /> Edit Food Item
+            </h3>
+            <p className="text-xs text-slate-500 mt-1">Update dish details, price, or photo</p>
+
+            <form onSubmit={handleUpdateMenuItem} className="mt-5 space-y-3.5">
+              {/* Dish Photo */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">Dish Photo</label>
+                <div className="flex items-center gap-3 bg-stone-50 p-2.5 rounded-2xl border border-stone-200">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden border border-stone-200 bg-white shrink-0 relative">
+                    <img
+                      src={editingItem.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"}
+                      alt="Dish preview"
+                      className="w-full h-full object-cover"
+                    />
+                    {isUploadingImage && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-1 text-xs flex-1">
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer bg-white text-emerald-700 border border-emerald-300 hover:bg-emerald-50 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition shadow-xs text-xs">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Replace Photo</span>
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          capture="environment"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleImageUpload(file, true);
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      {editingItem.image && (
+                        <button
+                          type="button"
+                          onClick={() => setEditingItem({ ...editingItem, image: "" })}
+                          className="text-stone-500 hover:text-rose-600 px-2 py-1 text-xs font-semibold"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-slate-500">JPG, PNG, WebP up to 5MB (Auto-compressed to 1200px)</p>
+                    {uploadError && <p className="text-[10px] text-rose-500 font-bold">{uploadError}</p>}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Dish Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={editingItem.name}
+                  onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+                  <select
+                    value={editingItem.categoryId}
+                    onChange={(e) => setEditingItem({ ...editingItem, categoryId: e.target.value })}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
+                  >
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Base Price (₹) *</label>
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={editingItem.basePrice}
+                    onChange={(e) => setEditingItem({ ...editingItem, basePrice: Number(e.target.value) })}
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-600"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
+                <textarea
+                  value={editingItem.description || ""}
+                  onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
+                  className="w-full bg-stone-50 border border-stone-200 rounded-xl text-slate-900 px-3.5 py-2 text-xs h-16 focus:outline-none focus:border-emerald-600"
+                />
+              </div>
+
+              <div className="flex items-center gap-4 text-xs font-bold pt-1">
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingItem.isVeg}
+                    onChange={(e) => setEditingItem({ ...editingItem, isVeg: e.target.checked })}
+                    className="rounded text-emerald-600"
+                  />
+                  <span>Pure Vegetarian</span>
+                </label>
+                <label className="flex items-center gap-1.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingItem.isBestseller}
+                    onChange={(e) => setEditingItem({ ...editingItem, isBestseller: e.target.checked })}
+                    className="rounded text-amber-500"
+                  />
+                  <span>Mark as Bestseller</span>
+                </label>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingItem(null)}
+                  className="w-1/3 bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold py-3 rounded-xl text-xs transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUploadingImage}
+                  className="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs transition shadow"
+                >
+                  {isUploadingImage ? "Uploading Photo..." : "Update Item"}
+                </button>
+              </div>
             </form>
           </div>
         </div>

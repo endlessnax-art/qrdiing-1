@@ -102,16 +102,10 @@ export default function LandingPage() {
               🤵 Waiter Floor <ExternalLink className="w-3 h-3" />
             </Link>
             <Link
-              href="/admin/dashboard?slug=arabian-delight"
+              href="/restaurant/arabian-delight?table=03"
               className="bg-emerald-700 hover:bg-emerald-600 text-white px-2 py-0.5 rounded font-bold flex items-center gap-1 transition"
             >
-              📊 Restaurant Admin <ExternalLink className="w-3 h-3" />
-            </Link>
-            <Link
-              href="/super-admin"
-              className="bg-slate-800 hover:bg-slate-700 text-indigo-200 px-2 py-0.5 rounded font-medium flex items-center gap-1 transition"
-            >
-              🌐 Super Admin <ExternalLink className="w-3 h-3" />
+              🍽️ Customer QR Menu <ExternalLink className="w-3 h-3" />
             </Link>
           </div>
         </div>
@@ -360,7 +354,7 @@ export default function LandingPage() {
                       {/* Dish Card 1 */}
                       <div className="bg-white p-2.5 rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                         <img
-                          src="https://images.unsplash.com/photo-1544025162-d76694265947?w=120&auto=format&fit=crop&q=80"
+                          src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=160&auto=format&fit=crop&q=80"
                           alt="Chicken Mandi"
                           className="w-14 h-14 rounded-lg object-cover shrink-0"
                         />
@@ -587,7 +581,7 @@ export default function LandingPage() {
                     High-Resolution Dynamic QR Codes for Every Single Table
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed">
-                    Never use fake QR images. QRDening generates real, cryptographically protected QR codes containing your unique restaurant slug and table ID.
+                    Real, scannable QR codes for every table. Test with your phone camera instantly.
                   </p>
                   <ul className="space-y-2 text-xs text-slate-700">
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Export in high-res PNG, SVG vector, and printable PDF</li>
@@ -897,6 +891,9 @@ export default function LandingPage() {
             </h2>
             <p className="text-slate-600 mt-3 text-sm">
               0% commission on food sales. All online and UPI payments go directly to your restaurant bank.
+            </p>
+            <p className="text-xs text-slate-500 mt-1 font-semibold">
+              Transparent pricing • All plans subject to 18% GST as applicable.
             </p>
           </div>
 
@@ -1238,7 +1235,6 @@ export default function LandingPage() {
                 <li><Link href="/kitchen?slug=arabian-delight" className="hover:text-emerald-400 transition">Kitchen Display System (KDS)</Link></li>
                 <li><Link href="/waiter?slug=arabian-delight" className="hover:text-emerald-400 transition">Waiter Floor Dashboard</Link></li>
                 <li><Link href="/admin/dashboard?slug=arabian-delight" className="hover:text-emerald-400 transition">Restaurant Admin Panel</Link></li>
-                <li><Link href="/super-admin" className="hover:text-emerald-400 transition">Super Admin Platform Control</Link></li>
               </ul>
             </div>
 
@@ -1267,11 +1263,12 @@ export default function LandingPage() {
 
           <div className="pt-8 flex flex-wrap items-center justify-between gap-4 text-[11px] text-slate-500">
             <p>© 2026 QRDening SaaS Platform. All rights reserved.</p>
-            <div className="flex gap-4">
-              <span>Privacy Policy</span>
-              <span>Terms of Service</span>
-              <span>GST Compliance</span>
-              <span>Security Policy</span>
+            <div className="flex flex-wrap gap-4 font-medium">
+              <Link href="/privacy" className="hover:text-emerald-400 transition">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-emerald-400 transition">Terms of Service</Link>
+              <Link href="/compliance" className="hover:text-emerald-400 transition">GST Compliance</Link>
+              <Link href="/security" className="hover:text-emerald-400 transition">Security Policy</Link>
+              <Link href="/refund" className="hover:text-emerald-400 transition">Refund Policy</Link>
             </div>
           </div>
         </div>
