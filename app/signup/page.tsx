@@ -372,9 +372,9 @@ export default function SignUpPage() {
                     className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-stone-300"
                   />
                   <label htmlFor="terms" className="text-xs text-slate-600 select-none">
-                    I agree to QRDening's{" "}
-                    <span className="text-emerald-700 font-semibold underline cursor-pointer">Terms of Service</span> and{" "}
-                    <span className="text-emerald-700 font-semibold underline cursor-pointer">Privacy Policy</span>.
+                    I agree to QRDening&apos;s{" "}
+                    <Link href="/terms" target="_blank" className="text-emerald-700 font-semibold underline">Terms of Service</Link> and{" "}
+                    <Link href="/privacy" target="_blank" className="text-emerald-700 font-semibold underline">Privacy Policy</Link>.
                   </label>
                 </div>
 

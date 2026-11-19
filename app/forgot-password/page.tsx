@@ -27,7 +27,6 @@ function ForgotPasswordContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [simulatedLink, setSimulatedLink] = useState("");
 
   useEffect(() => {
     if (urlToken) {
@@ -60,11 +59,7 @@ function ForgotPasswordContent() {
         return;
       }
 
-      setMessage(data.message || "Reset link generated.");
-      if (data.resetToken) {
-        setToken(data.resetToken);
-        setSimulatedLink(data.resetLink || `/forgot-password?token=${data.resetToken}`);
-      }
+      setMessage(data.message || "Reset link sent to your registered email.");
     } catch {
       setErrorMessage("Network error. Please try again.");
     } finally {

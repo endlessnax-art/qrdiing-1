@@ -134,6 +134,10 @@ function KitchenContent() {
   const fetchKitchenOrders = async () => {
     try {
       const res = await fetch(`/api/orders?slug=${slug}`);
+      if (res.status === 401 || res.status === 403) {
+        window.location.href = `/login?redirect=/kitchen?slug=${slug}`;
+        return;
+      }
       const json = await res.json();
       if (json.success && json.data) {
         const newCount = (json.data as Order[]).filter((o) => o.orderStatus === "new").length;

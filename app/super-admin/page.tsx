@@ -50,6 +50,8 @@ export default function SuperAdminDashboard() {
       const json = await res.json();
       if (json.success) {
         setData(json.data);
+      } else if (res.status === 401 || res.status === 403) {
+        window.location.href = "/login?redirect=/super-admin";
       }
     } catch (err) {
       console.error("Failed to fetch super admin data", err);

@@ -63,6 +63,11 @@ function WaiterContent() {
         fetch(`/api/orders?slug=${slug}`),
       ]);
 
+      if (tablesRes.status === 401 || tablesRes.status === 403) {
+        window.location.href = `/login?redirect=/waiter?slug=${slug}`;
+        return;
+      }
+
       const [tablesJson, callsJson, ordersJson] = await Promise.all([
         tablesRes.json(),
         callsRes.json(),

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import Head from "next/head";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   QrCode,
@@ -164,10 +163,6 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
-      <Head>
-        <title>Sign In | QRDening</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Head>
 
       {/* Top Header */}
       <header className="border-b border-stone-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-50">
