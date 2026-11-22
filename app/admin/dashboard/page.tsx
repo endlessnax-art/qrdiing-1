@@ -46,6 +46,8 @@ import {
   Upload,
   Camera,
   Image as ImageIcon,
+  Globe,
+  LogOut,
 } from "lucide-react";
 import {
   generateQRCodeDataURL,
@@ -207,7 +209,7 @@ function AdminDashboardContent() {
       const svgMap: Record<string, string> = {};
 
       for (const t of restaurantData!.tables) {
-        const targetUrl = `${origin}/restaurant/${slug}?table=${t.tableNumber}&token=${t.qrToken}`;
+        const targetUrl = `${origin}/menu/${slug}/${t.tableNumber}?token=${t.qrToken}`;
         try {
           const dataUrl = await generateQRCodeDataURL(targetUrl, { width: 512, margin: 2 });
           const svgStr = await generateQRCodeSVG(targetUrl);
@@ -228,6 +230,13 @@ function AdminDashboardContent() {
       isMounted = false;
     };
   }, [restaurantData?.tables, slug]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {}
+    window.location.href = "/";
+  };
 
   // Compress image client-side before upload (max width 1200px, 80% JPEG)
   const compressImage = async (file: File): Promise<Blob> => {
@@ -643,7 +652,7 @@ function AdminDashboardContent() {
   <div style="text-align:center; border-bottom:2px dashed #000; padding-bottom:6px;">
     <h2 style="margin:0; font-size:14pt;">*** K.O.T ***</h2>
     <div style="font-weight:bold; font-size:10pt;">${ord.restaurantName}</div>
-    <div style="font-size:9pt;">${ord.orderNumber} • ${new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+    <div style="font-size:9pt;">${ord.kotNumber ? `KOT: ${ord.kotNumber} • ` : ""}Order: ${ord.orderNumber} ${ord.tokenNumber ? `• Token: ${ord.tokenNumber} ` : ""}• ${new Date(ord.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
   </div>
   <div style="background:#000; color:#fff; text-align:center; font-size:16pt; font-weight:900; padding:4px; margin:6px 0;">
     ${ord.orderType === "dine_in" ? `TABLE ${ord.tableNumber}` : "TAKEAWAY"}
@@ -695,7 +704,7 @@ function AdminDashboardContent() {
   <div style="text-align:center; border-bottom:1px dashed #000; padding-bottom:6px; margin-bottom:6px;">
     <div style="font-weight:900; font-size:13pt; text-transform:uppercase;">${ord.restaurantName}</div>
     <div style="font-size:8pt; color:#444;">GSTIN: 36AAECR9988D1Z2 • TAX INVOICE</div>
-    <div style="font-size:8pt; margin-top:2px;">Bill: ${ord.orderNumber} • ${new Date(ord.createdAt).toLocaleString()}</div>
+    <div style="font-size:8pt; margin-top:2px;">${ord.billNumber ? `Bill No: ${ord.billNumber} • ` : ""}Order: ${ord.orderNumber} • ${new Date(ord.createdAt).toLocaleString()}</div>
     <div style="font-weight:bold; font-size:10pt; margin-top:2px;">${ord.orderType === "dine_in" ? `TABLE ${ord.tableNumber}` : "TAKEAWAY"}</div>
   </div>
   <table>
@@ -858,7 +867,7 @@ function AdminDashboardContent() {
             </select>
 
             <Link
-              href={`/restaurant/${slug}?table=03`}
+              href={`/menu/${slug}/03`}
               target="_blank"
               className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-emerald-600/20 whitespace-nowrap"
             >
@@ -868,11 +877,22 @@ function AdminDashboardContent() {
             </Link>
 
             <Link
-              href="/super-admin"
-              className="bg-stone-100 hover:bg-stone-200 text-indigo-700 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg border border-stone-200 transition hidden sm:inline"
+              href="/"
+              className="bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-xs whitespace-nowrap"
             >
-              Super Admin →
+              <Globe className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="hidden sm:inline">Main Website</span>
+              <span className="sm:hidden">Home</span>
             </Link>
+
+            <button
+              onClick={handleLogout}
+              className="bg-stone-100 hover:bg-rose-50 hover:text-rose-700 text-slate-700 text-xs font-bold px-2.5 sm:px-3 py-2 rounded-lg border border-stone-200 transition flex items-center gap-1.5"
+              title="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Sign Out</span>
+            </button>
           </div>
         </div>
 
@@ -918,6 +938,13 @@ function AdminDashboardContent() {
         {/* SIDEBAR NAVIGATION */}
         <aside className="w-64 bg-white border-r border-stone-200/80 p-4 hidden md:flex flex-col justify-between shrink-0 shadow-xs">
           <nav className="space-y-1">
+            <Link
+              href="/"
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-emerald-900 bg-emerald-50/80 hover:bg-emerald-100 border border-emerald-200 transition mb-2"
+            >
+              <Globe className="w-4 h-4 text-emerald-600" />
+              <span>Main Website (Home)</span>
+            </Link>
             <button
               onClick={() => setActiveTab("overview")}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${
@@ -1039,6 +1066,13 @@ function AdminDashboardContent() {
               Buy +10 Items Add-on Pack →
             </button>
           </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-rose-700 hover:bg-rose-50 border border-stone-200 mt-3 transition"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
         </aside>
 
         {/* MAIN TAB CONTENT AREA */}
@@ -1608,8 +1642,8 @@ function AdminDashboardContent() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {tables.map((table) => {
                   const targetUrl = typeof window !== "undefined"
-                    ? `${window.location.origin}/restaurant/${slug}?table=${table.tableNumber}&token=${table.qrToken}`
-                    : `http://localhost:3000/restaurant/${slug}?table=${table.tableNumber}&token=${table.qrToken}`;
+                    ? `${window.location.origin}/menu/${slug}/${table.tableNumber}?token=${table.qrToken}`
+                    : `http://localhost:3000/menu/${slug}/${table.tableNumber}?token=${table.qrToken}`;
 
                   return (
                     <div

@@ -5,23 +5,26 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
+        // Royal Blue Primary Brand Palette for QRDine
         brand: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b',
-          950: '#022c22',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb', // Core Royal Blue
+          700: '#1d4ed8', // Dark Royal Blue
+          800: '#1e40af', // Deep Royal Blue
+          900: '#1e3a8a', // Midnight Royal Blue
+          950: '#172554',
         },
+        // Warm accent for highlights and badges
         accent: {
           50: '#fffbeb',
           100: '#fef3c7',
@@ -33,10 +36,11 @@ const config: Config = {
           700: '#b45309',
           800: '#92400e',
           900: '#78350f',
-        }
+        },
       },
     },
   },
   plugins: [],
 };
+
 export default config;

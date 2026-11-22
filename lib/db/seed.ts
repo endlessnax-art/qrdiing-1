@@ -113,6 +113,7 @@ export const initialRestaurants: Restaurant[] = [
     closingTime: "23:30",
     isVerified: true,
     isActive: true,
+    approvalStatus: "approved",
     subscription: {
       planId: "growth",
       planName: "Growth Plan",
@@ -164,6 +165,7 @@ export const initialRestaurants: Restaurant[] = [
     closingTime: "23:00",
     isVerified: true,
     isActive: true,
+    approvalStatus: "approved",
     subscription: {
       planId: "starter",
       planName: "Starter Plan",
@@ -214,6 +216,7 @@ export const initialRestaurants: Restaurant[] = [
     closingTime: "00:00",
     isVerified: true,
     isActive: true,
+    approvalStatus: "approved",
     subscription: {
       planId: "enterprise",
       planName: "Enterprise Pro",

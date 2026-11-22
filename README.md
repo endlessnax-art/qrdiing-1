@@ -1,159 +1,169 @@
-# QRDening – Multi-Restaurant SaaS Platform
-**Scan. Order. Manage. Grow.**
+# QRDine – Multi-Restaurant QR Digital Menu SaaS Platform
 
-QRDening is a production-oriented, scalable multi-restaurant management and digital QR ordering platform designed for Restaurants, Hotels, Cafés, Fast Food Outlets, and Cloud Kitchens across India and global markets.
+> **Modern, Contactless Digital Menus for Restaurants. One Central SaaS Platform – Multiple Independent Restaurants.**
 
-Platform Model: **One Central Platform – Multiple Isolated Restaurants**
-
----
-
-## 🌟 Key Platform Modules & Portals
-
-1. **Public SaaS Website (`/`)**
-   - High-conversion SaaS landing page with emerald/slate premium theme.
-   - Interactive Live Demo Switcher to test all 5 roles in one click.
-   - Transparent pricing plans: Free Trial (₹0), Starter (₹999/mo), Growth (₹1,999/mo), Enterprise (₹3,999/mo).
-   - "Book Free Demo" and instant "Restaurant Registration" onboarding with automatic table QR generation.
-   - Interactive FAQ, customer testimonials, Indian GST (5%) & UPI compliance highlights.
-
-2. **Customer Digital QR Menu & Ordering (`/restaurant/[slug]?table=03`)**
-   - Table Detection: Automatically identifies table number (e.g. Table 03 at Arabian Delight) with secure cryptographic tokens.
-   - Tamper-proof table identity: URL tampering cannot steal or redirect table identity.
-   - Dine-In vs Takeaway mode switch.
-   - Multi-Language Switcher: English, Hindi (हिंदी), Telugu (తెలుగు), Urdu (اردو) with translated dish names and descriptions.
-   - Instant search, Veg / Non-Veg filter, Bestseller tags, customization modal (Portion sizes, extra toppings, special instructions).
-   - Interactive Cart Drawer with real-time promo code engine (`WELCOME50`, `MANDI20`, `FLAT100`).
-   - Guest Checkout: Instant UPI (simulated dynamic UPI QR with restaurant VPA), Cash at counter, or Online Card Gateway.
-   - Live Order Tracking (`/restaurant/[slug]/order/[orderId]`): Animated status tracker (Received → Accepted → Cooking → Ready → Completed).
-   - Gamified Loyalty: Digital Stamp Card (collect 5 stamps for a free dessert) + daily Spin & Win wheel.
-   - Quick Staff Alerts: "🛎️ Call Waiter" and "🧾 Request Bill" buttons.
-
-3. **Live Kitchen Display System - KDS (`/kitchen?slug=arabian-delight`)**
-   - Real-time order tickets with audio chime and color-coded urgency indicators (Green < 5m, Amber 5-15m, Red > 15m).
-   - Visual status transitions: NEW → ACCEPTED → PREPARING → READY → COMPLETED.
-   - Order rejection / cancellation modal with mandatory reason.
-   - Displays item customizations, extra toppings, and cooking notes prominently in amber.
-   - Filter by Active Kitchen Queue, Ready to Serve, or All Orders.
-
-4. **Waiter & Floor Staff Dashboard (`/waiter?slug=arabian-delight`)**
-   - Live floor grid showing all tables with color-coded statuses:
-     - Available (Green)
-     - Occupied (Blue)
-     - Order Pending (Amber)
-     - Cooking / Preparing (Purple)
-     - Ready to Serve (Emerald Pulse)
-     - Bill Requested (Rose/Red)
-   - Real-time Waiter Call Alerts banner: table assistance & printed bill requests.
-   - Quick table status toggling and table active order viewer.
-
-5. **Restaurant Admin Dashboard (`/admin/dashboard?slug=arabian-delight`)**
-   - **Overview**: Real-time sales telemetry, active orders count, table occupancy, bestsellers.
-   - **Orders Management**: Full order table with status filters, customer info, and payment verification.
-   - **Menu Item Catalog**: Categorized items with Veg/Non-Veg badges, prices, availability toggle, and freemium slot counter.
-   - **Table & QR Code Generator**: Table list, single QR download, and printable Table Tent Cards (with restaurant branding & table #).
-   - **Daily Sales Dashboard**: Gross sales, discounts, 5% GST, net collection, Cash vs UPI split, and hour-by-hour sales breakdown. Export to CSV/Excel and print daily PDF.
-   - **Monthly Sales Dashboard**: Monthly breakdown, daily trend calendar, AOV (Average Order Value), peak business day, and growth metrics.
-   - **Coupons & Promos**: Percentage and fixed discount promo engine with min order values.
-   - **Inventory Tracker**: Ingredient stock levels, cost per unit, low-stock threshold alerts, and auto-deduction upon order completion.
-   - **Subscription & Add-ons**: Active plan details, buy +10, +20, or +50 menu item packs.
-
-6. **Super Admin Platform Owner Panel (`/super-admin`)**
-   - Platform Telemetry: Total registered restaurants, active vs pending verification, total customer orders.
-   - **Crucial Separation**: Restaurant Sales GMV is cleanly separated from QRDening SaaS Subscription Revenue.
-   - Restaurant Management: Account verification, activation/suspension, sales volume tracking, and direct admin inspection.
-   - Dynamic Plan Pricing Manager: Edit monthly/yearly subscription prices and menu item limits without code changes.
-   - Menu Item Freemium Package Manager.
-   - Platform Security & Audit Logs.
+Welcome to **QRDine**! This guide is written specifically in simple, clear language for beginners. Follow along step-by-step to set up, understand, and run your project.
 
 ---
 
-## 🛠️ Technology Stack
+## 🌟 What is QRDine?
 
-- **Frontend**: Next.js 14.2 (App Router), React 18, TypeScript, Tailwind CSS, Lucide Icons.
-- **Backend**: Next.js Server Components, API Route Handlers, Server Actions.
-- **Database**: 
-  - Production DDL: PostgreSQL schema (`lib/db/schema.postgresql.sql`) with RLS (Row Level Security), foreign keys, indexes, and enums.
-  - Development / Demo runtime: Zero-configuration JSON/SQLite storage (`lib/db/storage.ts`) with persistent multi-tenant isolation, atomic file writes, and initial seed data for 3 live demo restaurants.
-- **Printing**: Clean `@media print` stylesheets for Table QR Tent Cards and Daily Sales Reports.
+QRDine is a multi-tenant Software-as-a-Service (SaaS) platform where **multiple independent restaurants** can each have:
+- Their own **account and private dashboard** (`/dashboard`)
+- Their own **digital menu with dish categories, prices, and photos**
+- Custom **table-specific QR codes** (e.g., Table 01, Table 02) that diners scan with any smartphone camera
+- High-resolution **PNG & vector SVG QR downloads** and printable Table Tent Cards
+- A **Super Admin panel** (`/admin`) for platform owners to oversee restaurants, plans, and revenue
+- Complete **data isolation** using PostgreSQL Row Level Security (RLS) so one restaurant can never see another's private data.
+
+> **Phase 1 Scope**: Focused strictly on the contactless QR menu viewing experience, multi-tenant onboarding, dashboards, and database security. Ordering, cart, and payment-at-table will be introduced in subsequent phases.
 
 ---
 
-## 📂 Project Structure
+## 🏗️ Technology Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Design System**: Modern SaaS White Background with Royal-Blue Primary Palette (`#2563eb`, `#1e40af`)
+- **Backend & Database**: Supabase PostgreSQL
+- **Authentication**: Supabase Auth (Email & Password, Role-Based Access)
+- **Security**: PostgreSQL Row Level Security (RLS)
+- **QR Generation**: Client-side dynamic QR Engine (`qrcode`)
+- **Deployment**: Vercel-Ready
+
+---
+
+## 📁 Scalable Folder Structure
 
 ```
-qrdening/
 ├── app/
-│   ├── page.tsx                          # Public SaaS Landing Page
-│   ├── layout.tsx                        # Root Layout & Metadata
-│   ├── globals.css                       # Tailwind & Print Styles
-│   ├── kitchen/page.tsx                  # Kitchen Display System (KDS)
-│   ├── waiter/page.tsx                   # Waiter Floor & Table Management
-│   ├── super-admin/page.tsx              # Super Admin Platform Control
-│   ├── admin/dashboard/page.tsx          # Restaurant Admin Panel
-│   ├── restaurant/[slug]/
-│   │   ├── page.tsx                      # Customer Digital QR Menu
-│   │   └── order/[orderId]/page.tsx      # Live Customer Order Tracking
-│   └── api/
-│       ├── restaurants/                  # Restaurant Directory & Registration
-│       ├── restaurants/[slug]/           # Profile, Categories, Menu, Tables
-│       ├── orders/                       # Order Placement & Status Updates
-│       ├── orders/[orderId]/pay/         # Payment Verification (UPI, Cash, Razorpay)
-│       ├── waiter-calls/                 # Call Waiter & Request Bill Alerts
-│       ├── coupons/                      # Promo Code Validation & Creation
-│       ├── inventory/                    # Ingredient Stock & Deduction
-│       ├── analytics/daily/              # Daily Sales Report API
-│       ├── analytics/monthly/            # Monthly Sales Report API
-│       └── super-admin/                  # Platform Stats & Plan Pricing
+│   ├── page.tsx               # High-converting SaaS Landing Page (Royal Blue & White theme)
+│   ├── layout.tsx             # Root Layout with metadata, responsive viewport, styling
+│   ├── globals.css            # Clean white background, print stylesheets for QR tent cards
+│   ├── login/
+│   │   └── page.tsx           # Owner & Super Admin Login (Supabase Auth)
+│   ├── register/
+│   │   └── page.tsx           # Restaurant onboarding & registration flow
+│   ├── dashboard/
+│   │   └── page.tsx           # Restaurant Owner Dashboard (Menu, QR Generator, Branches, AI preview)
+│   ├── admin/
+│   │   └── page.tsx           # Central Super Admin Dashboard (Global restaurants, plans, security)
+│   └── menu/
+│       └── [slug]/
+│           └── page.tsx       # Fast Customer QR Digital Menu (Read-only, mobile-first, table detection)
+├── components/
+│   └── SupabaseConfigBanner.tsx # Helpful diagnostic banner when Supabase keys are pending
 ├── lib/
-│   ├── db/
-│   │   ├── types.ts                      # Relational Schema Types
-│   │   ├── schema.postgresql.sql         # Production PostgreSQL DDL
-│   │   ├── seed.ts                       # Realistic Multi-Restaurant Seed Data
-│   │   └── storage.ts                    # Tenant-Isolated Storage Engine
-│   ├── i18n.ts                           # Multi-Language Dictionary (EN, HI, TE, UR)
-│   └── utils.ts                          # Currency & Date Formatters
-└── package.json
+│   ├── supabase/
+│   │   ├── client.ts          # Browser client (createBrowserClient)
+│   │   ├── server.ts          # Server client with secure cookie handling (createServerClient)
+│   │   ├── admin.ts           # Guarded admin client with service role key (Server-only)
+│   │   ├── middleware.ts      # Edge middleware token refresh
+│   │   └── config.ts          # Environment variables validation & diagnostics
+│   ├── types/
+│   │   └── database.ts        # TypeScript definitions for all DB tables & tenant schemas
+│   └── utils.ts               # Shared helpers (cn, formatCurrency, slugify)
+├── middleware.ts              # Protects /dashboard and /admin; refreshes Supabase session
+├── supabase/
+│   ├── migrations/
+│   │   └── 20261121000000_qrdine_init.sql  # Complete PostgreSQL schema with RLS policies
+│   └── seed.sql               # Demo data: The Royal Plate, categories, dishes, QR codes
+├── .env.example               # Environment variables template with explanations
+├── .env.local                 # Local environment credentials file
+├── tailwind.config.ts         # Configured with Royal Blue brand palette
+└── README.md                  # Beginner-friendly setup instructions
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Beginner Quick-Start Guide (5 Simple Steps)
 
-### 1. Prerequisites
-- Node.js v18+ (Node v20 LTS recommended)
-- npm or pnpm
-
-### 2. Installation
+### Step 1: Open the Project Directory
+In your terminal (PowerShell or Bash), navigate to the project directory:
 ```bash
-cd C:\Users\CHIST\.gemini\antigravity\scratch\qrdening
+cd "C:\Users\CHIST\.gemini\antigravity\scratch\qrdening"
+```
+
+### Step 2: Install Dependencies
+If not already installed, run:
+```bash
 npm install
 ```
 
-### 3. Production Build & Start
-```bash
-npm run build
-npm start
+### Step 3: Create a Free Supabase Project
+1. Go to [https://supabase.com](https://supabase.com) and create a free account.
+2. Click **New Project** and name it `qrdine-db`. Choose a strong database password.
+3. Once created, go to **Project Settings** (gear icon at the bottom left) -> **API**.
+4. You will see:
+   - **Project URL** (e.g. `https://xyzcompany.supabase.co`)
+   - **Project API Keys** -> `anon` / `public`
+   - **Project API Keys** -> `service_role` (Keep this secret!)
+
+### Step 4: Configure `.env.local`
+Open `.env.local` in your editor and paste your credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key-here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+SUPER_ADMIN_EMAILS=admin@qrdine.com,owner@qrdine.com
 ```
-The application will be live at `http://localhost:3000`.
+
+> **Note**: Even if you haven't set up Supabase yet, the project runs in **Preview Mode** with friendly diagnostic guidance so you can test all interfaces immediately!
+
+### Step 5: Run Database Migrations in Supabase
+1. In your Supabase Dashboard, open the **SQL Editor** tab from the left sidebar.
+2. Click **New query**.
+3. Copy the entire contents of:
+   `supabase/migrations/20261121000000_qrdine_init.sql`
+4. Paste it into the SQL Editor and click **Run**. This creates all tables (`restaurants`, `restaurant_members`, `menus`, `categories`, `menu_items`, `qr_codes`) and enables Row Level Security (RLS).
+5. (Optional) Run `supabase/seed.sql` to populate sample restaurants ("The Royal Plate") and dishes for immediate testing!
+
+### Step 6: Start the Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser!
 
 ---
 
-## 🧭 Live Demo URLs
+## 🧭 Routes Overview
 
-| Portal | URL | Demo Credentials / Target |
+| Route | Purpose | Access |
 |---|---|---|
-| **Public Website** | `http://localhost:3000` | Landing Page, Pricing & Registration |
-| **Customer QR Menu** | `http://localhost:3000/restaurant/arabian-delight?table=03` | Table 03 at Arabian Delight |
-| **Kitchen Display (KDS)** | `http://localhost:3000/kitchen?slug=arabian-delight` | Chef Zaheer Live Queue |
-| **Waiter Dashboard** | `http://localhost:3000/waiter?slug=arabian-delight` | Sunil Kumar Floor View |
-| **Restaurant Admin** | `http://localhost:3000/admin/dashboard?slug=arabian-delight` | Tariq Mansoor (Owner Panel) |
-| **Super Admin** | `http://localhost:3000/super-admin` | Platform Owner Control |
+| `/` | **QRDine SaaS Landing Page**: Value proposition, feature highlights, pricing, and live interactive demo switcher. | Public |
+| `/login` | **Sign In Portal**: Dual login for Restaurant Owners and Platform Super Admins using Supabase Auth. | Public |
+| `/register` | **Restaurant Registration**: Onboarding flow collecting restaurant name, URL slug, owner contact, and address. | Public |
+| `/dashboard` | **Restaurant Owner Dashboard**: Menu items management (CRUD), category switcher, instant table QR generator (PNG/SVG/Print), branches, and analytics. | Authenticated Owner |
+| `/admin` | **Super Admin Panel**: Platform overview, restaurant directory, active/suspended toggles, and subscription tier manager. | Super Admin Only |
+| `/menu/[slug]` | **Customer Digital Menu**: Lightning-fast mobile menu (e.g., `/menu/the-royal-plate?table=05`) with search, category tabs, and veg/non-veg tags. | Public (No Login Needed) |
 
 ---
 
-## 🔒 Security & Tenant Isolation
+## 🔒 Security & Multi-Tenant Isolation (RLS)
 
-1. **Tenant Separation**: Every database query and mutation strictly validates and enforces `restaurantId`. Records from one restaurant cannot be read, modified, or deleted by another.
-2. **Tamper-Proof QR Identity**: Tables use encrypted cryptographic tokens (`ad-tok-tbl-03-xxx`). Query parameter manipulation cannot hijack another table's bill.
-3. **Server-Side Pricing**: Prices, taxes, and coupon discounts are calculated strictly on the server. Frontend prices are never trusted.
-4. **Independent Sales Accounting**: Platform subscription revenue is mathematically separated from restaurant food GMV. Order payments are directly credited to restaurant accounts and excluded from platform SaaS income.
+QRDine enforces tenant isolation at the **database layer** using Supabase PostgreSQL **Row Level Security (RLS)**:
+
+1. **`is_restaurant_member(restaurant_id)`**:
+   Every database query checks if `auth.uid()` exists in `restaurant_members` for that `restaurant_id`. A restaurant manager cannot read, edit, or delete another restaurant's dishes or settings.
+2. **Public Menu Access**:
+   Customers visiting `/menu/[slug]` only receive read access to active dishes (`is_available = true`) belonging to active restaurants (`is_active = true`).
+3. **Guarded Service Role Key**:
+   The elevated `SUPABASE_SERVICE_ROLE_KEY` is strictly confined to server-side administrative code and is never exposed in browser JavaScript bundles.
+
+---
+
+## 🔮 Phase 2 Roadmap: AI Menu Converter
+
+In Phase 2, restaurant owners will be able to upload a photo (JPG/PNG) or PDF of their printed menu. An AI vision engine will:
+1. Extract food item names, exact prices, and categories using vision OCR.
+2. Detect original typography, colors, and layout structures.
+3. Allow the restaurant owner to approve and preview the digitized menu side-by-side with the uploaded photo before publishing.
+
+---
+
+## 🧪 Verification Commands
+
+To verify that the project is clean and free of errors:
+- **TypeScript Typecheck**: `npx tsc --noEmit`
+- **Production Build**: `npm run build`

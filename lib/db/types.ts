@@ -16,12 +16,14 @@ export interface User {
   createdAt: string;
 }
 
-export type RestaurantCategory = "Fine Dining" | "Casual Dining" | "Café & Bakery" | "Fast Food" | "Cloud Kitchen" | "Bar & Pub" | "Biryani & Arabic";
+export type RestaurantCategory = "Fine Dining" | "Casual Dining" | "Café & Bakery" | "Fast Food" | "Cloud Kitchen" | "Bar & Pub" | "Biryani & Arabic" | "Restaurant" | "Café" | "Hotel" | "Bakery" | "Food Court" | "Other";
+
+export type ApprovalStatus = "pending" | "approved" | "rejected" | "suspended" | "deactivated";
 
 export interface RestaurantSubscription {
-  planId: "free_trial" | "starter" | "growth" | "enterprise";
+  planId: "free_trial" | "starter" | "growth" | "enterprise" | string;
   planName: string;
-  status: "active" | "trial" | "expired" | "pending_payment";
+  status: "active" | "trial" | "expired" | "pending_payment" | "suspended";
   startDate: string;
   endDate: string;
   monthlyPrice: number;
@@ -40,6 +42,9 @@ export interface RestaurantSettings {
   serviceChargePercent: number;
   upiVpa?: string; // e.g. "arabian.delight@okicici"
   upiName?: string;
+  upiQrImage?: string; // Uploaded custom UPI QR code
+  upiInstructions?: string;
+  enabledPaymentMethods?: Array<"cash" | "upi" | "pay_at_counter" | "razorpay_online" | "pay_after_food" | "pay_before_food">;
   razorpayKeyId?: string;
   autoAcceptOrders: boolean;
   enableTakeaway: boolean;
@@ -48,6 +53,15 @@ export interface RestaurantSettings {
   enableSpinToWin: boolean;
   primaryColor: string;
   secondaryColor: string;
+  googleReviewUrl?: string;
+  googleMapsUrl?: string;
+  whatsappContact?: string;
+  socialInstagram?: string;
+  socialFacebook?: string;
+  socialWebsite?: string;
+  openingHours?: string;
+  closedDays?: string;
+  languageDefault?: string;
 }
 
 export interface Restaurant {
@@ -63,12 +77,18 @@ export interface Restaurant {
   state: string;
   pincode: string;
   category: RestaurantCategory;
+  restaurantType?: string;
   logo: string;
   coverImage: string;
   openingTime: string;
   closingTime: string;
   isVerified: boolean;
   isActive: boolean;
+  approvalStatus: ApprovalStatus;
+  rejectionReason?: string;
+  suspensionReason?: string;
+  gstNumber?: string;
+  whatsappNumber?: string;
   subscription: RestaurantSubscription;
   settings: RestaurantSettings;
   createdAt: string;
@@ -163,7 +183,10 @@ export interface Order {
   id: string;
   restaurantId: string;
   restaurantName: string;
-  orderNumber: string; // e.g. "#AD-1042"
+  orderNumber: string; // e.g. "ORD-0105"
+  kotNumber?: string; // e.g. "KOT-0105"
+  billNumber?: string; // e.g. "B-0105"
+  tokenNumber?: string; // e.g. "T-025"
   orderType: OrderType;
   tableNumber?: string;
   tableName?: string;
@@ -247,13 +270,20 @@ export interface InventoryItem {
 export interface PlatformSubscriptionPlan {
   id: string;
   name: string;
+  description?: string;
+  duration?: "monthly" | "yearly" | "lifetime" | "custom";
   monthlyPrice: number;
   yearlyPrice: number;
   menuItemLimit: number;
   tableLimit: number;
+  qrLimit?: number;
+  orderLimit?: number;
   staffLimit: number;
+  supportLevel?: string;
+  trialDays?: number;
   features: string[];
   isPopular?: boolean;
+  isActive?: boolean;
 }
 
 export interface MenuItemPackage {

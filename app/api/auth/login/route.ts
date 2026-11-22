@@ -119,6 +119,42 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Check restaurant approval status for non-superadmin users
+    if (restaurant) {
+      if (restaurant.approvalStatus === "pending") {
+        return NextResponse.json(
+          {
+            success: false,
+            status: "pending",
+            error: "Your restaurant registration is under review. You will be able to access your dashboard after approval.",
+          },
+          { status: 403 }
+        );
+      }
+      if (restaurant.approvalStatus === "rejected") {
+        return NextResponse.json(
+          {
+            success: false,
+            status: "rejected",
+            error: `Registration Rejected: ${restaurant.rejectionReason || "Please contact support@qrdening.com for more details."}`,
+            rejectionReason: restaurant.rejectionReason,
+          },
+          { status: 403 }
+        );
+      }
+      if (restaurant.approvalStatus === "suspended" || !restaurant.isActive) {
+        return NextResponse.json(
+          {
+            success: false,
+            status: "suspended",
+            error: `Account Suspended: ${restaurant.suspensionReason || "Your account has been temporarily suspended. Please contact platform support."}`,
+            suspensionReason: restaurant.suspensionReason,
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     // Normal users can use 30-day session if rememberMe is enabled
     const maxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 7;
     const token = createSessionToken(user, {

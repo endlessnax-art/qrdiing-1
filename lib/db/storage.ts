@@ -20,6 +20,7 @@ import {
   PaymentStatus,
   PaymentMethod,
   CustomerFeedback,
+  ApprovalStatus,
 } from "./types";
 import {
   initialRestaurants,
@@ -142,8 +143,15 @@ function loadDatabase(): DatabaseSchema {
     if (fs.existsSync(DB_FILE)) {
       const content = fs.readFileSync(DB_FILE, "utf-8");
       inMemoryDb = JSON.parse(content) as DatabaseSchema;
-      // Normalize tables to ensure all new fields are present
       let updated = false;
+      // Normalize restaurants for approvalStatus
+      inMemoryDb.restaurants.forEach((r) => {
+        if (!r.approvalStatus) {
+          r.approvalStatus = r.isActive !== false ? "approved" : "pending";
+          updated = true;
+        }
+      });
+      // Normalize tables to ensure all new fields are present
       inMemoryDb.tables.forEach((t) => {
         if (t.isActive === undefined) {
           t.isActive = true;
@@ -239,17 +247,19 @@ export function getRestaurantById(id: string): Restaurant | undefined {
   return db.restaurants.find((r) => r.id === id);
 }
 
-export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "subscription"> & { planId?: string }): Restaurant {
+export function createRestaurant(data: Omit<Restaurant, "id" | "createdAt" | "subscription" | "approvalStatus"> & { planId?: string; approvalStatus?: ApprovalStatus }): Restaurant {
   const db = loadDatabase();
   const id = `rest-${data.slug}-${Date.now().toString().slice(-4)}`;
   const plan = db.subscriptionPlans.find((p) => p.id === (data.planId || "free_trial")) || db.subscriptionPlans[0];
   const isTrial = plan.id === "free_trial";
+  const initialApproval: ApprovalStatus = data.approvalStatus || "pending";
 
   const newRestaurant: Restaurant = {
     ...data,
     id,
-    isVerified: true,
-    isActive: true,
+    approvalStatus: initialApproval,
+    isVerified: initialApproval === "approved",
+    isActive: initialApproval === "approved",
     subscription: {
       planId: plan.id as any,
       planName: plan.name,
@@ -758,7 +768,12 @@ export function createOrder(
     .slice(0, 3);
 
   const existingCount = db.orders.filter((o) => o.restaurantId === restaurantId).length;
-  const orderNumber = `#${prefix}-${1040 + existingCount + 1}`;
+  const seqNum = existingCount + 1;
+  const formattedSeq = seqNum.toString().padStart(4, "0");
+  const orderNumber = `ORD-${formattedSeq}`;
+  const kotNumber = `KOT-${formattedSeq}`;
+  const billNumber = `B-${formattedSeq}`;
+  const tokenNumber = `T-${((seqNum % 999) || 1).toString().padStart(3, "0")}`;
 
   // Server-side calculation of pricing (Never trust frontend totals)
   let subtotal = 0;
@@ -808,6 +823,9 @@ export function createOrder(
     restaurantId,
     restaurantName: restName,
     orderNumber,
+    kotNumber,
+    billNumber,
+    tokenNumber,
     orderType: data.orderType,
     tableNumber: data.tableNumber,
     tableName: data.tableNumber ? `Table ${data.tableNumber}` : undefined,
@@ -1313,12 +1331,18 @@ export function getMonthlySales(restaurantId: string, year?: number, month?: num
 export function getSuperAdminOverview() {
   const db = loadDatabase();
   const totalRestaurants = db.restaurants.length;
-  const activeRestaurants = db.restaurants.filter((r) => r.isActive && r.isVerified).length;
+  const activeRestaurants = db.restaurants.filter((r) => r.approvalStatus === "approved" && r.isActive).length;
+  const pendingRestaurants = db.restaurants.filter((r) => r.approvalStatus === "pending").length;
+  const suspendedRestaurants = db.restaurants.filter((r) => r.approvalStatus === "suspended" || (!r.isActive && r.approvalStatus !== "pending")).length;
+  const nowTime = Date.now();
+  const expiredSubscriptions = db.restaurants.filter((r) => new Date(r.subscription.endDate).getTime() < nowTime).length;
   const inactiveRestaurants = totalRestaurants - activeRestaurants;
 
   // Platform Restaurant Order Volume (Not QRDening Revenue)
   const validOrders = db.orders.filter((o) => o.orderStatus !== "cancelled");
   const totalOrders = validOrders.length;
+  const todayStr = new Date().toISOString().split("T")[0];
+  const ordersToday = validOrders.filter((o) => o.createdAt.startsWith(todayStr)).length;
   const totalPlatformSalesVolume = validOrders.reduce((sum, o) => sum + o.totalAmount, 0);
 
   // QRDening Actual Subscription Revenue (Distinguished from restaurant orders)
@@ -1340,26 +1364,142 @@ export function getSuperAdminOverview() {
       plan: rest.subscription.planName,
       isVerified: rest.isVerified,
       isActive: rest.isActive,
+      approvalStatus: rest.approvalStatus,
+      rejectionReason: rest.rejectionReason,
+      suspensionReason: rest.suspensionReason,
+      ownerName: rest.ownerName,
+      phone: rest.phone,
+      email: rest.email,
+      subscription: rest.subscription,
       totalOrders: restOrders.length,
       salesVolume,
+      createdAt: rest.createdAt,
     };
   });
 
   return {
     totalRestaurants,
     activeRestaurants,
+    pendingRestaurants,
+    suspendedRestaurants,
+    expiredSubscriptions,
     inactiveRestaurants,
     totalOrders,
+    ordersToday,
     totalPlatformSalesVolume,
     monthlySubscriptionRevenue,
     addonPackageRevenue,
     totalPlatformRevenue,
     totalCustomers,
     restaurantPerformance,
+    restaurants: db.restaurants,
     subscriptionPlans: db.subscriptionPlans,
     menuItemPackages: db.menuItemPackages,
-    auditLogs: db.auditLogs.slice(0, 10),
+    auditLogs: db.auditLogs.slice(0, 30),
   };
+}
+
+export function approveRestaurant(restaurantId: string): boolean {
+  const db = loadDatabase();
+  const rest = db.restaurants.find((r) => r.id === restaurantId);
+  if (!rest) return false;
+  rest.approvalStatus = "approved";
+  rest.isActive = true;
+  rest.isVerified = true;
+  rest.rejectionReason = undefined;
+
+  // Activate owner user account
+  const owner = db.users?.find((u) => u.restaurantId === restaurantId || u.email.toLowerCase() === rest.email.toLowerCase());
+  if (owner) {
+    if (!owner.restaurantId) owner.restaurantId = rest.id;
+  }
+  saveDatabase(db);
+  return true;
+}
+
+export function rejectRestaurant(restaurantId: string, reason: string): boolean {
+  const db = loadDatabase();
+  const rest = db.restaurants.find((r) => r.id === restaurantId);
+  if (!rest) return false;
+  rest.approvalStatus = "rejected";
+  rest.isActive = false;
+  rest.rejectionReason = reason || "Application does not meet platform requirements.";
+  saveDatabase(db);
+  return true;
+}
+
+export function suspendRestaurant(restaurantId: string, reason?: string): boolean {
+  const db = loadDatabase();
+  const rest = db.restaurants.find((r) => r.id === restaurantId);
+  if (!rest) return false;
+  rest.approvalStatus = "suspended";
+  rest.isActive = false;
+  rest.suspensionReason = reason || "Account temporarily suspended by platform administrator.";
+  saveDatabase(db);
+  return true;
+}
+
+export function activateRestaurant(restaurantId: string): boolean {
+  const db = loadDatabase();
+  const rest = db.restaurants.find((r) => r.id === restaurantId);
+  if (!rest) return false;
+  rest.approvalStatus = "approved";
+  rest.isActive = true;
+  rest.suspensionReason = undefined;
+  saveDatabase(db);
+  return true;
+}
+
+export function extendRestaurantSubscription(restaurantId: string, days: number): boolean {
+  const db = loadDatabase();
+  const rest = db.restaurants.find((r) => r.id === restaurantId);
+  if (!rest) return false;
+  const currentEnd = new Date(rest.subscription.endDate).getTime();
+  const baseTime = currentEnd > Date.now() ? currentEnd : Date.now();
+  rest.subscription.endDate = new Date(baseTime + days * 24 * 60 * 60 * 1000).toISOString();
+  rest.subscription.status = "active";
+  saveDatabase(db);
+  return true;
+}
+
+export function getSubscriptionPlans(): PlatformSubscriptionPlan[] {
+  const db = loadDatabase();
+  return db.subscriptionPlans || [];
+}
+
+export function createSubscriptionPlan(data: PlatformSubscriptionPlan): PlatformSubscriptionPlan {
+  const db = loadDatabase();
+  if (!db.subscriptionPlans) db.subscriptionPlans = [];
+  const existing = db.subscriptionPlans.find((p) => p.id === data.id);
+  if (existing) {
+    throw new Error(`Plan with ID "${data.id}" already exists.`);
+  }
+  const newPlan: PlatformSubscriptionPlan = {
+    ...data,
+    id: data.id || `plan-${Date.now().toString(36)}`,
+    isActive: data.isActive !== false,
+  };
+  db.subscriptionPlans.push(newPlan);
+  saveDatabase(db);
+  return newPlan;
+}
+
+export function updateSubscriptionPlan(planId: string, updates: Partial<PlatformSubscriptionPlan>): boolean {
+  const db = loadDatabase();
+  const plan = db.subscriptionPlans.find((p) => p.id === planId);
+  if (!plan) return false;
+  Object.assign(plan, updates);
+  saveDatabase(db);
+  return true;
+}
+
+export function deleteSubscriptionPlan(planId: string): boolean {
+  const db = loadDatabase();
+  const idx = db.subscriptionPlans.findIndex((p) => p.id === planId);
+  if (idx === -1) return false;
+  db.subscriptionPlans.splice(idx, 1);
+  saveDatabase(db);
+  return true;
 }
 
 export function updateSubscriptionPlanPrice(planId: string, monthlyPrice: number, yearlyPrice: number, menuItemLimit: number): boolean {

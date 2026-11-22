@@ -60,6 +60,17 @@ export async function POST(
       return auth.response;
     }
 
+    if (
+      auth.user.role !== "restaurant_admin" &&
+      auth.user.role !== "super_admin" &&
+      (auth.user.role as string) !== "manager"
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Forbidden: Staff accounts cannot create or modify menu items." },
+        { status: 403 }
+      );
+    }
+
     const restaurant = getRestaurantBySlug(params.slug);
     if (!restaurant) {
       return NextResponse.json({ success: false, error: "Restaurant not found" }, { status: 404 });
@@ -149,6 +160,17 @@ export async function PUT(
       return auth.response;
     }
 
+    if (
+      auth.user.role !== "restaurant_admin" &&
+      auth.user.role !== "super_admin" &&
+      (auth.user.role as string) !== "manager"
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Forbidden: Staff accounts cannot modify menu items." },
+        { status: 403 }
+      );
+    }
+
     const restaurant = getRestaurantBySlug(params.slug);
     if (!restaurant) {
       return NextResponse.json({ success: false, error: "Restaurant not found" }, { status: 404 });
@@ -197,6 +219,17 @@ export async function DELETE(
     const auth = await requireTenantAuth(req, params.slug);
     if (!auth.authorized) {
       return auth.response;
+    }
+
+    if (
+      auth.user.role !== "restaurant_admin" &&
+      auth.user.role !== "super_admin" &&
+      (auth.user.role as string) !== "manager"
+    ) {
+      return NextResponse.json(
+        { success: false, error: "Forbidden: Staff accounts cannot delete menu items." },
+        { status: 403 }
+      );
     }
 
     const restaurant = getRestaurantBySlug(params.slug);

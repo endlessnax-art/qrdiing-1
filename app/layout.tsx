@@ -1,79 +1,66 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://qrdineing.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://qrdine.vercel.app";
+
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "QRDening - Multi-Restaurant SaaS Platform | Scan. Order. Manage. Grow.",
-    template: "%s | QRDening",
+    default: "QRDine - Multi-Restaurant QR Digital Menu SaaS Platform",
+    template: "%s | QRDine",
   },
   description:
-    "All-in-one smart restaurant technology ecosystem: Digital QR Menus, Table-wise Ordering, Kitchen Display System (KDS), Waiter Dashboard, Real-time Sales Analytics, Loyalty & Subscriptions.",
+    "Empower your restaurant with smart, scannable digital QR menus. Multi-tenant SaaS platform with custom restaurant dashboards, high-res table QR codes, and AI menu conversion ready.",
   keywords: [
-    "QRDening",
+    "QRDine",
     "QR Menu",
-    "Restaurant POS",
-    "Table Ordering",
-    "Kitchen Display System",
-    "Restaurant SaaS India",
-    "Cloud Kitchen Software",
-    "GST Invoicing",
+    "Digital Menu SaaS",
+    "Restaurant QR Code",
+    "Multi-restaurant Platform",
+    "Contactless Menu",
+    "Restaurant Tech",
+    "AI Menu Digitizer",
   ],
-  authors: [{ name: "QRDening SaaS Platform" }],
-  creator: "QRDening Technologies",
-  publisher: "QRDening Technologies",
+  authors: [{ name: "QRDine Technologies" }],
+  creator: "QRDine",
+  publisher: "QRDine SaaS",
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
     type: "website",
-    locale: "en_IN",
+    locale: "en_US",
     url: siteUrl,
-    title: "QRDening - Multi-Restaurant SaaS Platform | Scan. Order. Manage. Grow.",
+    title: "QRDine - Multi-Restaurant QR Digital Menu SaaS",
     description:
-      "All-in-one smart restaurant technology ecosystem: Digital QR Menus, Table Ordering, Kitchen KDS, Waiter Dashboard, Real-time Sales Analytics, Loyalty & Subscriptions.",
-    siteName: "QRDening",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
-        width: 1200,
-        height: 630,
-        alt: "QRDening Restaurant Management Ecosystem",
-      },
-    ],
+      "Modern multi-restaurant digital QR menu platform. One platform, independent restaurant portals, custom QR codes, and zero app downloads for diners.",
+    siteName: "QRDine",
   },
   twitter: {
     card: "summary_large_image",
-    title: "QRDening - Multi-Restaurant SaaS Platform",
+    title: "QRDine - Multi-Restaurant QR Digital Menu SaaS",
     description:
-      "Digital QR Menus, Table Ordering, Kitchen KDS, Waiter Calling, Real-time Sales Analytics.",
-    images: [
-      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
-    ],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+      "Modern multi-restaurant digital QR menu platform. Contactless menus, custom QR codes, and real-time menu management.",
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen flex flex-col">{children}</body>
+    <html lang="en" className="h-full scroll-smooth">
+      <body className="min-h-full flex flex-col bg-white text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+        {children}
+      </body>
     </html>
   );
 }

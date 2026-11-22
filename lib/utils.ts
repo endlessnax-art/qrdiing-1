@@ -16,6 +16,7 @@ export function formatCurrency(amount: number, currency: string = "INR"): string
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currency,
+    maximumFractionDigits: 2,
   }).format(amount);
 }
 
@@ -32,4 +33,13 @@ export function formatDate(dateString: string): string {
   } catch {
     return dateString;
   }
+}
+
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

@@ -34,7 +34,8 @@ function CustomerMenuContent() {
   const router = useRouter();
   const slug = (params?.slug as string) || "arabian-delight";
 
-  const tableParam = searchParams.get("table") || searchParams.get("t") || "03";
+  const rawTable = (params?.table as string) || searchParams.get("table") || searchParams.get("t") || "03";
+  const tableParam = rawTable.replace(/^table-?/i, "").padStart(2, "0");
   const tokenParam = searchParams.get("token") || searchParams.get("tk");
 
   // State

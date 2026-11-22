@@ -53,7 +53,8 @@
         "primaryColor": "#059669",
         "secondaryColor": "#d97706"
       },
-      "createdAt": "2026-09-15T10:00:00Z"
+      "createdAt": "2026-09-15T10:00:00Z",
+      "approvalStatus": "approved"
     },
     {
       "id": "rest-royal-biryani",
@@ -105,7 +106,8 @@
         "primaryColor": "#b45309",
         "secondaryColor": "#1e3a8a"
       },
-      "createdAt": "2026-10-15T11:00:00Z"
+      "createdAt": "2026-10-15T11:00:00Z",
+      "approvalStatus": "approved"
     },
     {
       "id": "rest-food-corner",
@@ -157,7 +159,8 @@
         "primaryColor": "#0284c7",
         "secondaryColor": "#f59e0b"
       },
-      "createdAt": "2026-08-01T09:00:00Z"
+      "createdAt": "2026-08-01T09:00:00Z",
+      "approvalStatus": "approved"
     },
     {
       "slug": "ry-restatroij",
@@ -215,7 +218,8 @@
           "UPI & Cash Payments"
         ]
       },
-      "createdAt": "2026-11-15T08:02:44.432Z"
+      "createdAt": "2026-11-15T08:02:44.432Z",
+      "approvalStatus": "approved"
     },
     {
       "slug": "mahii",
@@ -273,7 +277,8 @@
           "UPI & Cash Payments"
         ]
       },
-      "createdAt": "2026-11-15T10:57:14.285Z"
+      "createdAt": "2026-11-15T10:57:14.285Z",
+      "approvalStatus": "approved"
     },
     {
       "slug": "falana",
@@ -331,7 +336,8 @@
           "UPI & Cash Payments"
         ]
       },
-      "createdAt": "2026-11-16T13:59:06.427Z"
+      "createdAt": "2026-11-16T13:59:06.427Z",
+      "approvalStatus": "approved"
     },
     {
       "slug": "kk",
@@ -389,7 +395,8 @@
           "UPI & Cash Payments"
         ]
       },
-      "createdAt": "2026-11-16T14:01:05.755Z"
+      "createdAt": "2026-11-16T14:01:05.755Z",
+      "approvalStatus": "approved"
     },
     {
       "slug": "the-royal-spice",
@@ -448,7 +455,288 @@
           "Razorpay Gateway Integration"
         ]
       },
-      "createdAt": "2026-11-16T15:04:25.805Z"
+      "createdAt": "2026-11-16T15:04:25.805Z",
+      "approvalStatus": "approved"
+    },
+    {
+      "name": "Emerald Grill 2064",
+      "slug": "emerald-grill-2064",
+      "tagline": "Smart QR Menu & Restaurant Management",
+      "ownerName": "Karan Patel",
+      "phone": "+91 98888 12345",
+      "email": "karan.1795157782064@emeraldgrill.in",
+      "address": "Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Restaurant",
+      "restaurantType": "Restaurant",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "approvalStatus": "approved",
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "serviceChargePercent": 0,
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#10b981",
+        "secondaryColor": "#064e3b"
+      },
+      "id": "rest-emerald-grill-2064-2098",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-20T06:56:22.098Z",
+        "endDate": "2026-12-04T06:56:22.098Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "name": "Emerald Grill 6348",
+      "slug": "emerald-grill-6348",
+      "tagline": "Smart QR Menu & Restaurant Management",
+      "ownerName": "Karan Patel",
+      "phone": "+91 98888 12345",
+      "email": "karan.1795157896348@emeraldgrill.in",
+      "address": "Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Restaurant",
+      "restaurantType": "Restaurant",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "approvalStatus": "approved",
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "serviceChargePercent": 0,
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#10b981",
+        "secondaryColor": "#064e3b"
+      },
+      "id": "rest-emerald-grill-6348-6359",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-20T06:58:16.359Z",
+        "endDate": "2026-12-04T06:58:16.359Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-20T06:58:16.359Z"
+    },
+    {
+      "name": "Emerald Grill 4756",
+      "slug": "emerald-grill-4756",
+      "tagline": "Smart QR Menu & Restaurant Management",
+      "ownerName": "Karan Patel",
+      "phone": "+91 98888 12345",
+      "email": "karan.1795158214756@emeraldgrill.in",
+      "address": "Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Restaurant",
+      "restaurantType": "Restaurant",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "approvalStatus": "approved",
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "serviceChargePercent": 0,
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#10b981",
+        "secondaryColor": "#064e3b"
+      },
+      "id": "rest-emerald-grill-4756-4796",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-20T07:03:34.796Z",
+        "endDate": "2026-12-04T07:03:34.796Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "name": "Emerald Grill 0668",
+      "slug": "emerald-grill-0668",
+      "tagline": "Smart QR Menu & Restaurant Management",
+      "ownerName": "Karan Patel",
+      "phone": "+91 98888 12345",
+      "email": "karan.1795158450668@emeraldgrill.in",
+      "address": "Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Restaurant",
+      "restaurantType": "Restaurant",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "approvalStatus": "approved",
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "serviceChargePercent": 0,
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#10b981",
+        "secondaryColor": "#064e3b"
+      },
+      "id": "rest-emerald-grill-0668-0706",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-20T07:07:30.706Z",
+        "endDate": "2026-12-04T07:07:30.706Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "name": "Emerald Grill 8445",
+      "slug": "emerald-grill-8445",
+      "tagline": "Smart QR Menu & Restaurant Management",
+      "ownerName": "Karan Patel",
+      "phone": "+91 98888 12345",
+      "email": "karan.1795166718445@emeraldgrill.in",
+      "address": "Road No. 36, Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "500033",
+      "category": "Restaurant",
+      "restaurantType": "Restaurant",
+      "logo": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop&q=80",
+      "coverImage": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80",
+      "openingTime": "09:00",
+      "closingTime": "23:00",
+      "isVerified": true,
+      "isActive": true,
+      "approvalStatus": "approved",
+      "settings": {
+        "currency": "INR",
+        "taxRatePercent": 5,
+        "serviceChargePercent": 0,
+        "autoAcceptOrders": false,
+        "enableTakeaway": true,
+        "enableDineIn": true,
+        "enableLoyaltyStamp": true,
+        "enableSpinToWin": false,
+        "primaryColor": "#10b981",
+        "secondaryColor": "#064e3b"
+      },
+      "id": "rest-emerald-grill-8445-8527",
+      "subscription": {
+        "planId": "free_trial",
+        "planName": "14-Day Free Trial",
+        "status": "trial",
+        "startDate": "2026-11-20T09:25:18.527Z",
+        "endDate": "2026-12-04T09:25:18.527Z",
+        "monthlyPrice": 0,
+        "menuItemLimit": 20,
+        "purchasedAddonItems": 0,
+        "totalAllowedItems": 20,
+        "staffLimit": 3,
+        "tableLimit": 8,
+        "features": [
+          "Digital QR Menu",
+          "Table-wise QR Generator",
+          "Live Kitchen Display (KDS)",
+          "Waiter Dashboard",
+          "Basic Sales Reports",
+          "UPI & Cash Payments"
+        ]
+      },
+      "createdAt": "2026-11-20T09:25:18.527Z"
     }
   ],
   "users": [
@@ -458,7 +746,8 @@
       "name": "QRDening Platform Owner",
       "role": "super_admin",
       "phone": "+91 90000 00001",
-      "createdAt": "2026-01-01T00:00:00Z"
+      "createdAt": "2026-01-01T00:00:00Z",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641"
     },
     {
       "id": "user-arabian-admin",
@@ -467,7 +756,8 @@
       "role": "restaurant_admin",
       "restaurantId": "rest-arabian-delight",
       "phone": "+91 98765 43210",
-      "createdAt": "2026-09-15T10:00:00Z"
+      "createdAt": "2026-09-15T10:00:00Z",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641"
     },
     {
       "id": "user-arabian-kitchen",
@@ -515,6 +805,56 @@
       "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
       "createdAt": "2026-11-16T13:58:41.484Z",
       "restaurantId": "rest-the-royal-spice-5805"
+    },
+    {
+      "id": "user-mwomldna-56ad0972",
+      "email": "karan.1795157782064@emeraldgrill.in",
+      "name": "Karan Patel",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 12345",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641",
+      "createdAt": "2026-11-20T06:56:22.103Z"
+    },
+    {
+      "id": "user-mwomntt8-299d8a84",
+      "email": "karan.1795157896348@emeraldgrill.in",
+      "name": "Karan Patel",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 12345",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641",
+      "createdAt": "2026-11-20T06:58:16.364Z"
+    },
+    {
+      "id": "user-mwomunip-0ec1eb2d",
+      "email": "karan.1795158214756@emeraldgrill.in",
+      "name": "Karan Patel",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 12345",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641",
+      "createdAt": "2026-11-20T07:03:34.802Z"
+    },
+    {
+      "id": "user-mwomzpjr-425ed0de",
+      "email": "karan.1795158450668@emeraldgrill.in",
+      "name": "Karan Patel",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 12345",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641",
+      "createdAt": "2026-11-20T07:07:30.712Z"
+    },
+    {
+      "id": "user-mworwx1h-05694b0f",
+      "email": "karan.1795166718445@emeraldgrill.in",
+      "name": "Karan Patel",
+      "role": "restaurant_admin",
+      "phone": "+91 98888 12345",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "passwordHash": "57c62a1aa9a5628204ac5907e8a77afd2a1c7b0303cf15b83d097e35ed1dd641",
+      "createdAt": "2026-11-20T09:25:18.534Z"
     }
   ],
   "categories": [
@@ -652,6 +992,156 @@
       "restaurantId": "rest-the-royal-spice-5805",
       "name": "Beverages",
       "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-2064-2098-1",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "name": "Chef's Specials",
+      "nameHi": "शेफ स्पेशल",
+      "nameTe": "చెఫ్ స్పెషల్స్",
+      "nameUr": "شیف کے خاص پکوان",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-2064-2098-2",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "name": "Starters & Appetizers",
+      "nameHi": "शुरुआती व्यंजन",
+      "nameTe": "స్టార్టర్స్",
+      "nameUr": "شروعاتی پکوان",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-2064-2098-3",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "name": "Beverages & Desserts",
+      "nameHi": "पेय और डेसर्ट",
+      "nameTe": "పానీయాలు & డెజర్ట్స్",
+      "nameUr": "مشروبات اور میٹھا",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-6348-6359-1",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "name": "Chef's Specials",
+      "nameHi": "शेफ स्पेशल",
+      "nameTe": "చెఫ్ స్పెషల్స్",
+      "nameUr": "شیف کے خاص پکوان",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-6348-6359-2",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "name": "Starters & Appetizers",
+      "nameHi": "शुरुआती व्यंजन",
+      "nameTe": "స్టార్టర్స్",
+      "nameUr": "شروعاتی پکوان",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-6348-6359-3",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "name": "Beverages & Desserts",
+      "nameHi": "पेय और डेसर्ट",
+      "nameTe": "పానీయాలు & డెజర్ట్స్",
+      "nameUr": "مشروبات اور میٹھا",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-4756-4796-1",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "name": "Chef's Specials",
+      "nameHi": "शेफ स्पेशल",
+      "nameTe": "చెఫ్ స్పెషల్స్",
+      "nameUr": "شیف کے خاص پکوان",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-4756-4796-2",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "name": "Starters & Appetizers",
+      "nameHi": "शुरुआती व्यंजन",
+      "nameTe": "స్టార్టర్స్",
+      "nameUr": "شروعاتی پکوان",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-4756-4796-3",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "name": "Beverages & Desserts",
+      "nameHi": "पेय और डेसर्ट",
+      "nameTe": "పానీయాలు & డెజర్ట్స్",
+      "nameUr": "مشروبات اور میٹھا",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-0668-0706-1",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "name": "Chef's Specials",
+      "nameHi": "शेफ स्पेशल",
+      "nameTe": "చెఫ్ స్పెషల్స్",
+      "nameUr": "شیف کے خاص پکوان",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-0668-0706-2",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "name": "Starters & Appetizers",
+      "nameHi": "शुरुआती व्यंजन",
+      "nameTe": "స్టార్టర్స్",
+      "nameUr": "شروعاتی پکوان",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-0668-0706-3",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "name": "Beverages & Desserts",
+      "nameHi": "पेय और डेसर्ट",
+      "nameTe": "పానీయాలు & డెజర్ట్స్",
+      "nameUr": "مشروبات اور میٹھا",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-8445-8527-1",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "name": "Chef's Specials",
+      "nameHi": "शेफ स्पेशल",
+      "nameTe": "చెఫ్ స్పెషల్స్",
+      "nameUr": "شیف کے خاص پکوان",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-8445-8527-2",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "name": "Starters & Appetizers",
+      "nameHi": "शुरुआती व्यंजन",
+      "nameTe": "స్టార్టర్స్",
+      "nameUr": "شروعاتی پکوان",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-rest-emerald-grill-8445-8527-3",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "name": "Beverages & Desserts",
+      "nameHi": "पेय और डेसर्ट",
+      "nameTe": "పానీయాలు & డెజర్ట్స్",
+      "nameUr": "مشروبات اور میٹھا",
+      "sortOrder": 3,
       "isActive": true
     }
   ],
@@ -907,6 +1397,466 @@
       "isAvailable": true,
       "preparationTimeMinutes": 10,
       "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-2064-2098-1",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "categoryId": "cat-rest-emerald-grill-2064-2098-1",
+      "name": "Emerald Grill 2064 Signature Platter",
+      "nameHi": "सिग्नेचर प्लेटर",
+      "nameTe": "సిగ్నేచర్ ప్లాటర్",
+      "nameUr": "خاص پلیٹر",
+      "description": "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      "basePrice": 380,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 15,
+      "variants": [
+        {
+          "id": "var-rest-emerald-grill-2064-2098-s",
+          "name": "Single Portion",
+          "price": 380
+        },
+        {
+          "id": "var-rest-emerald-grill-2064-2098-f",
+          "name": "Full / Sharing Platter",
+          "price": 680
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-rest-emerald-grill-2064-2098-1",
+          "name": "Extra Dip / Sauce",
+          "price": 40
+        },
+        {
+          "id": "add-rest-emerald-grill-2064-2098-2",
+          "name": "Special Rice / Bread",
+          "price": 60
+        }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "item-rest-emerald-grill-2064-2098-2",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "categoryId": "cat-rest-emerald-grill-2064-2098-2",
+      "name": "Crispy Golden Bites",
+      "nameHi": "क्रिस्पी गोल्डन बाइट्स",
+      "nameTe": "క్రిస్పీ గోల్డెన్ బైట్స్",
+      "nameUr": "کرسپی گولڈن بائٹس",
+      "description": "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-2064-2098-3",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "categoryId": "cat-rest-emerald-grill-2064-2098-3",
+      "name": "Fresh Mint Lime Cooler",
+      "nameHi": "पुदीना नींबू पानी",
+      "nameTe": "పుదీనా నిమ్మ కూలర్",
+      "nameUr": "پودینہ لیموں شربت",
+      "description": "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 5,
+      "sortOrder": 3
+    },
+    {
+      "id": "item-rest-emerald-grill-2064-2098-4",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "categoryId": "cat-rest-emerald-grill-2064-2098-3",
+      "name": "Royal Pistachio Dessert Treat",
+      "nameHi": "रॉयल पिस्ता डेसर्ट",
+      "nameTe": "రాయల్ పిస్తా డెజర్ట్",
+      "nameUr": "شاہی پستہ میٹھا",
+      "description": "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      "basePrice": 160,
+      "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 8,
+      "sortOrder": 4
+    },
+    {
+      "id": "item-rest-emerald-grill-6348-6359-1",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "categoryId": "cat-rest-emerald-grill-6348-6359-1",
+      "name": "Emerald Grill 6348 Signature Platter",
+      "nameHi": "सिग्नेचर प्लेटर",
+      "nameTe": "సిగ్నేచర్ ప్లాటర్",
+      "nameUr": "خاص پلیٹر",
+      "description": "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      "basePrice": 380,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 15,
+      "variants": [
+        {
+          "id": "var-rest-emerald-grill-6348-6359-s",
+          "name": "Single Portion",
+          "price": 380
+        },
+        {
+          "id": "var-rest-emerald-grill-6348-6359-f",
+          "name": "Full / Sharing Platter",
+          "price": 680
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-rest-emerald-grill-6348-6359-1",
+          "name": "Extra Dip / Sauce",
+          "price": 40
+        },
+        {
+          "id": "add-rest-emerald-grill-6348-6359-2",
+          "name": "Special Rice / Bread",
+          "price": 60
+        }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "item-rest-emerald-grill-6348-6359-2",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "categoryId": "cat-rest-emerald-grill-6348-6359-2",
+      "name": "Crispy Golden Bites",
+      "nameHi": "क्रिस्पी गोल्डन बाइट्स",
+      "nameTe": "క్రిస్పీ గోల్డెన్ బైట్స్",
+      "nameUr": "کرسپی گولڈن بائٹس",
+      "description": "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-6348-6359-3",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "categoryId": "cat-rest-emerald-grill-6348-6359-3",
+      "name": "Fresh Mint Lime Cooler",
+      "nameHi": "पुदीना नींबू पानी",
+      "nameTe": "పుదీనా నిమ్మ కూలర్",
+      "nameUr": "پودینہ لیموں شربت",
+      "description": "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 5,
+      "sortOrder": 3
+    },
+    {
+      "id": "item-rest-emerald-grill-6348-6359-4",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "categoryId": "cat-rest-emerald-grill-6348-6359-3",
+      "name": "Royal Pistachio Dessert Treat",
+      "nameHi": "रॉयल पिस्ता डेसर्ट",
+      "nameTe": "రాయల్ పిస్తా డెజర్ట్",
+      "nameUr": "شاہی پستہ میٹھا",
+      "description": "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      "basePrice": 160,
+      "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 8,
+      "sortOrder": 4
+    },
+    {
+      "id": "item-rest-emerald-grill-4756-4796-1",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "categoryId": "cat-rest-emerald-grill-4756-4796-1",
+      "name": "Emerald Grill 4756 Signature Platter",
+      "nameHi": "सिग्नेचर प्लेटर",
+      "nameTe": "సిగ్నేచర్ ప్లాటర్",
+      "nameUr": "خاص پلیٹر",
+      "description": "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      "basePrice": 380,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 15,
+      "variants": [
+        {
+          "id": "var-rest-emerald-grill-4756-4796-s",
+          "name": "Single Portion",
+          "price": 380
+        },
+        {
+          "id": "var-rest-emerald-grill-4756-4796-f",
+          "name": "Full / Sharing Platter",
+          "price": 680
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-rest-emerald-grill-4756-4796-1",
+          "name": "Extra Dip / Sauce",
+          "price": 40
+        },
+        {
+          "id": "add-rest-emerald-grill-4756-4796-2",
+          "name": "Special Rice / Bread",
+          "price": 60
+        }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "item-rest-emerald-grill-4756-4796-2",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "categoryId": "cat-rest-emerald-grill-4756-4796-2",
+      "name": "Crispy Golden Bites",
+      "nameHi": "क्रिस्पी गोल्डन बाइट्स",
+      "nameTe": "క్రిస్పీ గోల్డెన్ బైట్స్",
+      "nameUr": "کرسپی گولڈن بائٹس",
+      "description": "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-4756-4796-3",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "categoryId": "cat-rest-emerald-grill-4756-4796-3",
+      "name": "Fresh Mint Lime Cooler",
+      "nameHi": "पुदीना नींबू पानी",
+      "nameTe": "పుదీనా నిమ్మ కూలర్",
+      "nameUr": "پودینہ لیموں شربت",
+      "description": "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 5,
+      "sortOrder": 3
+    },
+    {
+      "id": "item-rest-emerald-grill-4756-4796-4",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "categoryId": "cat-rest-emerald-grill-4756-4796-3",
+      "name": "Royal Pistachio Dessert Treat",
+      "nameHi": "रॉयल पिस्ता डेसर्ट",
+      "nameTe": "రాయల్ పిస్తా డెజర్ట్",
+      "nameUr": "شاہی پستہ میٹھا",
+      "description": "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      "basePrice": 160,
+      "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 8,
+      "sortOrder": 4
+    },
+    {
+      "id": "item-rest-emerald-grill-0668-0706-1",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "categoryId": "cat-rest-emerald-grill-0668-0706-1",
+      "name": "Emerald Grill 0668 Signature Platter",
+      "nameHi": "सिग्नेचर प्लेटर",
+      "nameTe": "సిగ్నేచర్ ప్లాటర్",
+      "nameUr": "خاص پلیٹر",
+      "description": "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      "basePrice": 380,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 15,
+      "variants": [
+        {
+          "id": "var-rest-emerald-grill-0668-0706-s",
+          "name": "Single Portion",
+          "price": 380
+        },
+        {
+          "id": "var-rest-emerald-grill-0668-0706-f",
+          "name": "Full / Sharing Platter",
+          "price": 680
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-rest-emerald-grill-0668-0706-1",
+          "name": "Extra Dip / Sauce",
+          "price": 40
+        },
+        {
+          "id": "add-rest-emerald-grill-0668-0706-2",
+          "name": "Special Rice / Bread",
+          "price": 60
+        }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "item-rest-emerald-grill-0668-0706-2",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "categoryId": "cat-rest-emerald-grill-0668-0706-2",
+      "name": "Crispy Golden Bites",
+      "nameHi": "क्रिस्पी गोल्डन बाइट्स",
+      "nameTe": "క్రిస్పీ గోల్డెన్ బైట్స్",
+      "nameUr": "کرسپی گولڈن بائٹس",
+      "description": "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-0668-0706-3",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "categoryId": "cat-rest-emerald-grill-0668-0706-3",
+      "name": "Fresh Mint Lime Cooler",
+      "nameHi": "पुदीना नींबू पानी",
+      "nameTe": "పుదీనా నిమ్మ కూలర్",
+      "nameUr": "پودینہ لیموں شربت",
+      "description": "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 5,
+      "sortOrder": 3
+    },
+    {
+      "id": "item-rest-emerald-grill-0668-0706-4",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "categoryId": "cat-rest-emerald-grill-0668-0706-3",
+      "name": "Royal Pistachio Dessert Treat",
+      "nameHi": "रॉयल पिस्ता डेसर्ट",
+      "nameTe": "రాయల్ పిస్తా డెజర్ట్",
+      "nameUr": "شاہی پستہ میٹھا",
+      "description": "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      "basePrice": 160,
+      "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 8,
+      "sortOrder": 4
+    },
+    {
+      "id": "item-rest-emerald-grill-8445-8527-1",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "categoryId": "cat-rest-emerald-grill-8445-8527-1",
+      "name": "Emerald Grill 8445 Signature Platter",
+      "nameHi": "सिग्नेचर प्लेटर",
+      "nameTe": "సిగ్నేచర్ ప్లాటర్",
+      "nameUr": "خاص پلیٹر",
+      "description": "Our signature house specialty prepared fresh with premium herbs and fragrant spices.",
+      "basePrice": 380,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80",
+      "isVeg": false,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 15,
+      "variants": [
+        {
+          "id": "var-rest-emerald-grill-8445-8527-s",
+          "name": "Single Portion",
+          "price": 380
+        },
+        {
+          "id": "var-rest-emerald-grill-8445-8527-f",
+          "name": "Full / Sharing Platter",
+          "price": 680
+        }
+      ],
+      "addons": [
+        {
+          "id": "add-rest-emerald-grill-8445-8527-1",
+          "name": "Extra Dip / Sauce",
+          "price": 40
+        },
+        {
+          "id": "add-rest-emerald-grill-8445-8527-2",
+          "name": "Special Rice / Bread",
+          "price": 60
+        }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "item-rest-emerald-grill-8445-8527-2",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "categoryId": "cat-rest-emerald-grill-8445-8527-2",
+      "name": "Crispy Golden Bites",
+      "nameHi": "क्रिस्पी गोल्डन बाइट्स",
+      "nameTe": "క్రిస్పీ గోల్డెన్ బైట్స్",
+      "nameUr": "کرسپی گولڈن بائٹس",
+      "description": "Crispy seasoned golden bites served with house special tangy garlic dip.",
+      "basePrice": 190,
+      "image": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 10,
+      "sortOrder": 2
+    },
+    {
+      "id": "item-rest-emerald-grill-8445-8527-3",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "categoryId": "cat-rest-emerald-grill-8445-8527-3",
+      "name": "Fresh Mint Lime Cooler",
+      "nameHi": "पुदीना नींबू पानी",
+      "nameTe": "పుదీనా నిమ్మ కూలర్",
+      "nameUr": "پودینہ لیموں شربت",
+      "description": "Refreshing crushed ice cooler with farm fresh garden mint and zesty key lime.",
+      "basePrice": 110,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": false,
+      "isAvailable": true,
+      "preparationTimeMinutes": 5,
+      "sortOrder": 3
+    },
+    {
+      "id": "item-rest-emerald-grill-8445-8527-4",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "categoryId": "cat-rest-emerald-grill-8445-8527-3",
+      "name": "Royal Pistachio Dessert Treat",
+      "nameHi": "रॉयल पिस्ता डेसर्ट",
+      "nameTe": "రాయల్ పిస్తా డెజర్ట్",
+      "nameUr": "شاہی پستہ میٹھا",
+      "description": "Rich traditional sweet garnished with Iranian pistachios and saffron syrup.",
+      "basePrice": 160,
+      "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80",
+      "isVeg": true,
+      "isBestseller": true,
+      "isAvailable": true,
+      "preparationTimeMinutes": 8,
+      "sortOrder": 4
     }
   ],
   "tables": [
@@ -922,46 +1872,6 @@
       "location": "Main Dining Area",
       "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=01&token=arabian-delight-tok-01-5mbsj6",
       "createdAt": "2026-11-15T09:16:27.297Z"
-    },
-    {
-      "id": "tbl-ad-2",
-      "restaurantId": "rest-arabian-delight",
-      "tableNumber": "02",
-      "tableName": "Window Booth 2",
-      "capacity": 4,
-      "status": "available",
-      "qrToken": "ad-tok-tbl-02",
-      "isActive": true,
-      "location": "Main Dining Area",
-      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=02&token=ad-tok-tbl-02",
-      "createdAt": "2026-11-15T09:16:27.297Z"
-    },
-    {
-      "id": "tbl-ad-3",
-      "restaurantId": "rest-arabian-delight",
-      "tableNumber": "03",
-      "tableName": "Central Majlis 3",
-      "capacity": 6,
-      "status": "available",
-      "qrToken": "ad-tok-tbl-03",
-      "isActive": true,
-      "location": "Main Dining Area",
-      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=03&token=ad-tok-tbl-03",
-      "createdAt": "2026-11-15T09:16:27.297Z"
-    },
-    {
-      "id": "tbl-ad-4",
-      "restaurantId": "rest-arabian-delight",
-      "tableNumber": "04",
-      "tableName": "Central Majlis 4",
-      "capacity": 6,
-      "status": "available",
-      "qrToken": "ad-tok-tbl-04",
-      "isActive": true,
-      "location": "Main Dining Area",
-      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=04&token=ad-tok-tbl-04",
-      "createdAt": "2026-11-15T09:16:27.297Z",
-      "updatedAt": "2026-11-15T14:25:21.136Z"
     },
     {
       "id": "tbl-ad-5",
@@ -1000,19 +1910,6 @@
       "isActive": true,
       "location": "Main Dining Area",
       "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=07&token=ad-tok-tbl-07",
-      "createdAt": "2026-11-15T09:16:27.297Z"
-    },
-    {
-      "id": "tbl-ad-8",
-      "restaurantId": "rest-arabian-delight",
-      "tableNumber": "08",
-      "tableName": "Patio Terrace 8",
-      "capacity": 2,
-      "status": "available",
-      "qrToken": "ad-tok-tbl-08",
-      "isActive": true,
-      "location": "Main Dining Area",
-      "destinationUrl": "http://localhost:3000/restaurant/arabian-delight?table=08&token=ad-tok-tbl-08",
       "createdAt": "2026-11-15T09:16:27.297Z"
     },
     {
@@ -1425,6 +2322,566 @@
       "isActive": true,
       "createdAt": "2026-11-16T15:08:16.000Z",
       "updatedAt": "2026-11-16T15:08:16.000Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-01",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl01-71ad427c13870509",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=01&token=emerald-grill-2064-tbl01-71ad427c13870509",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-02",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl02-5987ee3aa2763896",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=02&token=emerald-grill-2064-tbl02-5987ee3aa2763896",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-03",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl03-81422427216a2e47",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=03&token=emerald-grill-2064-tbl03-81422427216a2e47",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-04",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl04-9c5b0925a8f680fe",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=04&token=emerald-grill-2064-tbl04-9c5b0925a8f680fe",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-05",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl05-31fda867d5ae3fad",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=05&token=emerald-grill-2064-tbl05-31fda867d5ae3fad",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-06",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "06",
+      "tableName": "Table 06",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl06-38f53fa8e7c0f855",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=06&token=emerald-grill-2064-tbl06-38f53fa8e7c0f855",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-07",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "07",
+      "tableName": "Table 07",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl07-dfc4feee3f3adefd",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=07&token=emerald-grill-2064-tbl07-dfc4feee3f3adefd",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-2064-2098-08",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "tableNumber": "08",
+      "tableName": "Table 08",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-2064-tbl08-d38ff55ab849176c",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-2064?table=08&token=emerald-grill-2064-tbl08-d38ff55ab849176c",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:56:22.098Z",
+      "updatedAt": "2026-11-20T06:56:22.098Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-01",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl01-b972f29b8a6e2761",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=01&token=emerald-grill-6348-tbl01-b972f29b8a6e2761",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-02",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl02-e32f4dac4712f5d7",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=02&token=emerald-grill-6348-tbl02-e32f4dac4712f5d7",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-03",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl03-282ca3bcd48ae6ec",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=03&token=emerald-grill-6348-tbl03-282ca3bcd48ae6ec",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-04",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl04-0df2e2600a94d207",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=04&token=emerald-grill-6348-tbl04-0df2e2600a94d207",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-05",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl05-aa41845b5c10bd83",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=05&token=emerald-grill-6348-tbl05-aa41845b5c10bd83",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-06",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "06",
+      "tableName": "Table 06",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl06-8d7f68416afc4f8b",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=06&token=emerald-grill-6348-tbl06-8d7f68416afc4f8b",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-07",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "07",
+      "tableName": "Table 07",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl07-fba6466d9fc88c29",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=07&token=emerald-grill-6348-tbl07-fba6466d9fc88c29",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-6348-6359-08",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "tableNumber": "08",
+      "tableName": "Table 08",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-6348-tbl08-1d058f0e063f586f",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-6348?table=08&token=emerald-grill-6348-tbl08-1d058f0e063f586f",
+      "isActive": true,
+      "createdAt": "2026-11-20T06:58:16.360Z",
+      "updatedAt": "2026-11-20T06:58:16.360Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-01",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl01-b31972d65ef5b77c",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=01&token=emerald-grill-4756-tbl01-b31972d65ef5b77c",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-02",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl02-ef41ff38fd33b25c",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=02&token=emerald-grill-4756-tbl02-ef41ff38fd33b25c",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-03",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl03-5bf4266e5efe388d",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=03&token=emerald-grill-4756-tbl03-5bf4266e5efe388d",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-04",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl04-9cf22595bdbdef57",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=04&token=emerald-grill-4756-tbl04-9cf22595bdbdef57",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-05",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl05-1ef5f0e719316e1b",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=05&token=emerald-grill-4756-tbl05-1ef5f0e719316e1b",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-06",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "06",
+      "tableName": "Table 06",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl06-60668f00b7bce88c",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=06&token=emerald-grill-4756-tbl06-60668f00b7bce88c",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-07",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "07",
+      "tableName": "Table 07",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl07-3891d0ac1e17c016",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=07&token=emerald-grill-4756-tbl07-3891d0ac1e17c016",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-4756-4796-08",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "tableNumber": "08",
+      "tableName": "Table 08",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-4756-tbl08-57f5e426237d982b",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-4756?table=08&token=emerald-grill-4756-tbl08-57f5e426237d982b",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:03:34.796Z",
+      "updatedAt": "2026-11-20T07:03:34.796Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-01",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl01-46805cdcc68d402f",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=01&token=emerald-grill-0668-tbl01-46805cdcc68d402f",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-02",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl02-eb7cb912972a33d0",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=02&token=emerald-grill-0668-tbl02-eb7cb912972a33d0",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-03",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl03-a58936dc049aaf48",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=03&token=emerald-grill-0668-tbl03-a58936dc049aaf48",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-04",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl04-8f6d6ecc1860cae1",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=04&token=emerald-grill-0668-tbl04-8f6d6ecc1860cae1",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-05",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl05-bfe82701c824f0e9",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=05&token=emerald-grill-0668-tbl05-bfe82701c824f0e9",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-06",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "06",
+      "tableName": "Table 06",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl06-24add65f719bb2db",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=06&token=emerald-grill-0668-tbl06-24add65f719bb2db",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-07",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "07",
+      "tableName": "Table 07",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl07-aff46a98c8a126bc",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=07&token=emerald-grill-0668-tbl07-aff46a98c8a126bc",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-0668-0706-08",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "tableNumber": "08",
+      "tableName": "Table 08",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-0668-tbl08-1272e223e44cc074",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-0668?table=08&token=emerald-grill-0668-tbl08-1272e223e44cc074",
+      "isActive": true,
+      "createdAt": "2026-11-20T07:07:30.706Z",
+      "updatedAt": "2026-11-20T07:07:30.706Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-01",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "01",
+      "tableName": "Table 01",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl01-c44a74bcbe1417d0",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=01&token=emerald-grill-8445-tbl01-c44a74bcbe1417d0",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-02",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "02",
+      "tableName": "Table 02",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl02-350eec507ad1b36c",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=02&token=emerald-grill-8445-tbl02-350eec507ad1b36c",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-03",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "location": "Main Dining Hall",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl03-5ab6319a87cf01b2",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=03&token=emerald-grill-8445-tbl03-5ab6319a87cf01b2",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-04",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "04",
+      "tableName": "Table 04",
+      "location": "Main Dining Hall",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl04-7480a1d03e3490c9",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=04&token=emerald-grill-8445-tbl04-7480a1d03e3490c9",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-05",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "05",
+      "tableName": "Table 05",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl05-f4e13d9575e60e69",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=05&token=emerald-grill-8445-tbl05-f4e13d9575e60e69",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-06",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "06",
+      "tableName": "Table 06",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl06-ea72ef014e799501",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=06&token=emerald-grill-8445-tbl06-ea72ef014e799501",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-07",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "07",
+      "tableName": "Table 07",
+      "location": "Window Garden Section",
+      "capacity": 4,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl07-774ba2770879e09f",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=07&token=emerald-grill-8445-tbl07-774ba2770879e09f",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
+    },
+    {
+      "id": "tbl-rest-emerald-grill-8445-8527-08",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "tableNumber": "08",
+      "tableName": "Table 08",
+      "location": "Window Garden Section",
+      "capacity": 6,
+      "status": "available",
+      "qrToken": "emerald-grill-8445-tbl08-196eae7273f6f3f9",
+      "destinationUrl": "https://qrdineing.vercel.app/restaurant/emerald-grill-8445?table=08&token=emerald-grill-8445-tbl08-196eae7273f6f3f9",
+      "isActive": true,
+      "createdAt": "2026-11-20T09:25:18.527Z",
+      "updatedAt": "2026-11-20T09:25:18.527Z"
     }
   ],
   "orders": [
@@ -1710,6 +3167,186 @@
       "updatedAt": "2026-11-15T14:25:21.136Z",
       "estimatedDeliveryMinutes": 15,
       "cancellationReason": "Customer changed mind before preparation"
+    },
+    {
+      "id": "ord-rest-arabian-delight-782308",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "ORD-0009",
+      "kotNumber": "KOT-0009",
+      "billNumber": "B-0009",
+      "tokenNumber": "T-009",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "customerName": "Rahul Sharma",
+      "customerPhone": "+91 98490 99887",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 2,
+          "unitPrice": 420,
+          "totalPrice": 840,
+          "specialInstructions": "Less spicy, extra crisp"
+        }
+      ],
+      "subtotal": 840,
+      "taxAmount": 42,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 882,
+      "orderStatus": "preparing",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-KEJIQYB",
+      "createdAt": "2026-11-20T06:56:22.308Z",
+      "updatedAt": "2026-11-20T06:56:22.320Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-896481",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "ORD-0010",
+      "kotNumber": "KOT-0010",
+      "billNumber": "B-0010",
+      "tokenNumber": "T-010",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "customerName": "Rahul Sharma",
+      "customerPhone": "+91 98490 99887",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 2,
+          "unitPrice": 420,
+          "totalPrice": 840,
+          "specialInstructions": "Less spicy, extra crisp"
+        }
+      ],
+      "subtotal": 840,
+      "taxAmount": 42,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 882,
+      "orderStatus": "preparing",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-WL886ZS",
+      "createdAt": "2026-11-20T06:58:16.481Z",
+      "updatedAt": "2026-11-20T06:58:16.490Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-214979",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "ORD-0011",
+      "kotNumber": "KOT-0011",
+      "billNumber": "B-0011",
+      "tokenNumber": "T-011",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "customerName": "Rahul Sharma",
+      "customerPhone": "+91 98490 99887",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 2,
+          "unitPrice": 420,
+          "totalPrice": 840,
+          "specialInstructions": "Less spicy, extra crisp"
+        }
+      ],
+      "subtotal": 840,
+      "taxAmount": 42,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 882,
+      "orderStatus": "preparing",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-AG898EY",
+      "createdAt": "2026-11-20T07:03:34.980Z",
+      "updatedAt": "2026-11-20T07:03:34.991Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-450901",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "ORD-0012",
+      "kotNumber": "KOT-0012",
+      "billNumber": "B-0012",
+      "tokenNumber": "T-012",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "customerName": "Rahul Sharma",
+      "customerPhone": "+91 98490 99887",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 2,
+          "unitPrice": 420,
+          "totalPrice": 840,
+          "specialInstructions": "Less spicy, extra crisp"
+        }
+      ],
+      "subtotal": 840,
+      "taxAmount": 42,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 882,
+      "orderStatus": "preparing",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-DVXDPL1",
+      "createdAt": "2026-11-20T07:07:30.901Z",
+      "updatedAt": "2026-11-20T07:07:30.913Z",
+      "estimatedDeliveryMinutes": 15
+    },
+    {
+      "id": "ord-rest-arabian-delight-718828",
+      "restaurantId": "rest-arabian-delight",
+      "restaurantName": "Arabian Delight",
+      "orderNumber": "ORD-0013",
+      "kotNumber": "KOT-0013",
+      "billNumber": "B-0013",
+      "tokenNumber": "T-013",
+      "orderType": "dine_in",
+      "tableNumber": "03",
+      "tableName": "Table 03",
+      "customerName": "Rahul Sharma",
+      "customerPhone": "+91 98490 99887",
+      "items": [
+        {
+          "menuItemId": "item-ad-3",
+          "name": "Yemeni Chicken Mandi",
+          "quantity": 2,
+          "unitPrice": 420,
+          "totalPrice": 840,
+          "specialInstructions": "Less spicy, extra crisp"
+        }
+      ],
+      "subtotal": 840,
+      "taxAmount": 42,
+      "serviceCharge": 0,
+      "discountAmount": 0,
+      "totalAmount": 882,
+      "orderStatus": "preparing",
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "paymentReference": "PAY-GW88BL5",
+      "createdAt": "2026-11-20T09:25:18.828Z",
+      "updatedAt": "2026-11-20T09:25:18.847Z",
+      "estimatedDeliveryMinutes": 15
     }
   ],
   "coupons": [
@@ -1914,6 +3551,160 @@
   ],
   "auditLogs": [
     {
+      "id": "log-mworwx5p-f02385",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "RESTAURANT_APPROVED",
+      "details": "Super Admin approved restaurant ID: rest-emerald-grill-8445-8527",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T09:25:18.685Z"
+    },
+    {
+      "id": "log-mworwx3o-631681",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T09:25:18.612Z"
+    },
+    {
+      "id": "log-mworwx1p-ab2311",
+      "restaurantId": "rest-emerald-grill-8445-8527",
+      "userName": "Karan Patel",
+      "userRole": "restaurant_admin",
+      "action": "NEW_RESTAURANT_REGISTRATION",
+      "details": "Restaurant \"Emerald Grill 8445\" registered by Karan Patel (karan.1795166718445@emeraldgrill.in). Marked Pending Approval.",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T09:25:18.542Z"
+    },
+    {
+      "id": "log-mwon7qdj-1d70da",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:13:45.031Z"
+    },
+    {
+      "id": "log-mwomzpmj-446b0d",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "RESTAURANT_APPROVED",
+      "details": "Super Admin approved restaurant ID: rest-emerald-grill-0668-0706",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:07:30.811Z"
+    },
+    {
+      "id": "log-mwomzpla-2edbfe",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:07:30.766Z"
+    },
+    {
+      "id": "log-mwomzpjx-01dd81",
+      "restaurantId": "rest-emerald-grill-0668-0706",
+      "userName": "Karan Patel",
+      "userRole": "restaurant_admin",
+      "action": "NEW_RESTAURANT_REGISTRATION",
+      "details": "Restaurant \"Emerald Grill 0668\" registered by Karan Patel (karan.1795158450668@emeraldgrill.in). Marked Pending Approval.",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:07:30.717Z"
+    },
+    {
+      "id": "log-mwomunl7-922eb7",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "RESTAURANT_APPROVED",
+      "details": "Super Admin approved restaurant ID: rest-emerald-grill-4756-4796",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:03:34.891Z"
+    },
+    {
+      "id": "log-mwomunk2-911eb4",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:03:34.850Z"
+    },
+    {
+      "id": "log-mwomuniv-94b4cb",
+      "restaurantId": "rest-emerald-grill-4756-4796",
+      "userName": "Karan Patel",
+      "userRole": "restaurant_admin",
+      "action": "NEW_RESTAURANT_REGISTRATION",
+      "details": "Restaurant \"Emerald Grill 4756\" registered by Karan Patel (karan.1795158214756@emeraldgrill.in). Marked Pending Approval.",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T07:03:34.808Z"
+    },
+    {
+      "id": "log-mwomntuw-758eb3",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "RESTAURANT_APPROVED",
+      "details": "Super Admin approved restaurant ID: rest-emerald-grill-6348-6359",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:58:16.425Z"
+    },
+    {
+      "id": "log-mwomntu8-50df21",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:58:16.400Z"
+    },
+    {
+      "id": "log-mwomnttc-fbd2e4",
+      "restaurantId": "rest-emerald-grill-6348-6359",
+      "userName": "Karan Patel",
+      "userRole": "restaurant_admin",
+      "action": "NEW_RESTAURANT_REGISTRATION",
+      "details": "Restaurant \"Emerald Grill 6348\" registered by Karan Patel (karan.1795157896348@emeraldgrill.in). Marked Pending Approval.",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:58:16.368Z"
+    },
+    {
+      "id": "log-mwomldqe-0afe56",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "RESTAURANT_APPROVED",
+      "details": "Super Admin approved restaurant ID: rest-emerald-grill-2064-2098",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:56:22.214Z"
+    },
+    {
+      "id": "log-mwomldom-8035e4",
+      "userName": "QRDening Platform Owner",
+      "userRole": "super_admin",
+      "action": "SUPER_ADMIN_LOGIN",
+      "details": "Super Admin session initiated with 2FA verification",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:56:22.150Z"
+    },
+    {
+      "id": "log-mwomldnd-926c53",
+      "restaurantId": "rest-emerald-grill-2064-2098",
+      "userName": "Karan Patel",
+      "userRole": "restaurant_admin",
+      "action": "NEW_RESTAURANT_REGISTRATION",
+      "details": "Restaurant \"Emerald Grill 2064\" registered by Karan Patel (karan.1795157782064@emeraldgrill.in). Marked Pending Approval.",
+      "ipAddress": "::1",
+      "timestamp": "2026-11-20T06:56:22.105Z"
+    },
+    {
       "id": "log-1",
       "restaurantId": "rest-arabian-delight",
       "userName": "Tariq Mansoor",
@@ -2001,9 +3792,90 @@
       "lastOrderDate": "2026-11-15T10:29:55.711Z",
       "stampsCount": 1,
       "availableRewards": []
+    },
+    {
+      "id": "cust-82308",
+      "restaurantId": "rest-arabian-delight",
+      "phone": "+91 98490 99887",
+      "name": "Rahul Sharma",
+      "totalOrders": 5,
+      "totalSpent": 4410,
+      "lastOrderDate": "2026-11-20T09:25:18.828Z",
+      "stampsCount": 5,
+      "availableRewards": []
     }
   ],
   "feedbacks": [
+    {
+      "id": "fb-rest-arabian-delight-718878",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-rest-arabian-delight-718828",
+      "tableNumber": "03",
+      "customerName": "Rahul Sharma",
+      "rating": 5,
+      "comment": "Superb flavor! QR ordering was lightning fast.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-20T09:25:18.878Z"
+    },
+    {
+      "id": "fb-rest-arabian-delight-450937",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-rest-arabian-delight-450901",
+      "tableNumber": "03",
+      "customerName": "Rahul Sharma",
+      "rating": 5,
+      "comment": "Superb flavor! QR ordering was lightning fast.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-20T07:07:30.937Z"
+    },
+    {
+      "id": "fb-rest-arabian-delight-215015",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-rest-arabian-delight-214979",
+      "tableNumber": "03",
+      "customerName": "Rahul Sharma",
+      "rating": 5,
+      "comment": "Superb flavor! QR ordering was lightning fast.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-20T07:03:35.015Z"
+    },
+    {
+      "id": "fb-rest-arabian-delight-896507",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-rest-arabian-delight-896481",
+      "tableNumber": "03",
+      "customerName": "Rahul Sharma",
+      "rating": 5,
+      "comment": "Superb flavor! QR ordering was lightning fast.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-20T06:58:16.507Z"
+    },
+    {
+      "id": "fb-rest-arabian-delight-782342",
+      "restaurantId": "rest-arabian-delight",
+      "orderId": "ord-rest-arabian-delight-782308",
+      "tableNumber": "03",
+      "customerName": "Rahul Sharma",
+      "rating": 5,
+      "comment": "Superb flavor! QR ordering was lightning fast.",
+      "tags": [
+        "Delicious Food",
+        "Fast Service"
+      ],
+      "createdAt": "2026-11-20T06:56:22.342Z"
+    },
     {
       "id": "fb-rest-arabian-delight-659070",
       "restaurantId": "rest-arabian-delight",

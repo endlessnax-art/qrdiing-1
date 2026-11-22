@@ -109,7 +109,8 @@ function KitchenContent() {
   <div class="header">
     <div class="kot-title">*** K.O.T ***</div>
     <div class="rest">${order.restaurantName}</div>
-    <div class="meta">Order: ${order.orderNumber} • ${new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+    <div class="meta">${order.kotNumber ? `KOT: ${order.kotNumber} • ` : ""}Order: ${order.orderNumber} ${order.tokenNumber ? `• Token: ${order.tokenNumber}` : ""}</div>
+    <div class="meta">Time: ${new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
   </div>
   <div class="table-banner">
     ${order.orderType === "dine_in" ? `TABLE ${order.tableNumber}` : "TAKEAWAY"}
@@ -135,7 +136,7 @@ function KitchenContent() {
     try {
       const res = await fetch(`/api/orders?slug=${slug}`);
       if (res.status === 401 || res.status === 403) {
-        window.location.href = `/login?redirect=/kitchen?slug=${slug}`;
+        window.location.href = `/kitchen/login?slug=${slug}`;
         return;
       }
       const json = await res.json();
